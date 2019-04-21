@@ -1,0 +1,5 @@
+.card{
+  cursor: pointer;
+  width: 350px;
+  border-width: 3px;
+}

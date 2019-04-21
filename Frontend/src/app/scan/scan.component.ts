@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {interval} from 'rxjs';
 
 @Component({
   selector: 'app-scan',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scan.component.css']
 })
 export class ScanComponent implements OnInit {
+  scanMode = 'none';
+  timeoutProgress = 0;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
+
 
 }

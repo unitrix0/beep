@@ -1,0 +1,22 @@
+<a class="card bg-dark" [ngClass]="doScan? 'border-info': ''" (click)="startScan()">
+  <div class="card-img-top">
+    <div class="container h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="fas fa-9x" [ngClass]="icon"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="container h-100 mt-2">
+      <div class="row h-100 justify-content-center align-items center">
+        <h5 class="card-title text-center">{{modeName}}</h5>
+      </div>
+      <div class="row h-100 justify-content-center align-items center">
+        <p class="card-text">{{description}}</p>
+      </div>
+    </div>
+    <div class="progress bg-dark" style="height: 2px" *ngIf="doScan">
+      <div class="progress-bar bg-success" role="progressbar" [style.width]="timeoutProgress+'%'"></div>
+    </div>
+  </div>
+</a>
