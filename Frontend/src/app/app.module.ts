@@ -6,13 +6,15 @@ import { NavComponent } from './nav/nav.component';
 import { ScanComponent } from './scan/scan.component';
 import {FormsModule} from '@angular/forms';
 import { ScanCardComponent } from './scan/scan-card/scan-card.component';
+import { ArticleEditComponent } from './article-edit/article-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     ScanComponent,
-    ScanCardComponent
+    ScanCardComponent,
+    ArticleEditComponent
   ],
   imports: [
     BrowserModule,
