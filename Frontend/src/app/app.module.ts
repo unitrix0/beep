@@ -6,7 +6,10 @@ import { NavComponent } from './nav/nav.component';
 import { ScanComponent } from './scan/scan.component';
 import {FormsModule} from '@angular/forms';
 import { ScanCardComponent } from './scan/scan-card/scan-card.component';
-import { ArticleEditComponent } from './article-edit/article-edit.component';
+import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ArticlesComponent } from './articles/articles.component';
+import { ArticleCardComponent } from './articles/article-card/article-card.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +17,14 @@ import { ArticleEditComponent } from './article-edit/article-edit.component';
     NavComponent,
     ScanComponent,
     ScanCardComponent,
-    ArticleEditComponent
+    ArticleEditComponent,
+    ArticlesComponent,
+    ArticleCardComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

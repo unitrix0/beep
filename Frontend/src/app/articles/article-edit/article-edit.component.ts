@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {BsLocaleService, defineLocale, deLocale} from 'ngx-bootstrap';
+defineLocale('de', deLocale);
 
 @Component({
   selector: 'app-article-edit',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticleEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private localeService: BsLocaleService) { }
 
   ngOnInit() {
+    this.localeService.use('de');
   }
 
 }
