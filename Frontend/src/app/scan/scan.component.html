@@ -4,20 +4,23 @@
       <tr>
         <div class="card-deck">
           <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
-                         [icon]="'fa-angle-double-down'"></app-scan-card>
+                         [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none'"
+                         (scanStarted)="startScan($event)" (scanStopped)="scanDone()"></app-scan-card>
 
           <app-scan-card [modeName]="'Ausbuchen'" [description]="'Artikel wurde aufgebraucht'"
-                         [icon]="'fa-trash-alt'">
+                         [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none'"
+                         (scanStarted)="startScan($event)" (scanStopped)="scanDone()">
 
           </app-scan-card>
           <app-scan-card [modeName]="'Geöffnet'" [description]="'Artikel wurde geöffnet'"
-                         [icon]="'fa-box-open'"></app-scan-card>
+                         [icon]="'fa-box-open'" [enabled]="scanMode == 'none'"
+                         (scanStarted)="startScan($event)" (scanStopped)="scanDone()"></app-scan-card>
         </div>
       </tr>
       <tr>
         <table class="table table-sm mt-4">
           <tr>
-            <th colspan="3">Letzte Aktivität...</th>
+            <th colspan="3"><h4 class="text-dark">Letzte Aktivität...</h4></th>
           </tr>
           <tr>
             <td class="text-center" style="width: 15%;"><img

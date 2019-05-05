@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {interval} from 'rxjs';
 
 @Component({
@@ -10,6 +10,9 @@ export class ScanCardComponent implements OnInit {
   @Input() icon: string;
   @Input() modeName: string;
   @Input() description: string;
+  @Input() enabled: boolean;
+  @Output() scanStarted = new EventEmitter<string>();
+  @Output() scanStopped = new EventEmitter();
 
   doScan = false;
   private timeoutProgress: number;
@@ -21,6 +24,8 @@ export class ScanCardComponent implements OnInit {
   }
 
   startScan() {
+    if (!this.enabled) { return; }
+    this.scanStarted.emit(this.modeName);
     this.doScan = true;
     const subscription = interval(100).subscribe(
       value => {
@@ -31,6 +36,7 @@ export class ScanCardComponent implements OnInit {
     setTimeout(() => {
       subscription.unsubscribe();
       setTimeout(() => {
+        this.scanStopped.emit();
         this.doScan = false;
         this.timeoutProgress = 0;
       }, 1000);

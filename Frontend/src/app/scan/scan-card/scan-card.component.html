@@ -1,8 +1,9 @@
-<a class="card bg-dark" [ngClass]="doScan? 'border-info': ''" (click)="startScan()">
+<a class="card bg-dark" [ngClass]="[doScan? 'border-info': '', enabled ? '':'disabled']"
+   (click)="startScan()">
   <div class="card-img-top">
     <div class="container h-100">
       <div class="row h-100 justify-content-center align-items-center">
-        <div class="fas fa-9x" [ngClass]="icon"></div>
+        <div class="fas fa-9x mt-1" [ngClass]="icon"></div>
       </div>
     </div>
   </div>

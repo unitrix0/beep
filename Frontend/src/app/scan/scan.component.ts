@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {interval} from 'rxjs';
 
 @Component({
   selector: 'app-scan',
@@ -8,7 +7,6 @@ import {interval} from 'rxjs';
 })
 export class ScanComponent implements OnInit {
   scanMode = 'none';
-  timeoutProgress = 0;
 
   constructor() {
   }
@@ -17,4 +15,11 @@ export class ScanComponent implements OnInit {
   }
 
 
+  startScan(newMode: string) {
+    this.scanMode = newMode;
+  }
+
+  scanDone() {
+    this.scanMode = 'none';
+  }
 }
