@@ -15,6 +15,7 @@ export class ScanCardComponent implements OnInit {
   @Output() scanStopped = new EventEmitter();
 
   doScan = false;
+  private timeout = 10000;
   private timeoutProgress: number;
 
   constructor() {
@@ -24,22 +25,26 @@ export class ScanCardComponent implements OnInit {
   }
 
   startScan() {
-    if (!this.enabled) { return; }
+    if (!this.enabled) {
+      return;
+    }
     this.scanStarted.emit(this.modeName);
     this.doScan = true;
     const subscription = interval(100).subscribe(
       value => {
-        this.timeoutProgress = value + 1;
+        const v = 100 / this.timeout * value;
+        this.timeoutProgress = v * 100;
       },
       error => console.log('Err: ' + error));
 
     setTimeout(() => {
       subscription.unsubscribe();
+      // Hide progress bar
       setTimeout(() => {
         this.scanStopped.emit();
         this.doScan = false;
         this.timeoutProgress = 0;
       }, 1000);
-    }, 10000);
+    }, this.timeout);
   }
 }

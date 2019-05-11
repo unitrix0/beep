@@ -14,6 +14,9 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {TimersComponent} from './timers/timers.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import {ArticlesResolver} from './_resolvers/articles.resolver';
+import {DataService} from './_services/data.service';
 
 @NgModule({
   declarations: [
@@ -31,9 +34,13 @@ import {appRoutes} from './routes';
     BrowserModule,
     FormsModule,
     BsDatepickerModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ZXingScannerModule
   ],
-  providers: [],
+  providers: [
+    DataService,
+    ArticlesResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
