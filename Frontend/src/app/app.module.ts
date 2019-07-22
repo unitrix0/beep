@@ -17,6 +17,7 @@ import {appRoutes} from './routes';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {ArticlesResolver} from './_resolvers/articles.resolver';
 import {DataService} from './_services/data.service';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {DataService} from './_services/data.service';
     ArticlesComponent,
     ArticleCardComponent,
     ShoppingListComponent,
-    TimersComponent
+    TimersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
