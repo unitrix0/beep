@@ -1,0 +1,4 @@
+.list-group-item.active{
+  border-width: 2px;
+  border-color: limegreen;
+}
