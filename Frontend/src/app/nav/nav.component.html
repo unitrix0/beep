@@ -1,27 +1,53 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#"> <i class="fas fa-barcode"></i> Beep</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
-          aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="container">
+    <a class="navbar-brand" href="#"> <i class="fas fa-barcode"></i> Beep</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            *ngIf="loggedIn()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarColor02">
-    <ul class="navbar-nav nav mx-auto">
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLink]="'/'">Scan</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="'/articles'"><i class="fas fa-box mr-1"></i>Artikel</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="'/shopping-list'"><i class="fas fa-shopping-cart mr-1"></i>Einkaufsliste</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" href="#">Termine & Infos</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="'/timers'"><i class="fas fa-hourglass-half mr-1"></i>Eieruhr</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarMenu" *ngIf="loggedIn()">
+      <ul class="navbar-nav nav mx-auto">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" [routerLink]="'/'">Scan</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/articles'"><i class="fas fa-box mr-1"></i>Artikel</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/shopping-list'"><i class="fas fa-shopping-cart mr-1"></i>Einkaufsliste</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" href="#">Termine & Infos</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/timers'"><i class="fas fa-hourglass-half mr-1"></i>Eieruhr</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="btn-group" dropdown *ngIf="loggedIn()">
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
+              aria-controls="dropdown-basic">
+        <i class="fas fa-user mr-1"></i> Willkommen {{authService.decodedToken.unique_name}}<span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">Umgebungen
+          bearbeiten</a></li>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Abmelden</a>
+        </li>
+      </ul>
+    </div>
+
+    <form *ngIf="!loggedIn()" class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()">
+      <input type="text" class="form-control form-control-sm mr-2" name="username" placeholder="Username" required
+             [(ngModel)]="user.username">
+      <input type="password" class="form-control form-control-sm mr-2" name="password" placeholder="Password" required
+             [(ngModel)]="user.password">
+      <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
+    </form>
   </div>
 </nav>
