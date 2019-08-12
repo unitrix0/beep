@@ -4,6 +4,8 @@ import {BeepEnvironment} from '../_models/beep-environment';
 import {ActivatedRoute} from '@angular/router';
 import {Permission} from '../_models/permission';
 import {forEach} from '@angular/router/src/utils/collection';
+import {HttpClient} from '@angular/common/http';
+import {DataService} from '../_services/data.service';
 
 @Component({
   selector: 'app-user',
@@ -15,16 +17,13 @@ export class UserComponent implements OnInit {
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private data: DataService) {
   }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
-    for (let i = 0; i < this.user.environments.length; i++) {
-      console.log(i + ': ' + this.user.environments[i].name);
-    }
   }
 
   selectEnvironment(environmentIdx: number) {
@@ -37,6 +36,11 @@ export class UserComponent implements OnInit {
   }
 
   applyPermissions() {
-    console.log(this.currentMember);
+    this.data.updateUserPermissions(this.currentEnvironment.id, this.currentMember)
+      .subscribe(value => {
+        console.log('Success'); // TODO Alertify
+      }, error => {
+        console.log('ERROR: ' + error); // TODO Error handling
+      });
   }
 }

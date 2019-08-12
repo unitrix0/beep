@@ -34,10 +34,12 @@
       </button>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li role="menuitem"><a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">Umgebungen
-          bearbeiten</a></li>
+        <li role="menuitem">
+          <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">Umgebungen bearbeiten</a>
+        </li>
         <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Abmelden</a>
+        <li role="menuitem">
+          <a class="dropdown-item" href="#" (click)="logout()" style="cursor: pointer">Abmelden</a>
         </li>
       </ul>
     </div>

@@ -5,6 +5,7 @@ import {Article} from '../_models/article';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
+import {Permission} from '../_models/permission';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class DataService {
 
   getUser(userId: number): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + userId);
+  }
+
+  updateUserPermissions(environmentId: number, newPermissions: Permission): Observable<object> {
+    return this.http.put(this.baseUrl + 'users/UpdatePermission/' + newPermissions.userId, newPermissions);
   }
 }
