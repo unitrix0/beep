@@ -23,6 +23,8 @@ import {EditUserResolver} from './_resolvers/edit-user.resolver';
 import {DataService} from './_services/data.service';
 import {UserComponent} from './user/user.component';
 import {JwtModule} from '@auth0/angular-jwt';
+import { RegistrationComponent } from './registration/registration.component';
+import { HomeComponent } from './home/home.component';
 
 export function jwtGetter() {
   return localStorage.getItem('token');
@@ -39,7 +41,9 @@ export function jwtGetter() {
     ArticleCardComponent,
     ShoppingListComponent,
     TimersComponent,
-    UserComponent
+    UserComponent,
+    RegistrationComponent,
+    HomeComponent
   ],
   imports: [
     HttpClientModule,

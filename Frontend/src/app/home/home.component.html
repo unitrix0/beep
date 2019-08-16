@@ -1,0 +1,15 @@
+<div class="container mt-5 text-center">
+  <div *ngIf="!showRegForm">
+    <i class="fas fa-barcode fa-10x"></i>
+    <h1 class="text-light">Beep</h1>
+    <button class="btn btn-success" (click)="showRegistration()">Register</button>
+  </div>
+
+  <div class="container" *ngIf="showRegForm">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-registration (cancelRegistration)="hideRegistrationForm()" *ngIf="showRegForm"></app-registration>
+      </div>
+    </div>
+  </div>
+</div>

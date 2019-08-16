@@ -25,7 +25,8 @@
         <h4 class="text-light mt-3">Kein Environment gewählt</h4>
       </div>
       <div class="col-md-12 border-light border" *ngIf="currentEnvironment">
-        <h4 class="text-light mt-3">{{currentEnvironment.name}}</h4>
+        <h4 class="text-light mt-3" *ngIf="!editEnvironmentName">{{currentEnvironment.name}} <i class="fas fa-pen" (click)="startEditEnvName()" style="cursor: pointer"></i></h4>
+        <input type="text" name="evnNameEdit" id="" [ngModel]="currentEnvironment.name" *ngIf="editEnvironmentName" (keyup.enter)="endEditEnvName($event)" (keyup.escape)="cancelEditEnvName()">
 
         <div class="row mb-3">
           <div class="col-md-4">
@@ -85,7 +86,7 @@
                   <label for="invite" class="custom-control-label">Darf Mitglieder einladen</label>
                 </div>
               </div>
-              <button class="btn btn-success btn-sm float-right" (click)="applyPermissions()">Apply</button>
+              <button class="btn btn-success btn-sm float-right" (click)="savePermissions()">Speichern</button>
             </div>
           </div>
         </div>

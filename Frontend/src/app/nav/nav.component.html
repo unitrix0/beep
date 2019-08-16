@@ -30,7 +30,7 @@
     <div class="btn-group" dropdown *ngIf="loggedIn()">
       <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
               aria-controls="dropdown-basic">
-        <i class="fas fa-user mr-1"></i> Willkommen {{authService.decodedToken.unique_name}}<span class="caret"></span>
+        <i class="fas fa-user mr-1"></i> Willkommen {{authService.currentUser.displayName}}<span class="caret"></span>
       </button>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
@@ -45,9 +45,11 @@
     </div>
 
     <form *ngIf="!loggedIn()" class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()">
-      <input type="text" class="form-control form-control-sm mr-2" name="username" placeholder="Username" required
+      <input type="text" class="form-control form-control-sm mr-2" name="username"
+             placeholder="Username" required
              [(ngModel)]="user.username">
-      <input type="password" class="form-control form-control-sm mr-2" name="password" placeholder="Password" required
+      <input type="password" class="form-control form-control-sm mr-2" name="password"
+             placeholder="Password" required
              [(ngModel)]="user.password">
       <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>

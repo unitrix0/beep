@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {Observable} from 'rxjs';
@@ -7,6 +7,8 @@ import {environment} from '../../environments/environment';
 import {UserToken} from '../_models/userToken';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+import {UserForRegistration} from '../_models/user-for-registration';
+import {User} from '../_models/user';
 
 @Injectable()
 export class AuthService {
@@ -46,5 +48,9 @@ export class AuthService {
   loggedIn(): boolean {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  Register(newUser: UserForRegistration): Observable<HttpResponse<User>> {
+    return this.http.post<User>(this.baseUrl + 'register', newUser, {observe: 'response'});
   }
 }

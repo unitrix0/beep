@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
   user: User;
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
+  editEnvironmentName = false;
 
   constructor(private route: ActivatedRoute, private data: DataService) {
   }
@@ -35,12 +36,26 @@ export class UserComponent implements OnInit {
     this.currentMember = this.currentEnvironment.permissions[userIdx];
   }
 
-  applyPermissions() {
+  savePermissions() {
     this.data.updateUserPermissions(this.currentEnvironment.id, this.currentMember)
       .subscribe(value => {
         console.log('Success'); // TODO Alertify
       }, error => {
         console.log('ERROR: ' + error); // TODO Error handling
       });
+  }
+
+  startEditEnvName() {
+    this.editEnvironmentName = true;
+  }
+
+  endEditEnvName(e: any) {
+    this.editEnvironmentName = false;
+    this.currentEnvironment.name = e.target.value;
+  }
+
+  cancelEditEnvName() {
+    this.editEnvironmentName = false;
+    console.log(this.currentEnvironment);
   }
 }
