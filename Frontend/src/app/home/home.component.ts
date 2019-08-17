@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserForRegistration} from '../_models/user-for-registration';
+import {AuthService} from '../_services/authService';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +11,13 @@ import {UserForRegistration} from '../_models/user-for-registration';
 export class HomeComponent implements OnInit {
   showRegForm = false;
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {
+    if (this.authService.loggedIn()) {
+      this.router.navigate(['scan']);
+    }
   }
 
 

@@ -24,17 +24,23 @@
       <div class="col-md-12 border-light border h-100" *ngIf="!currentEnvironment">
         <h4 class="text-light mt-3">Kein Environment gewählt</h4>
       </div>
-      <div class="col-md-12 border-light border" *ngIf="currentEnvironment">
-        <h4 class="text-light mt-3" *ngIf="!editEnvironmentName">{{currentEnvironment.name}} <i class="fas fa-pen" (click)="startEditEnvName()" style="cursor: pointer"></i></h4>
-        <input type="text" name="evnNameEdit" id="" [ngModel]="currentEnvironment.name" *ngIf="editEnvironmentName" (keyup.enter)="endEditEnvName($event)" (keyup.escape)="cancelEditEnvName()">
 
-        <div class="row mb-3">
+      <div class="col-md-12 border border-light mb-3" *ngIf="currentEnvironment">
+        <div class="form-group">
+          <input type="text" name="evnNameEdit" id="envNameEdit" class="form-control mb-2 mt-3 env-name-input text-light" aria-describedby="envNameHelp"
+                 [ngModel]="currentEnvironment.name">
+        </div>
+      </div>
+      <div class="col-md-12 border-light border" *ngIf="currentEnvironment">
+        <div class="row mb-3 mt-3">
           <div class="col-md-4">
             <div class="col-md-12"> Members
               <div class="list-group mb-2">
                 <a class="list-group-item list-group-item-action list-group-item-cursor"
                    *ngFor="let member of currentEnvironment.permissions; let i = index"
-                   (click)="selectUser(i)" [class.active]="currentMember == member">{{member.username}}</a>
+                   (click)="selectUser(i)" [class.active]="currentMember == member">{{member.username}}
+                  <i class="fas fa-crown ml-1" *ngIf="member.isOwner" rel="tooltip"  title="Besitzer"></i>
+                </a>
               </div>
               <button class="btn btn-outline-danger btn-sm">Remove</button>
               <button class="btn btn-success btn-sm float-right">Invite</button>
@@ -44,12 +50,7 @@
             <div class="col-md-12">
               Permissions
               <div class="list-group mb-2">
-                <div class="custom-control custom-checkbox mt-2 mb-1">
-                  <input type="checkbox" class="custom-control-input" id="isOwner" [checked]="currentMember.isOwner"
-                         (change)="currentMember.isOwner = !currentMember.isOwner">
-                  <label for="isOwner" class="custom-control-label">Ist Besitzer</label>
-                </div>
-                <div class="custom-control custom-checkbox mt-2 mb-1">
+                <div class="custom-control custom-checkbox mt-1 mb-1">
                   <input type="checkbox" class="custom-control-input" id="canView"
                          [checked]="currentMember.canView || currentMember.isOwner"
                          (change)="currentMember.canView = !currentMember.canView"
@@ -86,11 +87,11 @@
                   <label for="invite" class="custom-control-label">Darf Mitglieder einladen</label>
                 </div>
               </div>
-              <button class="btn btn-success btn-sm float-right" (click)="savePermissions()">Speichern</button>
+
             </div>
           </div>
         </div>
-
+        <button class="btn btn-success btn-sm float-right mt-3" (click)="savePermissions()">Speichern</button>
       </div>
     </div>
   </div>

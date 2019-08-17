@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserForLogin} from '../_models/user-for-login';
 import {AuthService} from '../_services/authService';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -13,7 +14,7 @@ export class NavComponent implements OnInit {
     username: string;
   };
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {
@@ -21,7 +22,8 @@ export class NavComponent implements OnInit {
 
   login() {
     this.authService.login(this.user).subscribe(() => {
-      console.log('Success');
+      console.log('Success'); // TODO Alertify
+      this.router.navigate(['scan']);
     }, error => {
       console.log('ERROR: ' + error); // TODO Error Handling
     });
