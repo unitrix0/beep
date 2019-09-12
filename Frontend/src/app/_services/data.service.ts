@@ -6,12 +6,13 @@ import {HttpClient} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
 import {Permission} from '../_models/permission';
+import {BeepEnvironment} from '../_models/beep-environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl + 'users/';
 
   constructor(private http: HttpClient) {
   }
@@ -21,10 +22,18 @@ export class DataService {
   }
 
   getUser(userId: number): Observable<User> {
-    return this.http.get<User>(this.baseUrl + 'users/' + userId);
+    return this.http.get<User>(this.baseUrl + userId);
   }
 
   updateUserPermissions(environmentId: number, newPermissions: Permission): Observable<object> {
-    return this.http.put(this.baseUrl + 'users/UpdatePermission/' + newPermissions.userId, newPermissions);
+    return this.http.put(this.baseUrl + 'UpdatePermission/' + newPermissions.userId, newPermissions);
+  }
+
+  addEnvironment(userId: number): Observable<object> {
+    return this.http.post(this.baseUrl + 'AddEnvironment/' + userId, null);
+  }
+
+  getEnvironments(userId: number): Observable<BeepEnvironment[]> {
+    return this.http.get<BeepEnvironment[]> (this.baseUrl + 'GetEnvironments/' + userId);
   }
 }

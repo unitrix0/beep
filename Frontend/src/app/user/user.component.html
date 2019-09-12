@@ -7,15 +7,15 @@
           <ul>
             <li class="list-group-item list-group-item-cursor" (click)="selectEnvironment(i)"
                 [class.active]="environment == currentEnvironment"
-                *ngFor="let environment of user.environments; let i = index">
-              {{environment.name}}
+                *ngFor="let environment of environments; let i = index">
+              {{environment.name}}{{i}}
             </li>
           </ul>
         </div>
         <div class="row mb-3">
           <div class="col-md-12 text-right">
             <button class="btn btn-danger btn-sm mr-2">Delete</button>
-            <button class="btn btn-success btn-sm">Add</button>
+            <button class="btn btn-success btn-sm" (click)="addEnvironment()">Add</button>
           </div>
         </div>
       </div>
