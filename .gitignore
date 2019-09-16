@@ -5,3 +5,4 @@ obj
 *.lock
 *.suo
 .suo
+.vs
