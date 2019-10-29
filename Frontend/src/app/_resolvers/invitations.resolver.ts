@@ -1,22 +1,20 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {PaginatedResult} from '../_models/pagination';
-import {Article} from '../_models/article';
 import {DataService} from '../_services/data.service';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {AlertifyService} from '../_services/alertify.service';
+import {Invitation} from '../_models/invitation';
+import {AuthService} from '../_services/authService';
 
 @Injectable()
-export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
-  pageNumber = 1;
-  pageSize = 5;
+export class InvitationsResolver implements Resolve<Invitation[]> {
 
-  constructor(private dataService: DataService, private router: Router, private alertify: AlertifyService) {
+  constructor(private dataService: DataService, private auth: AuthService, private router: Router, private alertify: AlertifyService) {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PaginatedResult<Article[]>> {
-    return this.dataService.getArticles(this.pageNumber, this.pageSize).pipe(
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Invitation[]> {
+    return this.dataService.getInvitations(this.auth.decodedToken.nameid).pipe(
       catchError(err => {
         this.alertify.error('Fehler beim Abfragen der Daten: ' + err.message);
         this.router.navigate(['/']);

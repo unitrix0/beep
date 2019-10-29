@@ -1,18 +1,21 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PaginatedResult} from '../_models/pagination';
 import {Article} from '../_models/article';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
 import {Permission} from '../_models/permission';
-import {BeepEnvironment} from '../_models/beep-environment';
+import {AlertifyService} from './alertify.service';
+import {Invitation} from '../_models/invitation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   baseUrl = environment.apiUrl + 'users/';
+
+  invitationsCountUpdated = new EventEmitter<number>();
 
   constructor(private http: HttpClient) {
   }
@@ -26,14 +29,36 @@ export class DataService {
   }
 
   updateUserPermissions(environmentId: number, newPermissions: Permission): Observable<object> {
-    return this.http.put(this.baseUrl + 'UpdatePermission/' + newPermissions.userId, newPermissions);
+    return this.http.put(this.baseUrl + 'UpdatePermission/', newPermissions);
   }
 
-  addEnvironment(userId: number): Observable<object> {
-    return this.http.post(this.baseUrl + 'AddEnvironment/' + userId, null);
+  addEnvironment(userId: number): Observable<Object> {
+    return this.http.post(this.baseUrl + 'AddEnvironment/' + userId, {});
   }
 
-  getEnvironments(userId: number): Observable<BeepEnvironment[]> {
-    return this.http.get<BeepEnvironment[]> (this.baseUrl + 'GetEnvironments/' + userId);
+  deleteEnvironment(userId: number, envId: number): Observable<Object> {
+    return this.http.post(this.baseUrl + 'DeleteEnvironment/' + userId + '/' + envId, {});
+  }
+
+  updateInvitationsCount(userId: number) {
+    this.http.get<number>(this.baseUrl + 'InvitationsCount/' + userId)
+      .subscribe(count => {
+        this.invitationsCountUpdated.emit(count);
+      }, error => {
+        console.log('Einladungen konnten nicht abgefragt werden');
+        console.log(error);
+      });
+  }
+
+  getInvitations(userId: number): Observable<Invitation[]> {
+    return this.http.get<Invitation[]>(this.baseUrl + 'invitations/' + userId);
+  }
+
+  answerInvitation(userId: any, environmentId: number, answer: number): Observable<Object> {
+    const params = new HttpParams()
+      .append('environmentId', environmentId.toString())
+      .append('answer', answer.toString());
+
+    return this.http.post(this.baseUrl + 'AnswerInvitation/' + userId, {}, {params: params});
   }
 }

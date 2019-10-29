@@ -5,6 +5,7 @@ import {UserForLogin} from '../_models/user-for-login';
 import {Router} from '@angular/router';
 import {HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {AlertifyService} from '../_services/alertify.service';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +18,7 @@ export class RegistrationComponent implements OnInit {
   model: UserForRegistration = {displayName: '', password: '', username: ''};
   private headers: string[];
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
@@ -31,10 +32,10 @@ export class RegistrationComponent implements OnInit {
     let createdAt: string;
 
     this.authService.Register(this.model).subscribe(response => {
-      console.log('Success'); // TODO Alertify
+      this.alertify.success('Willkommen bei Beep!');
       createdAt = response.headers.get('location').replace(environment.apiUrl, '').toLowerCase();
     }, error => {
-      console.log('ERROR: ' + error); // TODO Error Handling
+      this.alertify.error('Registrierung fehlgeschlagen: ' + error.message); // TODO Error Handling
     }, () => {
       const user: UserForLogin = new class implements UserForLogin {
         password: string;
@@ -44,7 +45,7 @@ export class RegistrationComponent implements OnInit {
       user.password = this.model.password;
 
       this.authService.login(user).subscribe(value => {
-        console.log('login complete... redirecting to: ' + createdAt); // TODO Alertify
+        this.alertify.success('Anmeldung erfolgreich!');
         this.router.navigate([createdAt]);
       });
     });

@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h3 class="text-white mb-3">Einladungen</h3>
+  <div class="row">
+    <div class="card bg-dark mb-2 mr-2 w-25" *ngFor="let invitation of invitations; let i = index">
+      <div class="card-header">
+        <h5 class="text-white">Einladung von {{invitation.inviter}}</h5>
+      </div>
+      <div class="card-body bg-dark">
+        <p class="card-text">
+          {{invitation.inviter}} hat Sie eingeladen seiner Umgebung "{{invitation.environmentName}}" beizutreten
+        </p>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-sm btn-secondary" (click)="answerInvitation(i, 0)">Ignorieren</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-sm btn-success fa-pull-right" (click)="answerInvitation(i, 1)">Annehmen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

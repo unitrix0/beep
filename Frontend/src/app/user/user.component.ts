@@ -4,6 +4,7 @@ import {BeepEnvironment} from '../_models/beep-environment';
 import {ActivatedRoute} from '@angular/router';
 import {Permission} from '../_models/permission';
 import {DataService} from '../_services/data.service';
+import {AlertifyService} from '../_services/alertify.service';
 
 @Component({
   selector: 'app-user',
@@ -16,7 +17,7 @@ export class UserComponent implements OnInit {
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
 
-  constructor(private route: ActivatedRoute, private data: DataService) {
+  constructor(private route: ActivatedRoute, private data: DataService, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
@@ -38,30 +39,32 @@ export class UserComponent implements OnInit {
   savePermissions() {
     this.data.updateUserPermissions(this.currentEnvironment.id, this.currentMember)
       .subscribe(value => {
-        console.log('Success'); // TODO Alertify
+        this.alertify.success('Success');
       }, error => {
-        console.log('ERROR: ' + error); // TODO Error handling
+        this.alertify.error('ERROR: ' + error); // TODO Error handling
       });
   }
 
   addEnvironment() {
     this.data.addEnvironment(this.user.id)
-      .subscribe(newEnv => {
-        console.log('Success: ' + newEnv);
-        this.updateEnvironmentList();
+      .subscribe((newEnv: BeepEnvironment) => {
+        this.environments.push(newEnv);
       }, error => {
         // TODO Error Handling
-        console.log('ERROR: ' + error);
+        this.alertify.error('ERROR: ' + error);
       });
   }
 
-  updateEnvironmentList() {
-    this.data.getEnvironments(this.user.id).subscribe(value => {
-        this.environments = value;
-      },
-      error => {
-        // TODO Error Handling
-        console.log('ERROR: ' + error);
-      });
+  deleteEnvironment() {
+    this.alertify.confirm('Soll die Umgebung "' + this.currentEnvironment.name + '" wirklich gelöscht werden?', () => {
+      this.data.deleteEnvironment(this.user.id, this.currentEnvironment.id)
+        .subscribe(value => {
+          this.environments.splice(this.environments.indexOf(this.currentEnvironment), 1);
+          this.alertify.success('Success');
+        }, error => {
+          this.alertify.error('Umgebung konnt enicht gelöscht werden!'); // TODO Error handling
+          console.log(error);
+        });
+    });
   }
 }

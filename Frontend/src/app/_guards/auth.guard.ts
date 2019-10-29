@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable} from 'rxjs';
 import {AuthService} from '../_services/authService';
 
 @Injectable({
@@ -16,9 +15,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    // TODO Alertify
     this.router.navigate(['/']);
-    console.log('Failed on AuthGuard')
     return false;
   }
 

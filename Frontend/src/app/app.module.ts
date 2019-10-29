@@ -25,6 +25,9 @@ import {UserComponent} from './user/user.component';
 import {JwtModule} from '@auth0/angular-jwt';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
+import { InvitationsComponent } from './invitations/invitations.component';
+import {InvitationsResolver} from './_resolvers/invitations.resolver';
+import { InvitationCardComponent } from './invitations/invitation-card/invitation-card.component';
 
 export function jwtGetter() {
   return localStorage.getItem('token');
@@ -43,7 +46,9 @@ export function jwtGetter() {
     TimersComponent,
     UserComponent,
     RegistrationComponent,
-    HomeComponent
+    HomeComponent,
+    InvitationsComponent,
+    InvitationCardComponent
   ],
   imports: [
     HttpClientModule,
@@ -65,7 +70,8 @@ export function jwtGetter() {
     AuthService,
     DataService,
     ArticlesResolver,
-    EditUserResolver
+    EditUserResolver,
+    InvitationsResolver
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {forEach} from '@angular/router/src/utils/collection';
 import {log} from 'util';
+import {DataService} from '../_services/data.service';
+import {AuthService} from '../_services/authService';
 
 @Component({
   selector: 'app-scan',
@@ -11,10 +13,11 @@ export class ScanComponent implements OnInit {
   scanMode = 'none';
   code: string;
 
-  constructor() {
+  constructor(private data: DataService, private auth: AuthService) {
   }
 
   ngOnInit() {
+    this.data.updateInvitationsCount(this.auth.decodedToken.nameid);
   }
 
 

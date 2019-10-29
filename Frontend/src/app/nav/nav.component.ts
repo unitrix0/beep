@@ -2,30 +2,35 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserForLogin} from '../_models/user-for-login';
 import {AuthService} from '../_services/authService';
 import {Router} from '@angular/router';
+import {AlertifyService} from '../_services/alertify.service';
+import {DataService} from '../_services/data.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
   user: UserForLogin = new class implements UserForLogin {
     password: string;
     username: string;
   };
+  invitationsCount: any;
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
-
-  ngOnInit() {
+  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService, private data: DataService) {
+    this.data.invitationsCountUpdated.subscribe(count => {
+      this.invitationsCount = count;
+    });
   }
 
   login() {
     this.authService.login(this.user).subscribe(() => {
-      console.log('Success'); // TODO Alertify
+      this.alertify.success('Anmeldung erfolgreich');
       this.router.navigate(['scan']);
     }, error => {
-      console.log('ERROR: ' + error); // TODO Error Handling
+      this.alertify.error('Anmeldung fehlgeschlagen. Benutzname oder Passwort falsch');
+      // TODO Error Handling
+      console.log(error);
     });
   }
 

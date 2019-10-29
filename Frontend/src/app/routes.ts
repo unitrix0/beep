@@ -7,6 +7,8 @@ import {UserComponent} from './user/user.component';
 import {EditUserResolver} from './_resolvers/edit-user.resolver';
 import {AuthGuard} from './_guards/auth.guard';
 import {HomeComponent} from './home/home.component';
+import {InvitationsComponent} from './invitations/invitations.component';
+import {InvitationsResolver} from './_resolvers/invitations.resolver';
 
 export const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,7 +21,8 @@ export const appRoutes: Routes = [
       {path: 'articles', component: ArticlesComponent},
       {path: 'shopping-list', component: ShoppingListComponent},
       {path: 'timers', component: TimersComponent},
-      {path: 'users/:id', component: UserComponent, resolve: {user: EditUserResolver}}
+      {path: 'users/:id', component: UserComponent, resolve: {user: EditUserResolver}},
+      {path: 'users/:id/invitations', component: InvitationsComponent, resolve:{invitations: InvitationsResolver}}
     ]
   },
   {path: '**', redirectTo: '', pathMatch: 'full'}

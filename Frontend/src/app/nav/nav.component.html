@@ -31,9 +31,15 @@
       <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
               aria-controls="dropdown-basic">
         <i class="fas fa-user mr-1"></i> Willkommen {{authService.currentUser.displayName}}<span class="caret"></span>
+        <span class="badge badge-pill badge-success ml-1" *ngIf="invitationsCount > 0">!</span>
       </button>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
+        <li role="menuitem">
+          <a class="dropdown-item" [routerLink]="['users/', authService.decodedToken.nameid,'invitations']">
+            Einladungen<span class="badge badge-pill badge-success ml-1" *ngIf="invitationsCount > 0">{{invitationsCount}}</span>
+          </a>
+        </li>
         <li role="menuitem">
           <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">Umgebungen bearbeiten</a>
         </li>
