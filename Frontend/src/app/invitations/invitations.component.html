@@ -1,7 +1,10 @@
 <div class="container mt-4">
-  <h3 class="text-white mb-3">Einladungen</h3>
+  <div class="row mb-2">
+    <h3 class="text-white ">Einladungen and mich</h3>
+  </div>
   <div class="row">
-    <div class="card bg-dark mb-2 mr-2 w-25" *ngFor="let invitation of invitations; let i = index">
+    <h4 class="text-white" *ngIf="invitationsReceived.length == 0">Keine</h4>
+    <div class="card bg-dark mb-2 mr-2 w-25" *ngFor="let invitation of invitationsReceived; let i = index">
       <div class="card-header">
         <h5 class="text-white">Einladung von {{invitation.inviter}}</h5>
       </div>
@@ -21,6 +24,41 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="row mt-4">
+    <h3 class="text-white mb-3">Einladungen von mir</h3>
+  </div>
+  <div class="row">
+    <h4 class="text-white" *ngIf="invitationsSent.length == 0">Keine</h4>
 
+    <table class="table table-striped" *ngIf="invitationsSent.length > 0">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">An</th>
+        <th scope="col">Für Umgebung</th>
+        <th scope="col">Gesendet am</th>
+        <th scope="col">Beantwortet</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let invitation of invitationsSent">
+        <td>{{invitation.invitee}}</td>
+        <td>{{invitation.environmentName}}</td>
+        <td>{{invitation.issuedAt | date}}</td>
+        <td>{{invitation.isAnswered |boolYesNo}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm"
+                  (click)="deleteInvitation(invitation.inviteeId, invitation.environmentId)">L&ouml;schen
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="container" *ngIf="invitationsSent.length > 0">
+      <div class="row justify-content-end">
+        <button class="btn btn-danger" (click)="deleteAnsweredInvitations();">Beantwortete l&ouml;schen</button>
+      </div>
+    </div>
   </div>
 </div>

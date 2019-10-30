@@ -6,8 +6,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
 import {Permission} from '../_models/permission';
-import {AlertifyService} from './alertify.service';
-import {Invitation} from '../_models/invitation';
+import {UserInvitations} from '../_models/user-invitations';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +49,8 @@ export class DataService {
       });
   }
 
-  getInvitations(userId: number): Observable<Invitation[]> {
-    return this.http.get<Invitation[]>(this.baseUrl + 'invitations/' + userId);
+  getInvitations(userId: number): Observable<UserInvitations> {
+    return this.http.get<UserInvitations>(this.baseUrl + 'invitations/' + userId);
   }
 
   answerInvitation(userId: any, environmentId: number, answer: number): Observable<Object> {
@@ -60,5 +59,17 @@ export class DataService {
       .append('answer', answer.toString());
 
     return this.http.post(this.baseUrl + 'AnswerInvitation/' + userId, {}, {params: params});
+  }
+
+  deleteInvitation(userId: number, inviteeId: number, environmentId: number): Observable<Object> {
+    const params = new HttpParams()
+      .append('environmentId', environmentId.toString())
+      .append('inviteeId', inviteeId.toString());
+
+    return this.http.delete(this.baseUrl + 'DeleteInvitation/' + userId, {params: params});
+  }
+
+  deleteAnsweredInvitations(userId: number): Observable<Object> {
+    return this.http.delete(this.baseUrl + 'DeleteAnsweredInvitations/' + userId);
   }
 }

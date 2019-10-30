@@ -1,6 +1,6 @@
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
@@ -23,15 +23,20 @@ import {EditUserResolver} from './_resolvers/edit-user.resolver';
 import {DataService} from './_services/data.service';
 import {UserComponent} from './user/user.component';
 import {JwtModule} from '@auth0/angular-jwt';
-import { RegistrationComponent } from './registration/registration.component';
-import { HomeComponent } from './home/home.component';
-import { InvitationsComponent } from './invitations/invitations.component';
+import {RegistrationComponent} from './registration/registration.component';
+import {HomeComponent} from './home/home.component';
+import {InvitationsComponent} from './invitations/invitations.component';
 import {InvitationsResolver} from './_resolvers/invitations.resolver';
-import { InvitationCardComponent } from './invitations/invitation-card/invitation-card.component';
+import {registerLocaleData} from '@angular/common';
+import localeCh from '@angular/common/locales/de-CH';
+import { BoolYesNoPipe } from './_helpers/bool-yes-no.pipe';
+
 
 export function jwtGetter() {
   return localStorage.getItem('token');
 }
+
+registerLocaleData(localeCh, 'de-CH');
 
 @NgModule({
   declarations: [
@@ -48,7 +53,7 @@ export function jwtGetter() {
     RegistrationComponent,
     HomeComponent,
     InvitationsComponent,
-    InvitationCardComponent
+    BoolYesNoPipe
   ],
   imports: [
     HttpClientModule,
@@ -67,6 +72,7 @@ export function jwtGetter() {
     ZXingScannerModule
   ],
   providers: [
+    {provide: LOCALE_ID, useValue: 'de-CH'},
     AuthService,
     DataService,
     ArticlesResolver,
