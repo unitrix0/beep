@@ -1,4 +1,4 @@
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {Observable} from 'rxjs';
@@ -50,7 +50,14 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  Register(newUser: UserForRegistration): Observable<HttpResponse<User>> {
+  register(newUser: UserForRegistration): Observable<HttpResponse<User>> {
     return this.http.post<User>(this.baseUrl + 'register', newUser, {observe: 'response'});
+  }
+
+  userExists(username: string): Observable<boolean> {
+    const params = new HttpParams()
+      .append('username', username);
+
+    return this.http.get<boolean>(this.baseUrl + 'UserExists/' + this.decodedToken.nameid, {params: params});
   }
 }

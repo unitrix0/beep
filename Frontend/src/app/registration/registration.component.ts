@@ -15,7 +15,7 @@ import {AlertifyService} from '../_services/alertify.service';
 
 export class RegistrationComponent implements OnInit {
   @Output() cancelRegistration = new EventEmitter();
-  model: UserForRegistration = {displayName: '', password: '', username: ''};
+  model: UserForRegistration = {displayName: '', email: '', password: '', username: ''};
   private headers: string[];
 
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {
@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
   register() {
     let createdAt: string;
 
-    this.authService.Register(this.model).subscribe(response => {
+    this.authService.register(this.model).subscribe(response => {
       this.alertify.success('Willkommen bei Beep!');
       createdAt = response.headers.get('location').replace(environment.apiUrl, '').toLowerCase();
     }, error => {

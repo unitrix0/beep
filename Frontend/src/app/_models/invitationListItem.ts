@@ -1,4 +1,4 @@
-export interface Invitation {
+export interface InvitationListItem {
   inviteeId: number;
   invitee: string;
   inviter: string;

@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h5 class="modal-title pull-left">Beep! - Einladung</h5>
+  <button class="close pull-right" (click)="modalRef.hide()"><span>&times;</span></button>
+</div>
+<div class="modal-body">
+  <form action="" #invitationForm="ngForm">
+    <div class="form-group">
+      <label for="recipient">Bitte geben Sie die E-Mail oder den Benutzernamen des
+        Benutzers an der eingeladen werden soll:</label>
+      <input type="email" class="form-control form-control-sm" id="recipient"
+             name="recipient" [(ngModel)]="recipient" #recipientInp="ngModel" [ngModelOptions]="{updateOn: 'blur'}" data-isemail="false"
+             appValidateInvitationRecipient required>
+      <div class="alert alert-danger"
+           *ngIf="recipientInp.invalid &&
+            (recipientInp.dirty || recipientInp.touched)">
+        <div *ngIf="recipientInp.errors.required">Bitte geben Sie einen Benutzernamen oder eine E-Mail an</div>
+        <div *ngIf="recipientInp.errors.notExistingUser">Dieser Benutzer existiert nicht</div>
+        <div *ngIf="recipientInp.errors.email">Es wurde keine gültige E-Mail angegeben</div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-sm btn-success" (click)="send()">Senden</button>
+</div>

@@ -7,6 +7,7 @@ import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
 import {Permission} from '../_models/permission';
 import {UserInvitations} from '../_models/user-invitations';
+import {NewInvitation} from '../_models/new-invitation';
 
 @Injectable({
   providedIn: 'root'
@@ -72,4 +73,16 @@ export class DataService {
   deleteAnsweredInvitations(userId: number): Observable<Object> {
     return this.http.delete(this.baseUrl + 'DeleteAnsweredInvitations/' + userId);
   }
+
+  inviteMember(recipient: string, environmentId: number, sendMail: boolean): Observable<Object> {
+    const invitation: NewInvitation = new class implements NewInvitation {
+      environmentId: number = environmentId;
+      inviteeName: string = recipient;
+      sendMail: boolean = sendMail;
+    };
+
+    return this.http.post(this.baseUrl + 'invite', invitation);
+  }
+
+
 }

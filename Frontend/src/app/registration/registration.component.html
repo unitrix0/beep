@@ -7,14 +7,18 @@
   </div>
   <div class="form-group">
     <input class="form-control form-control-sm" type="text" name="username" [(ngModel)]="model.username"
-           placeholder="E-Mail">
+           placeholder="Benutzername">
+  </div>
+  <div class="form-group">
+    <input class="form-control form-control-sm" type="text" name="email" [(ngModel)]="model.email"
+           placeholder="E-Mail" email>
   </div>
   <div class="form-group">
     <input class="form-control form-control-sm" type="password" name="password" [(ngModel)]="model.password"
            placeholder="Passwort">
   </div>
   <div class="form-group-append">
-    <button class="btn btn-success mr-2" type="submit" (click)="register()">Register</button>
-    <button class="btn btn-outline-warning" type="button" (click)="cancel()">Cancel</button>
+    <button class="btn btn-outline-warning mr-2" type="button" (click)="cancel()">Cancel</button>
+    <button class="btn btn-success" type="submit" (click)="register()">Register</button>
   </div>
 </form>

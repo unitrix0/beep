@@ -5,6 +5,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Permission} from '../_models/permission';
 import {DataService} from '../_services/data.service';
 import {AlertifyService} from '../_services/alertify.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {InviteDialogComponent} from './invite-dialog/invite-dialog.component';
+import {SendInvitationEventArgs} from '../_models/send-invitation-event.args';
 
 @Component({
   selector: 'app-user',
@@ -16,8 +19,9 @@ export class UserComponent implements OnInit {
   environments: BeepEnvironment[];
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
+  modalRef: BsModalRef;
 
-  constructor(private route: ActivatedRoute, private data: DataService, private alertify: AlertifyService) {
+  constructor(private route: ActivatedRoute, private data: DataService, private alertify: AlertifyService, private modalSvc: BsModalService) {
   }
 
   ngOnInit() {
@@ -60,11 +64,28 @@ export class UserComponent implements OnInit {
       this.data.deleteEnvironment(this.user.id, this.currentEnvironment.id)
         .subscribe(value => {
           this.environments.splice(this.environments.indexOf(this.currentEnvironment), 1);
-          this.alertify.success('Success');
+          this.alertify.success('Gelöscht!');
         }, error => {
-          this.alertify.error('Umgebung konnt enicht gelöscht werden!'); // TODO Error handling
+          this.alertify.error('Umgebung konnte nicht gelöscht werden!'); // TODO Error handling
           console.log(error);
         });
     });
+  }
+
+  openInviteDialog() {
+    this.modalRef = this.modalSvc.show(InviteDialogComponent);
+    this.modalRef.content.SendInvitation.subscribe((eventArgs: SendInvitationEventArgs) => {
+      this.modalRef.hide();
+
+      this.data.inviteMember(eventArgs.recipient, this.currentEnvironment.id, eventArgs.isMail)
+        .subscribe(value => {
+          this.alertify.success('Einladung verschickt');
+        }, error => {
+          this.alertify.error('Die Einladung konnte nicht verschickt werden: ' + error.message);
+        });
+    });
+  }
+
+  removeMember() {
   }
 }

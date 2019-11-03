@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Invitation} from '../_models/invitation';
+import {InvitationListItem} from '../_models/invitationListItem';
 import {ActivatedRoute} from '@angular/router';
 import {DataService} from '../_services/data.service';
 import {AuthService} from '../_services/authService';
 import {AlertifyService} from '../_services/alertify.service';
 import {UserInvitations} from '../_models/user-invitations';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-invitations',
@@ -13,8 +12,8 @@ import {forEach} from '@angular/router/src/utils/collection';
   styleUrls: ['./invitations.component.css']
 })
 export class InvitationsComponent implements OnInit {
-  invitationsReceived: Invitation[];
-  invitationsSent: Invitation[];
+  invitationsReceived: InvitationListItem[];
+  invitationsSent: InvitationListItem[];
 
   constructor(private route: ActivatedRoute, private data: DataService, private authService: AuthService,
               private alertify: AlertifyService) {

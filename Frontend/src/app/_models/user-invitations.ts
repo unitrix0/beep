@@ -1,6 +1,6 @@
-import {Invitation} from './invitation';
+import {InvitationListItem} from './invitationListItem';
 
 export interface UserInvitations {
-  sentInvitations: Invitation[];
-  receivedInvitations: Invitation[];
+  sentInvitations: InvitationListItem[];
+  receivedInvitations: InvitationListItem[];
 }

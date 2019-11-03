@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {BsDropdownModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
 
 import {AuthService} from './_services/authService';
 import {AppComponent} from './app.component';
@@ -29,7 +29,9 @@ import {InvitationsComponent} from './invitations/invitations.component';
 import {InvitationsResolver} from './_resolvers/invitations.resolver';
 import {registerLocaleData} from '@angular/common';
 import localeCh from '@angular/common/locales/de-CH';
-import { BoolYesNoPipe } from './_helpers/bool-yes-no.pipe';
+import {BoolYesNoPipe} from './_helpers/bool-yes-no.pipe';
+import {InviteDialogComponent} from './user/invite-dialog/invite-dialog.component';
+import { ValidateInvitationRecipientDirective } from './_helpers/validate-invitation-recipient.directive';
 
 
 export function jwtGetter() {
@@ -53,7 +55,9 @@ registerLocaleData(localeCh, 'de-CH');
     RegistrationComponent,
     HomeComponent,
     InvitationsComponent,
-    BoolYesNoPipe
+    BoolYesNoPipe,
+    InviteDialogComponent,
+    ValidateInvitationRecipientDirective
   ],
   imports: [
     HttpClientModule,
@@ -69,6 +73,7 @@ registerLocaleData(localeCh, 'de-CH');
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     ZXingScannerModule
   ],
   providers: [
@@ -79,7 +84,10 @@ registerLocaleData(localeCh, 'de-CH');
     EditUserResolver,
     InvitationsResolver
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    InviteDialogComponent
+  ]
 })
 export class AppModule {
 }
