@@ -1,97 +1,102 @@
 <div class="container mt-4">
   <div class="row">
-    <div class="col-md-4">
-      <div class="col-md-12 border-light border">
-        <h4 class="text-light mt-3">Environments</h4>
-        <div class="list-group mb-2">
-          <ul>
-            <li class="list-group-item list-group-item-cursor" (click)="selectEnvironment(i)"
-                [class.active]="environment == currentEnvironment"
-                *ngFor="let environment of environments; let i = index">
-              {{environment.name}}
-            </li>
-          </ul>
-        </div>
-        <div class="row mb-3">
-          <div class="col-md-12 text-right">
-            <button class="btn btn-danger btn-sm mr-2" (click)="deleteEnvironment()">Delete</button>
-            <button class="btn btn-success btn-sm" (click)="addEnvironment()">Add</button>
-          </div>
-        </div>
+    <!--    Linke Seite -->
+    <div class="col-md-4 border border-light">
+      <h4 class="text-light mt-3">Environments</h4>
+      <div class="list-group">
+        <ul>
+          <li class="list-group-item list-group-item-cursor" (click)="selectEnvironment(i)"
+              [class.active]="environment == currentEnvironment"
+              *ngFor="let environment of environments; let i = index">
+            {{environment.name}}
+          </li>
+        </ul>
+      </div>
+      <div class="text-right mb-3">
+        <button class="btn btn-danger btn-sm mr-2" (click)="deleteEnvironment()"
+                [disabled]="environments.length == 1">Löschen
+        </button>
+        <button class="btn btn-success btn-sm" (click)="addEnvironment()">Hinzufügen</button>
       </div>
     </div>
+
+    <!--    Rechte Seite -->
     <div class="col-md-8">
-      <div class="col-md-12 border-light border h-100" *ngIf="!currentEnvironment">
-        <h4 class="text-light mt-3">Kein Environment gewählt</h4>
-      </div>
+      <div class="col-md-12 border border-light h-100">
+        <h4 class="text-light ml-2 mt-3 mr-2" *ngIf="!currentEnvironment">Kein Environment gewählt</h4>
 
-      <div class="col-md-12 border border-light mb-3" *ngIf="currentEnvironment">
-        <div class="form-group">
-          <input type="text" name="evnNameEdit" id="envNameEdit" class="form-control mb-2 mt-3 env-name-input text-light" aria-describedby="envNameHelp"
-                 [ngModel]="currentEnvironment.name">
+        <div class="row"  *ngIf="currentEnvironment">
+          <div class="col-md-12">
+            <h5 class="text-light mt-3">Name</h5>
+            <div class="form-group">
+              <input type="text" name="evnNameEdit" id="envNameEdit"
+                     class="form-control mb-4 env-name-input text-light"
+                     aria-describedby="envNameHelp"
+                     [ngModel]="currentEnvironment.name">
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-md-12 border-light border" *ngIf="currentEnvironment">
-        <div class="row mb-3 mt-3">
+
+        <div class="row"  *ngIf="currentEnvironment">
           <div class="col-md-4">
-            <div class="col-md-12"> Mitglieder
-              <div class="list-group mb-2">
-                <a class="list-group-item list-group-item-action list-group-item-cursor"
-                   *ngFor="let member of currentEnvironment.permissions; let i = index"
-                   (click)="selectUser(i)" [class.active]="currentMember == member">{{member.username}}
-                  <i class="fas fa-crown ml-1" *ngIf="member.isOwner" rel="tooltip"  title="Besitzer"></i>
-                </a>
-              </div>
-              <button class="btn btn-outline-danger btn-sm" (click)="removeMember()">Entfernen</button>
-              <button class="btn btn-success btn-sm float-right" (click)="openInviteDialog()">Einladen</button>
+            <h5 class="text-light">Mitglieder</h5>
+            <div class="list-group mb-3">
+              <a class="list-group-item list-group-item-action list-group-item-cursor"
+                 *ngFor="let member of currentEnvironment.permissions; let i = index"
+                 (click)="selectUser(i)" [class.active]="currentMember == member">{{member.username}}
+                <i class="fas fa-crown ml-1" *ngIf="member.isOwner" rel="tooltip" title="Besitzer"></i>
+              </a>
             </div>
+            <button class="btn btn-danger btn-sm" [disabled]="currentMember.isOwner" (click)="removeMember()">
+              Entfernen
+            </button>
+            <button class="btn btn-success btn-sm float-right" (click)="openInviteDialog()">Einladen</button>
           </div>
-          <div class="col-md-8">
-            <div class="col-md-12">
-              Permissions
-              <div class="list-group mb-2">
-                <div class="custom-control custom-checkbox mt-1 mb-1">
-                  <input type="checkbox" class="custom-control-input" id="canView"
-                         [checked]="currentMember.canView || currentMember.isOwner"
-                         (change)="currentMember.canView = !currentMember.canView"
-                         [disabled]="currentMember.isOwner">
-                  <label for="canView" class="custom-control-label">Darf alle Artikel anzeigen</label>
-                </div>
-                <div class="custom-control custom-checkbox mt-1 mb-1">
-                  <input type="checkbox" class="custom-control-input" id="checkIn"
-                         [checked]="currentMember.checkIn || currentMember.isOwner"
-                         (change)="currentMember.checkIn = !currentMember.checkIn"
-                         [disabled]="currentMember.isOwner">
-                  <label for="checkIn" class="custom-control-label">Darf einbuchen</label>
-                </div>
-                <div class="custom-control custom-checkbox mt-1 mb-1">
-                  <input type="checkbox" class="custom-control-input" id="checkOut"
-                         [checked]="currentMember.checkOut || currentMember.isOwner"
-                         (change)="currentMember.checkOut = !currentMember.checkOut"
-                         [disabled]="currentMember.isOwner">
-                  <label for="checkOut" class="custom-control-label">Darf ausbuchen</label>
-                </div>
-                <div class="custom-control custom-checkbox mt-1 mb-1">
-                  <input type="checkbox" class="custom-control-input" id="editArticleSettings"
-                         [checked]="currentMember.editArticleSettings || currentMember.isOwner"
-                         (change)="currentMember.editArticleSettings = !currentMember.editArticleSettings"
-                         [disabled]="currentMember.isOwner">
-                  <label for="editArticleSettings" class="custom-control-label">Darf die Einstellungen der Artikel
-                    ändern</label>
-                </div>
-                <div class="custom-control custom-checkbox mt-1 mb-2">
-                  <input type="checkbox" class="custom-control-input" id="invite"
-                         [checked]="currentMember.invite || currentMember.isOwner"
-                         (change)="currentMember.invite = !currentMember.invite"
-                         [disabled]="currentMember.isOwner">
-                  <label for="invite" class="custom-control-label">Darf Mitglieder einladen</label>
-                </div>
-              </div>
 
+          <div class="col-md-8">
+            <h5 class="text-light">Berechtigungen</h5>
+            <div class="list-group mb-2">
+              <div class="custom-control custom-checkbox mt-1 mb-1">
+                <input type="checkbox" class="custom-control-input" id="canView"
+                       [checked]="currentMember.canView || currentMember.isOwner"
+                       (change)="currentMember.canView = !currentMember.canView"
+                       [disabled]="currentMember.isOwner">
+                <label for="canView" class="custom-control-label">Darf alle Artikel anzeigen</label>
+              </div>
+              <div class="custom-control custom-checkbox mt-1 mb-1">
+                <input type="checkbox" class="custom-control-input" id="checkIn"
+                       [checked]="currentMember.checkIn || currentMember.isOwner"
+                       (change)="currentMember.checkIn = !currentMember.checkIn"
+                       [disabled]="currentMember.isOwner">
+                <label for="checkIn" class="custom-control-label">Darf einbuchen</label>
+              </div>
+              <div class="custom-control custom-checkbox mt-1 mb-1">
+                <input type="checkbox" class="custom-control-input" id="checkOut"
+                       [checked]="currentMember.checkOut || currentMember.isOwner"
+                       (change)="currentMember.checkOut = !currentMember.checkOut"
+                       [disabled]="currentMember.isOwner">
+                <label for="checkOut" class="custom-control-label">Darf ausbuchen</label>
+              </div>
+              <div class="custom-control custom-checkbox mt-1 mb-1">
+                <input type="checkbox" class="custom-control-input" id="editArticleSettings"
+                       [checked]="currentMember.editArticleSettings || currentMember.isOwner"
+                       (change)="currentMember.editArticleSettings = !currentMember.editArticleSettings"
+                       [disabled]="currentMember.isOwner">
+                <label for="editArticleSettings" class="custom-control-label">Darf die Einstellungen der Artikel
+                  ändern</label>
+              </div>
+              <div class="custom-control custom-checkbox mt-1 mb-2">
+                <input type="checkbox" class="custom-control-input" id="invite"
+                       [checked]="currentMember.invite || currentMember.isOwner"
+                       (change)="currentMember.invite = !currentMember.invite"
+                       [disabled]="currentMember.isOwner">
+                <label for="invite" class="custom-control-label">Darf Mitglieder einladen</label>
+              </div>
             </div>
+
+            <button class="btn btn-success btn-sm float-right mb-3" (click)="savePermissions()">Speichern</button>
           </div>
         </div>
-        <button class="btn btn-success btn-sm float-right mt-3" (click)="savePermissions()">Speichern</button>
       </div>
     </div>
   </div>
