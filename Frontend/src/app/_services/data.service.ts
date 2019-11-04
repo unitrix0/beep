@@ -85,4 +85,11 @@ export class DataService {
   }
 
 
+  removeMember(userId: number, environmentId: number, removeUserId: number): Observable<object> {
+    const params = new HttpParams()
+      .append('environmentId', environmentId.toString())
+      .append('removeUserId', removeUserId.toString());
+
+    return this.http.delete(this.baseUrl + 'RemoveUser/' + userId, {params: params});
+  }
 }

@@ -22,13 +22,15 @@ export class ValidateInvitationRecipientDirective implements AsyncValidator {
     const invalidEmail = emailValidator.validate(control) != null;
 
     return this.authService.userExists(control.value).pipe(
-      map(value => {
-        result.notExistingUser = !value;
+      map(userExists => {
+        result.notExistingUser = !userExists;
         result.email = invalidEmail;
         return (!result.notExistingUser || !result.email) ? null : result;
       }),
-      catchError(err => {
-        return null;
+      catchError(error => {
+        console.log(error);
+        result.notExistingUser = true;
+        return map(() => result);
       })
     );
 

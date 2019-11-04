@@ -87,5 +87,14 @@ export class UserComponent implements OnInit {
   }
 
   removeMember() {
+    this.data.removeMember(this.user.id, this.currentEnvironment.id, this.currentMember.userId)
+      .subscribe(value => {
+        this.currentEnvironment.permissions.splice(
+          this.currentEnvironment.permissions.indexOf(this.currentMember), 1);
+
+        this.alertify.success('Benutzer entfernt');
+      }, error => {
+        this.alertify.error('Der Benutzer konnte nicht entfernt werden: ' + error.message);
+      });
   }
 }
