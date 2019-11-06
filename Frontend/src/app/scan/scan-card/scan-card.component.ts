@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {interval} from 'rxjs';
+import {ResetScanService} from '../../_services/reset-scan.service';
+import {Timer} from '../../_helpers/timer';
 
 @Component({
   selector: 'app-scan-card',
@@ -12,16 +13,20 @@ export class ScanCardComponent implements OnInit {
   @Input() description: string;
   @Input() enabled: boolean;
   @Output() scanStarted = new EventEmitter<string>();
-  @Output() scanStopped = new EventEmitter();
+  @Output() scanTimedOut = new EventEmitter();
 
   doScan = false;
-  private timeout = 10000;
+  private scanTimeout = 30;
+  private timeoutCounter = 0;
   private timeoutProgress: number;
+  private timer: Timer;
 
-  constructor() {
+  constructor(private resetService: ResetScanService) {
   }
 
   ngOnInit() {
+    this.RegisterTimerTick();
+    this.SubscribeResetService();
   }
 
   startScan() {
@@ -30,21 +35,39 @@ export class ScanCardComponent implements OnInit {
     }
     this.scanStarted.emit(this.modeName);
     this.doScan = true;
-    const subscription = interval(100).subscribe(
-      value => {
-        const v = 100 / this.timeout * value;
-        this.timeoutProgress = v * 100;
-      },
-      error => console.log('Err: ' + error));
+    this.timer.start();
+  }
 
-    setTimeout(() => {
-      subscription.unsubscribe();
-      // Hide progress bar
-      setTimeout(() => {
-        this.scanStopped.emit();
-        this.doScan = false;
-        this.timeoutProgress = 0;
-      }, 1000);
-    }, this.timeout);
+  private SubscribeResetService() {
+    this.resetService.reset.subscribe((scanMode: string) => {
+      if (scanMode !== this.modeName) {
+        return;
+      }
+      console.log(this.modeName + ' got reset');
+      this.timer.stop();
+      this.timeoutProgress = 0;
+      this.timeoutCounter = 0;
+      this.timer.start();
+    });
+  }
+
+  private RegisterTimerTick() {
+    this.timer = new Timer(() => {
+      const scanTimeout = this.scanTimeout * 10;
+      this.timeoutProgress = 100 / scanTimeout * this.timeoutCounter;
+      this.timeoutCounter++;
+
+      if (this.timeoutCounter === scanTimeout) {
+        this.timer.stop();
+
+        // Hide progress bar
+        setTimeout(() => {
+          this.scanTimedOut.emit();
+          this.doScan = false;
+          this.timeoutProgress = 0;
+          this.timeoutCounter = 0;
+        }, 1000);
+      }
+    }, 100);
   }
 }

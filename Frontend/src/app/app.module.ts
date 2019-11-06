@@ -31,11 +31,14 @@ import {registerLocaleData} from '@angular/common';
 import localeCh from '@angular/common/locales/de-CH';
 import {BoolYesNoPipe} from './_helpers/bool-yes-no.pipe';
 import {InviteDialogComponent} from './user/invite-dialog/invite-dialog.component';
-import { ValidateInvitationRecipientDirective } from './_helpers/validate-invitation-recipient.directive';
+import {ValidateInvitationRecipientDirective} from './_helpers/validate-invitation-recipient.directive';
+import {ResetScanService} from './_services/reset-scan.service';
+import { CodeScannerComponent } from './scan/code-scanner/code-scanner.component';
 
 
 export function jwtGetter() {
-  return localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  return token;
 }
 
 registerLocaleData(localeCh, 'de-CH');
@@ -57,7 +60,8 @@ registerLocaleData(localeCh, 'de-CH');
     InvitationsComponent,
     BoolYesNoPipe,
     InviteDialogComponent,
-    ValidateInvitationRecipientDirective
+    ValidateInvitationRecipientDirective,
+    CodeScannerComponent
   ],
   imports: [
     HttpClientModule,
@@ -65,8 +69,8 @@ registerLocaleData(localeCh, 'de-CH');
     JwtModule.forRoot({
       config: {
         tokenGetter: jwtGetter,
-        whitelistedDomains: ['localhost:5000'],
-        blacklistedRoutes: ['localhost:5000/api/auth']
+        whitelistedDomains: ['localhost:5000', 'localhost:5001'],
+        blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:5001/api/auth']
       }
     }),
     FormsModule,
@@ -82,7 +86,8 @@ registerLocaleData(localeCh, 'de-CH');
     DataService,
     ArticlesResolver,
     EditUserResolver,
-    InvitationsResolver
+    InvitationsResolver,
+    ResetScanService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

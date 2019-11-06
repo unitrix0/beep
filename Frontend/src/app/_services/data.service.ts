@@ -14,7 +14,6 @@ import {NewInvitation} from '../_models/new-invitation';
 })
 export class DataService {
   baseUrl = environment.apiUrl + 'users/';
-
   invitationsCountUpdated = new EventEmitter<number>();
 
   constructor(private http: HttpClient) {

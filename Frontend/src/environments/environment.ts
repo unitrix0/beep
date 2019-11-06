@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://drone02:5000/api/'
+  apiUrl: 'https://localhost:5001/api/'
 };
 
 /*

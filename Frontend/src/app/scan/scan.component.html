@@ -3,20 +3,30 @@
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none'"
-                     (scanStarted)="startScan($event)" (scanStopped)="scanDone()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Ausbuchen'" [description]="'Artikel wurde aufgebraucht'"
                      [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none'"
-                     (scanStarted)="startScan($event)" (scanStopped)="scanDone()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Geöffnet'" [description]="'Artikel wurde geöffnet'"
                      [icon]="'fa-box-open'" [enabled]="scanMode == 'none'"
-                     (scanStarted)="startScan($event)" (scanStopped)="scanDone()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
   </div>
-  <div class="row mt-5">
+
+  <div class="row mt-4" *ngIf="scanMode != 'none'">
+    <div class="col-4">
+      <app-code-scanner (barcodeDetected)="success($event)"></app-code-scanner>
+    </div>
+    <div class="col-8">
+      <h4 class="text-light">{{code}}</h4>
+    </div>
+  </div>
+
+  <div class="row" [ngClass]="scanMode == 'none'? 'mt-5' : 'mt-3'">
     <div class="col-md-12">
       <h4 class="text-light">Letzte Aktivität</h4>
 
@@ -35,7 +45,7 @@
             alt=""
             class="img-prod-activity"></td>
           <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-3x"></i></td>
+          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
         </tr>
         <tr>
           <td class="text-center" style="width: 15%;"><img
@@ -43,7 +53,7 @@
             alt=""
             class="img-prod-activity"></td>
           <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-3x"></i></td>
+          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
         </tr>
         <tr>
           <td class="text-center" style="width: 15%;"><img
@@ -51,7 +61,7 @@
             alt=""
             class="img-prod-activity"></td>
           <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-3x"></i></td>
+          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
         </tr>
         </tbody>
       </table>
