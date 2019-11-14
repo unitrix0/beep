@@ -1,7 +1,7 @@
 import {Directive, forwardRef, Injectable} from '@angular/core';
 import {AbstractControl, AsyncValidator, EmailValidator, NG_ASYNC_VALIDATORS, ValidationErrors} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {AuthService} from '../_services/authService';
+import {AuthService} from '../_services/auth.service';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})

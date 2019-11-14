@@ -1,3 +1,6 @@
 .img-prod-activity {
   width: 40px;
 }
+.dropdown-item{
+  cursor: pointer;
+}

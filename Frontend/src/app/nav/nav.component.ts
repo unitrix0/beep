@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserForLogin} from '../_models/user-for-login';
-import {AuthService} from '../_services/authService';
 import {Router} from '@angular/router';
 import {AlertifyService} from '../_services/alertify.service';
 import {DataService} from '../_services/data.service';
+import {AuthService} from '../_services/auth.service';
 
 @Component({
   selector: 'app-nav',

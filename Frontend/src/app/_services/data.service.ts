@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment';
 import {Permission} from '../_models/permission';
 import {UserInvitations} from '../_models/user-invitations';
 import {NewInvitation} from '../_models/new-invitation';
+import {BeepEnvironment} from '../_models/beep-environment';
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,9 @@ export class DataService {
       .append('removeUserId', removeUserId.toString());
 
     return this.http.delete(this.baseUrl + 'RemoveUser/' + userId, {params: params});
+  }
+
+  GetEnvironments(userId: number): Observable<BeepEnvironment[]> {
+    return this.http.get<BeepEnvironment[]>(this.baseUrl + 'GetEnvironments/' + userId);
   }
 }

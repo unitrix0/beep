@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserForRegistration} from '../_models/user-for-registration';
-import {AuthService} from '../_services/authService';
+import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({

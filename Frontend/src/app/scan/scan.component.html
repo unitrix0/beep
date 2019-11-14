@@ -1,6 +1,22 @@
-<div class="container h-100">
-  <div class="row mt-4">
-    <div class="col-12 col-sm-4">
+<div class="container">
+  <div class="row justify-content-end">
+    <div class="col-4 mt-4 text-right">
+      <label for="button-basic"
+             class="d-inline-block mr-1 text-light"><small><strong>Umgebung: </strong></small></label>
+      <div class="btn-group" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-dark  btn-sm dropdown-toggle"
+                aria-controls="dropdown-basic"> {{activeEnvironment}} <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem" *ngFor="let env of environments">
+            <div class="dropdown-item" (click)="changeEnvironment(env.id)">{{env.name}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 col-sm-4" *appHasPermission="permissionFlags.test">
       <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none'"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
@@ -19,16 +35,16 @@
 
   <div class="row mt-4" *ngIf="scanMode != 'none'">
     <div class="col-4">
-      <app-code-scanner (barcodeDetected)="success($event)"></app-code-scanner>
+      <app-code-scanner (barcodeDetected)="barcodeDetected($event)"></app-code-scanner>
     </div>
     <div class="col-8">
-      <h4 class="text-light">{{code}}</h4>
+      <app-check-in></app-check-in>
     </div>
   </div>
 
   <div class="row" [ngClass]="scanMode == 'none'? 'mt-5' : 'mt-3'">
     <div class="col-md-12">
-      <h4 class="text-light">Letzte Aktivität</h4>
+      <h4 class="text-light">Letzte Aktivitäten</h4>
 
       <table class="table table-striped table-dark mt-3 table-sm">
         <thead>

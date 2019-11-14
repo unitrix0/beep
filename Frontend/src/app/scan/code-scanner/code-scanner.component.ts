@@ -17,14 +17,17 @@ export class CodeScannerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.scanner.updateVideoInputDevices().then(value => {
+      console.log(value);
+    });
   }
 
   startScan() {
+    this.scanner.updateVideoInputDevices().then(value1 => {
+      this.scanner.device = value1[2]; // TODO Device aus settings
+    });
     this.scanner.askForPermission().then(value => {
       console.log('Permissions response: ' + value);
-      this.scanner.updateVideoInputDevices().then(value1 => {
-        this.scanner.device = value1[1]; // TODO Device aus settings
-      });
     });
   }
 

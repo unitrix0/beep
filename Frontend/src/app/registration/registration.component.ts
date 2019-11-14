@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {UserForRegistration} from '../_models/user-for-registration';
-import {AuthService} from '../_services/authService';
+import {AuthService} from '../_services/auth.service';
 import {UserForLogin} from '../_models/user-for-login';
 import {Router} from '@angular/router';
 import {HttpHeaders} from '@angular/common/http';

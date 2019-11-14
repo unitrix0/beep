@@ -7,7 +7,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
 
-import {AuthService} from './_services/authService';
+import {AuthService} from './_services/auth.service';
 import {AppComponent} from './app.component';
 import {appRoutes} from './routes';
 import {NavComponent} from './nav/nav.component';
@@ -33,7 +33,9 @@ import {BoolYesNoPipe} from './_helpers/bool-yes-no.pipe';
 import {InviteDialogComponent} from './user/invite-dialog/invite-dialog.component';
 import {ValidateInvitationRecipientDirective} from './_helpers/validate-invitation-recipient.directive';
 import {ResetScanService} from './_services/reset-scan.service';
-import { CodeScannerComponent } from './scan/code-scanner/code-scanner.component';
+import {CodeScannerComponent} from './scan/code-scanner/code-scanner.component';
+import {CheckInComponent} from './scan/check-in/check-in.component';
+import {HasPermissionDirective} from './_directives/has-permission.directive';
 
 
 export function jwtGetter() {
@@ -61,7 +63,9 @@ registerLocaleData(localeCh, 'de-CH');
     BoolYesNoPipe,
     InviteDialogComponent,
     ValidateInvitationRecipientDirective,
-    CodeScannerComponent
+    CodeScannerComponent,
+    CheckInComponent,
+    HasPermissionDirective
   ],
   imports: [
     HttpClientModule,

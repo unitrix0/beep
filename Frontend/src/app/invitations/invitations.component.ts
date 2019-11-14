@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {InvitationListItem} from '../_models/invitationListItem';
 import {ActivatedRoute} from '@angular/router';
 import {DataService} from '../_services/data.service';
-import {AuthService} from '../_services/authService';
+import {AuthService} from '../_services/auth.service';
 import {AlertifyService} from '../_services/alertify.service';
 import {UserInvitations} from '../_models/user-invitations';
 
