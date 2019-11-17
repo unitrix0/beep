@@ -7,6 +7,7 @@ import {BeepEnvironment} from '../_models/beep-environment';
 import {AlertifyService} from '../_services/alertify.service';
 import {PermissionFlags} from '../_enums/permission-flags.enum';
 import {AuthService} from '../_services/auth.service';
+import {PermissionsService} from '../_services/permissions.service';
 
 @Component({
   selector: 'app-scan',
@@ -17,13 +18,12 @@ export class ScanComponent implements OnInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
   @ViewChild(CheckInComponent) checkIn: CheckInComponent;
 
-  public  permissionFlags = PermissionFlags;
   scanMode = 'none';
   private environments: BeepEnvironment[];
   activeEnvironment: string;
 
   constructor(private data: DataService, private auth: AuthService, private resetScan: ResetScanService,
-              private changeDetector: ChangeDetectorRef, private alertify: AlertifyService) {
+              private changeDetector: ChangeDetectorRef, private alertify: AlertifyService, private permissions: PermissionsService) {
   }
 
   ngOnInit() {

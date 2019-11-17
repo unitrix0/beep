@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {BsDropdownModule, ModalModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 
 import {AuthService} from './_services/auth.service';
 import {AppComponent} from './app.component';
@@ -17,7 +17,6 @@ import {ArticlesComponent} from './articles/articles.component';
 import {ArticleEditComponent} from './articles/article-edit/article-edit.component';
 import {ArticleCardComponent} from './articles/article-card/article-card.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
-import {TimersComponent} from './timers/timers.component';
 import {ArticlesResolver} from './_resolvers/articles.resolver';
 import {EditUserResolver} from './_resolvers/edit-user.resolver';
 import {DataService} from './_services/data.service';
@@ -35,7 +34,10 @@ import {ValidateInvitationRecipientDirective} from './_helpers/validate-invitati
 import {ResetScanService} from './_services/reset-scan.service';
 import {CodeScannerComponent} from './scan/code-scanner/code-scanner.component';
 import {CheckInComponent} from './scan/check-in/check-in.component';
-import {HasPermissionDirective} from './_directives/has-permission.directive';
+import { ShowOnPermissionDirective } from './_directives/show-on-permission.directive';
+import {PermissionsService} from './_services/permissions.service';
+import { EnvironmentEditComponent } from './user/environment-edit/environment-edit.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 
 export function jwtGetter() {
@@ -55,7 +57,6 @@ registerLocaleData(localeCh, 'de-CH');
     ArticlesComponent,
     ArticleCardComponent,
     ShoppingListComponent,
-    TimersComponent,
     UserComponent,
     RegistrationComponent,
     HomeComponent,
@@ -65,7 +66,9 @@ registerLocaleData(localeCh, 'de-CH');
     ValidateInvitationRecipientDirective,
     CodeScannerComponent,
     CheckInComponent,
-    HasPermissionDirective
+    ShowOnPermissionDirective,
+    EnvironmentEditComponent,
+    ProfileComponent,
   ],
   imports: [
     HttpClientModule,
@@ -82,6 +85,7 @@ registerLocaleData(localeCh, 'de-CH');
     RouterModule.forRoot(appRoutes),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
     ZXingScannerModule
   ],
   providers: [
@@ -91,7 +95,8 @@ registerLocaleData(localeCh, 'de-CH');
     ArticlesResolver,
     EditUserResolver,
     InvitationsResolver,
-    ResetScanService
+    ResetScanService,
+    PermissionsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

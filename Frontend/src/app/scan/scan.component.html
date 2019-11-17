@@ -16,14 +16,16 @@
     </div>
   </div>
   <div class="row mt-3">
-    <div class="col-12 col-sm-4" *appHasPermission="permissionFlags.test">
+    <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
-                     [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none'"
+                     [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none' &&
+                     permissions.hasPermissionOr(permissions.flags.checkIn, permissions.flags.isOwner)"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Ausbuchen'" [description]="'Artikel wurde aufgebraucht'"
-                     [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none'"
+                     [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none' &&
+                     permissions.hasPermissionOr(permissions.flags.checkOut, permissions.flags.isOwner)"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
