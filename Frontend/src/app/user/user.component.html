@@ -4,7 +4,7 @@
       <ng-template tabHeading>
         <span [ngClass]="tabs.tabs[0].active?'':'text-light'">Profil</span>
       </ng-template>
-      <app-profile></app-profile>
+      <app-profile [user]="user"></app-profile>
     </tab>
     <tab >
       <ng-template tabHeading>

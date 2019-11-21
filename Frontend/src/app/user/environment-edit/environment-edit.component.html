@@ -25,7 +25,7 @@
       <div class="col-md-12 h-100">
         <h4 class="text-light ml-2 mt-3 mr-2" *ngIf="!currentEnvironment">Kein Environment gewählt</h4>
 
-        <div class="row"  *ngIf="currentEnvironment">
+        <div class="row" *ngIf="currentEnvironment">
           <div class="col-md-12">
             <h5 class="text-light mt-3">Name</h5>
             <div class="form-group">
@@ -37,45 +37,36 @@
           </div>
         </div>
 
-        <div class="row"  *ngIf="currentEnvironment">
+        <div class="row" *ngIf="currentEnvironment">
           <div class="col-md-4">
             <h5 class="text-light">Mitglieder</h5>
             <div class="list-group mb-3">
               <a class="list-group-item list-group-item-action list-group-item-cursor"
-                 *ngFor="let member of currentEnvironment.permissions; let i = index"
+                 *ngFor="let member of members; let i = index"
                  (click)="selectUser(i)" [class.active]="currentMember == member">{{member.username}}
                 <i class="fas fa-crown ml-1" *ngIf="member.isOwner" rel="tooltip" title="Besitzer"></i>
               </a>
             </div>
-            <button class="btn btn-danger btn-sm" [disabled]="currentMember.isOwner" (click)="removeMember()">
+            <button class="btn btn-danger btn-sm" (click)="removeMember()"
+                    [disabled]="currentMember.isOwner ||
+                    !permissions.hasPermissionOr(permissions.flags.isOwner || permissions.flags.manageUsers)">
               Entfernen
             </button>
-            <button class="btn btn-success btn-sm float-right" (click)="openInviteDialog()">Einladen</button>
+            <button class="btn btn-success btn-sm float-right" (click)="openInviteDialog()"
+                    [disabled]="!permissions.hasPermissionOr(permissions.flags.isOwner, permissions.flags.manageUsers)">
+              Einladen
+            </button>
           </div>
 
           <div class="col-md-8">
             <h5 class="text-light">Berechtigungen</h5>
             <div class="list-group mb-2">
               <div class="custom-control custom-checkbox mt-1 mb-1">
-                <input type="checkbox" class="custom-control-input" id="canView"
-                       [checked]="currentMember.canView || currentMember.isOwner"
-                       (change)="currentMember.canView = !currentMember.canView"
-                       [disabled]="currentMember.isOwner">
-                <label for="canView" class="custom-control-label">Darf alle Artikel anzeigen</label>
-              </div>
-              <div class="custom-control custom-checkbox mt-1 mb-1">
                 <input type="checkbox" class="custom-control-input" id="checkIn"
-                       [checked]="currentMember.checkIn || currentMember.isOwner"
-                       (change)="currentMember.checkIn = !currentMember.checkIn"
+                       [checked]="currentMember.canScan || currentMember.isOwner"
+                       (change)="currentMember.canScan = !currentMember.canScan"
                        [disabled]="currentMember.isOwner">
-                <label for="checkIn" class="custom-control-label">Darf einbuchen</label>
-              </div>
-              <div class="custom-control custom-checkbox mt-1 mb-1">
-                <input type="checkbox" class="custom-control-input" id="checkOut"
-                       [checked]="currentMember.checkOut || currentMember.isOwner"
-                       (change)="currentMember.checkOut = !currentMember.checkOut"
-                       [disabled]="currentMember.isOwner">
-                <label for="checkOut" class="custom-control-label">Darf ausbuchen</label>
+                <label for="checkIn" class="custom-control-label">Darf Scannen</label>
               </div>
               <div class="custom-control custom-checkbox mt-1 mb-1">
                 <input type="checkbox" class="custom-control-input" id="editArticleSettings"
@@ -87,10 +78,10 @@
               </div>
               <div class="custom-control custom-checkbox mt-1 mb-2">
                 <input type="checkbox" class="custom-control-input" id="invite"
-                       [checked]="currentMember.invite || currentMember.isOwner"
-                       (change)="currentMember.invite = !currentMember.invite"
+                       [checked]="currentMember.manageUsers || currentMember.isOwner"
+                       (change)="currentMember.manageUsers = !currentMember.manageUsers"
                        [disabled]="currentMember.isOwner">
-                <label for="invite" class="custom-control-label">Darf Mitglieder einladen</label>
+                <label for="invite" class="custom-control-label">Darf Mitglieder verwalten</label>
               </div>
             </div>
 

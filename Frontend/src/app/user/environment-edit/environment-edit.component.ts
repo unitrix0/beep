@@ -6,6 +6,7 @@ import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
 import {DataService} from '../../_services/data.service';
 import {AlertifyService} from '../../_services/alertify.service';
+import {PermissionsService} from '../../_services/permissions.service';
 
 @Component({
   selector: 'app-environment-edit',
@@ -15,11 +16,13 @@ import {AlertifyService} from '../../_services/alertify.service';
 export class EnvironmentEditComponent implements OnInit {
   @Input() environments: BeepEnvironment[];
   @Input() userId: number;
+  members: Permission[];
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
   modalRef: BsModalRef;
 
-  constructor(private data: DataService, private alertify: AlertifyService, private modalSvc: BsModalService) {
+  constructor(private data: DataService, private alertify: AlertifyService, private modalSvc: BsModalService,
+              private permissions: PermissionsService) {
   }
 
   ngOnInit() {
@@ -27,11 +30,16 @@ export class EnvironmentEditComponent implements OnInit {
 
   selectEnvironment(environmentIdx: number) {
     this.currentEnvironment = this.environments[environmentIdx];
-    this.currentMember = this.currentEnvironment.permissions[0];
+    this.data.getEnvironmentPermissions(this.currentEnvironment.id, this.userId)
+      .subscribe(value => {
+        this.members = value;
+      }, error => {
+        this.alertify.error('Berechtigungen konnten nicht abgefragt werden: ' + error.message);
+      });
   }
 
   selectUser(userIdx: number) {
-    this.currentMember = this.currentEnvironment.permissions[userIdx];
+    this.currentMember = this.members[userIdx];
   }
 
   savePermissions() {
@@ -83,8 +91,8 @@ export class EnvironmentEditComponent implements OnInit {
   removeMember() {
     this.data.removeMember(this.userId, this.currentEnvironment.id, this.currentMember.userId)
       .subscribe(value => {
-        this.currentEnvironment.permissions.splice(
-          this.currentEnvironment.permissions.indexOf(this.currentMember), 1);
+        this.members.splice(
+          this.members.indexOf(this.currentMember), 1);
 
         this.alertify.success('Benutzer entfernt');
       }, error => {

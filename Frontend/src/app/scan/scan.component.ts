@@ -28,7 +28,7 @@ export class ScanComponent implements OnInit {
 
   ngOnInit() {
     this.data.updateInvitationsCount(this.auth.decodedToken.nameid);
-    this.data.GetEnvironments(this.auth.decodedToken.nameid)
+    this.data.getEnvironments(this.auth.decodedToken.nameid)
       .subscribe(value => {
         this.environments = value;
         this.activeEnvironment = this.environments.find(e => e.id.toString() === this.auth.decodedToken.environment_id).name;

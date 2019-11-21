@@ -93,7 +93,14 @@ export class DataService {
     return this.http.delete(this.baseUrl + 'RemoveUser/' + userId, {params: params});
   }
 
-  GetEnvironments(userId: number): Observable<BeepEnvironment[]> {
+  getEnvironments(userId: number): Observable<BeepEnvironment[]> {
     return this.http.get<BeepEnvironment[]>(this.baseUrl + 'GetEnvironments/' + userId);
+  }
+
+  getEnvironmentPermissions(environmentId: number, userId: number): Observable<Permission[]> {
+    const params = new HttpParams()
+      .append('environmentId', environmentId.toString());
+
+    return this.http.get<Permission[]>(this.baseUrl + 'GetEnvironmentPermissions/' + userId, {params: params});
   }
 }

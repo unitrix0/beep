@@ -3,10 +3,7 @@ export interface Permission {
   username: string;
 
   isOwner: boolean;
-  canView: boolean;
-  checkIn: boolean;
-  checkOut: boolean;
+  canScan: boolean;
   editArticleSettings: boolean;
-  invite: boolean;
-  removeMember: boolean;
+  manageUsers: boolean;
 }

@@ -19,18 +19,19 @@
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none' &&
-                     permissions.hasPermissionOr(permissions.flags.checkIn, permissions.flags.isOwner)"
+                     permissions.hasPermissionOr(permissions.flags.canScan, permissions.flags.isOwner)"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Ausbuchen'" [description]="'Artikel wurde aufgebraucht'"
                      [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none' &&
-                     permissions.hasPermissionOr(permissions.flags.checkOut, permissions.flags.isOwner)"
+                     permissions.hasPermissionOr(permissions.flags.canScan, permissions.flags.isOwner)"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [modeName]="'Geöffnet'" [description]="'Artikel wurde geöffnet'"
-                     [icon]="'fa-box-open'" [enabled]="scanMode == 'none'"
+                     [icon]="'fa-box-open'" [enabled]="scanMode == 'none' &&
+                     permissions.hasPermissionOr(permissions.flags.canScan, permissions.flags.isOwner)"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
   </div>
