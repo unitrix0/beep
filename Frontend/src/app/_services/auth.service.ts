@@ -68,11 +68,11 @@ export class AuthService {
     return this.http.get<boolean>(this.baseUrl + 'UserExists/' + this.decodedToken.nameid, {params: params});
   }
 
-  updatePermissions(newEnvironmentId: number): Observable<void> {
+  updatePermissionClaims(newEnvironmentId: number): Observable<void> {
     const params = new HttpParams()
       .append('environmentId', newEnvironmentId.toString());
 
-    return this.http.post(this.baseUrl + 'UpdatePermissions/' + this.decodedToken.nameid, {}, {params: params})
+    return this.http.post(this.baseUrl + 'UpdatePermissionClaims/' + this.decodedToken.nameid, {}, {params: params})
       .pipe(
         map((response: any) => {
           if (response) {

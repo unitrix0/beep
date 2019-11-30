@@ -60,7 +60,7 @@ export class ScanComponent implements OnInit {
   }
 
   changeEnvironment(newEnvironmentId: number) {
-    this.auth.updatePermissions(newEnvironmentId)
+    this.auth.updatePermissionClaims(newEnvironmentId)
       .subscribe(value => {
         this.activeEnvironment = this.environments.find(e => e.id === newEnvironmentId).name;
       }, error => {
