@@ -28,8 +28,8 @@ export class DataService {
     return this.http.get<User>(this.baseUrl + userId);
   }
 
-  updateUserPermissions(environmentId: number, newPermissions: Permission): Observable<object> {
-    return this.http.put(this.baseUrl + 'UpdatePermission/', newPermissions);
+  setPermission(environmentId: number, newPermissions: Permission): Observable<object> {
+    return this.http.put(this.baseUrl + 'SetPermission/', newPermissions);
   }
 
   addEnvironment(userId: number): Observable<Object> {

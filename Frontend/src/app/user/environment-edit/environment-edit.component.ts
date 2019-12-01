@@ -43,7 +43,7 @@ export class EnvironmentEditComponent implements OnInit {
   }
 
   savePermissions() {
-    this.data.updateUserPermissions(this.currentEnvironment.id, this.currentMember)
+    this.data.setPermission(this.currentEnvironment.id, this.currentMember)
       .subscribe(value => {
         this.alertify.success('Success');
       }, error => {
