@@ -1,18 +1,9 @@
 <div class="container">
   <div class="row justify-content-end">
     <div class="col-4 mt-4 text-right">
-      <label for="button-basic"
+      <label for="environmentSelector"
              class="d-inline-block mr-1 text-light"><small><strong>Umgebung: </strong></small></label>
-      <div class="btn-group" dropdown>
-        <button id="button-basic" dropdownToggle type="button" class="btn btn-dark  btn-sm dropdown-toggle"
-                aria-controls="dropdown-basic"> {{activeEnvironment}} <span class="caret"></span>
-        </button>
-        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-          <li role="menuitem" *ngFor="let env of environments">
-            <div class="dropdown-item" (click)="changeEnvironment(env.id)">{{env.name}}</div>
-          </li>
-        </ul>
-      </div>
+      <app-environment-selector id="environmentSelector"></app-environment-selector>
     </div>
   </div>
   <div class="row mt-3">

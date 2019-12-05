@@ -1,82 +1,82 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-sm-8"><h2 class="text-body">Mousse Chocolat</h2></div>
-    <div class="col-sm-4 align-text-bottom"><h4 class="float-right text-body">Neuer Artikel</h4></div>
-  </div>
-  <!--  <div class="row">-->
-  <!--    <div class="col-sm-4"></div>-->
-  <!--    <div class="col-sm-8"><div class="alert alert-info mt-1">Unsaved Changes</div></div>-->
-  <!--  </div>-->
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="card bg-dark">
-        <img src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-             alt="" class="card-img-top">
-        <div class="card-body">
-          <div class="form-group">
-            <label for="storeSelector">Gekauft bei</label>
-            <select name="" id="storeSelector" class="form-control bg-dark text-light h-auto border-secondary">
-              <option value="">Migros</option>
-              <option value="">Coop</option>
-              <option value="">Spar</option>
-              <option value="">Denner</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="articleGroupSelector">Artikel Gruppe</label>
-            <select name="" id="articleGroupSelector" class="form-control bg-dark text-light h-auto border-secondary">
-              <option value="">Confiture</option>
-              <option value="">Zahnpasta</option>
-            </select>
-            <a href="#" class="float-right small text-info ">Neue Gruppe</a>
-          </div>
+<div class="row">
+  <div class="col">
+    <div class="form-group float-right d-flex">
 
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-9">
-      <div class="border-secondary" style="padding: 10px;">
-        <form>
-          <h4 class="text-body">Lager</h4>
-          <div class="ml-2 mb-4">
-            <div class="form-group">
-              <label for="stockAmount">Anzahl an Lager halten</label>
-              <input type="text" class="form-control bg-dark text-light" id="stockAmount" style="width: 50px">
-              <small class="form-text text-muted" id="keepStockHelp">0 wenn der Artikel nicht vorrätig sein soll</small>
-            </div>
-            <div class="form-group">
-              <label for="keepStockMode">Modus</label>
-              <select name="" id="keepStockMode" class="form-control bg-dark text-light h-auto" style="width: 200px">
-                <option value="">Artikel</option>
-                <option value="">Artikelgruppe</option>
-              </select>
-              <small class="form-text text-muted" id="stockModeHelp">Soll dieser Artikel oder die Artikelgruppe <br>auf
-                die Einkaufsliste gesetzt werden
-              </small>
-            </div>
-          </div>
-
-          <h4 class="text-body">Zustand</h4>
-          <div class="ml-2">
-            <div class="form-group">
-              <label for="openedAtDate"> Geöffnet am </label>
-              <input type="text" class="form-control-plaintext  bg-dark" readonly="" id="openedAtDate"
-                     style="width: 200px">
-              <small class="form-text text-muted" id="openedAtHelp">Leer lassen wenn ungeöffnet</small>
-            </div>
-            <div class="form-group">
-              <label for="datePicker">Ablaufdatum</label>
-              <input type="text" class="form-control bg-dark" bsDatepicker id="datePicker" placement="right"
-                     [bsConfig]="{containerClass:'theme-default'}" style="width: 200px">
-            </div>
-          </div>
-        </form>
-      </div>
+      <label for="keepStockMode" class="d-inline mt-1 mr-2">Modus:</label>
+      <select name="" id="keepStockMode" class="form-control form-control-sm" style="width: 200px;">
+        <option value="">Artikel vorrätig halten</option>
+        <option value="">Artikelgruppe vorrätig halten</option>
+      </select>
     </div>
   </div>
-  <div class="row mt-3 float-right">
-    <div class="col">
-      <button class="btn btn-success">Speichern</button>
-    </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <img src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
+         alt="" class="card-img">
   </div>
+  <div class="col">
+    <table class="table table-sm table-hover table-striped border-bottom border-light">
+      <thead>
+      <tr>
+        <th scope="col">Anz.</th>
+        <th scope="col">Ablaufdatum</th>
+        <th scope="col">Füllstand</th>
+        <th scope="col" class="text-center">Geöffnet</th>
+        <th scope="col" class="text-center">Entsorgen</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1</td>
+        <td>15.12.2019</td>
+        <td>0.75</td>
+        <td class="text-center">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+            <label class="custom-control-label" for="customCheck1"></label>
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="fas fa-trash-alt"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>7.1.2019</td>
+        <td>N/A</td>
+        <td class="text-center">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck2">
+            <label class="custom-control-label" for="customCheck2"></label>
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="fas fa-trash-alt"></div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col">Total: 3 Stk</div>
+  <div class="col">
+    <ul class="pagination pagination-sm justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link" href="#">&laquo;</a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link" href="#">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">2</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col"></div>
 </div>

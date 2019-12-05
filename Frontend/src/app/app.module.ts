@@ -19,7 +19,7 @@ import {ArticleCardComponent} from './articles/article-card/article-card.compone
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {ArticlesResolver} from './_resolvers/articles.resolver';
 import {EditUserResolver} from './_resolvers/edit-user.resolver';
-import {DataService} from './_services/data.service';
+import {UsersService} from './_services/users.service';
 import {UserComponent} from './user/user.component';
 import {JwtModule} from '@auth0/angular-jwt';
 import {RegistrationComponent} from './registration/registration.component';
@@ -34,10 +34,15 @@ import {ValidateInvitationRecipientDirective} from './_helpers/validate-invitati
 import {ResetScanService} from './_services/reset-scan.service';
 import {CodeScannerComponent} from './scan/code-scanner/code-scanner.component';
 import {CheckInComponent} from './scan/check-in/check-in.component';
-import { ShowOnPermissionDirective } from './_directives/show-on-permission.directive';
+import {ShowOnPermissionDirective} from './_directives/show-on-permission.directive';
 import {PermissionsService} from './_services/permissions.service';
-import { EnvironmentEditComponent } from './user/environment-edit/environment-edit.component';
-import { ProfileComponent } from './user/profile/profile.component';
+import {EnvironmentEditComponent} from './user/environment-edit/environment-edit.component';
+import {ProfileComponent} from './user/profile/profile.component';
+import {NameOrBarcodeComponent} from './articles/Sidebar/name-or-barcode.component';
+import {ArticleFilterComponent} from './articles/Sidebar/article-filter.component';
+import { EnvironmentFilterComponent } from './articles/Sidebar/environment-filter.component';
+import { EnvironmentSelectorComponent } from './environment-selector/environment-selector.component';
+import { PaginationComponent } from './articles/Sidebar/pagination.component';
 
 
 export function jwtGetter() {
@@ -69,6 +74,11 @@ registerLocaleData(localeCh, 'de-CH');
     ShowOnPermissionDirective,
     EnvironmentEditComponent,
     ProfileComponent,
+    NameOrBarcodeComponent,
+    ArticleFilterComponent,
+    EnvironmentFilterComponent,
+    EnvironmentSelectorComponent,
+    PaginationComponent
   ],
   imports: [
     HttpClientModule,
@@ -91,7 +101,7 @@ registerLocaleData(localeCh, 'de-CH');
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},
     AuthService,
-    DataService,
+    UsersService,
     ArticlesResolver,
     EditUserResolver,
     InvitationsResolver,
@@ -100,7 +110,8 @@ registerLocaleData(localeCh, 'de-CH');
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    InviteDialogComponent
+    InviteDialogComponent,
+    ArticleEditComponent
   ]
 })
 export class AppModule {

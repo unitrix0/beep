@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {InvitationListItem} from '../_models/invitationListItem';
 import {ActivatedRoute} from '@angular/router';
-import {DataService} from '../_services/data.service';
+import {UsersService} from '../_services/users.service';
 import {AuthService} from '../_services/auth.service';
 import {AlertifyService} from '../_services/alertify.service';
 import {UserInvitations} from '../_models/user-invitations';
@@ -15,7 +15,7 @@ export class InvitationsComponent implements OnInit {
   invitationsReceived: InvitationListItem[];
   invitationsSent: InvitationListItem[];
 
-  constructor(private route: ActivatedRoute, private data: DataService, private authService: AuthService,
+  constructor(private route: ActivatedRoute, private data: UsersService, private authService: AuthService,
               private alertify: AlertifyService) {
   }
 

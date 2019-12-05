@@ -1,3 +1,7 @@
-.card-img-top{
+.card-img{
   max-width: 250px;
+}
+editSize{
+  width: 700px;
+  height: 450px
 }

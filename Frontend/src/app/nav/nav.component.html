@@ -13,7 +13,8 @@
           <a class="nav-link" [routerLink]="'/'"><i class="fas fa-receipt mr-1"></i>Scan</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="'/articles'"><i class="fas fa-box mr-1"></i>Artikel</a>
+          <a class="nav-link" [routerLink]="['/articles/', authService.decodedToken.environment_id]"><i
+            class="fas fa-box mr-1"></i>Artikel</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="'/shopping-list'"><i class="fas fa-shopping-cart mr-1"></i>Einkaufsliste</a>
@@ -31,7 +32,8 @@
           role="menu" aria-labelledby="button-basic">
         <li role="menuitem">
           <a class="dropdown-item" [routerLink]="['users/', authService.decodedToken.nameid,'invitations']">
-            Einladungen<span class="badge badge-pill badge-success ml-1" *ngIf="invitationsCount > 0">{{invitationsCount}}</span>
+            Einladungen
+            <span class="badge badge-pill badge-success ml-2" *ngIf="invitationsCount > 0">{{invitationsCount}}</span>
           </a>
         </li>
         <li role="menuitem">

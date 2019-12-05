@@ -13,15 +13,11 @@ import {BeepEnvironment} from '../_models/beep-environment';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class UsersService {
   baseUrl = environment.apiUrl + 'users/';
   invitationsCountUpdated = new EventEmitter<number>();
 
   constructor(private http: HttpClient) {
-  }
-
-  getArticles(pageNumber: number, pageSize: number): Observable<PaginatedResult<Article[]>> {
-    return new Observable<PaginatedResult<Article[]>>();
   }
 
   getUser(userId: number): Observable<User> {

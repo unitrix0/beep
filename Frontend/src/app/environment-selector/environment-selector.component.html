@@ -1,0 +1,11 @@
+<div class="btn-group" dropdown>
+  <button id="environmentSelector" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"
+          [ngClass]="small ? 'btn-sm':''"
+          aria-controls="dropdown-basic"> {{activeEnvironment}} <span class="caret"></span>
+  </button>
+  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="environmentSelector">
+    <li role="menuitem" *ngFor="let env of environments">
+      <div class="dropdown-item" (click)="changeEnvironment(env.id)">{{env.name}}</div>
+    </li>
+  </ul>
+</div>

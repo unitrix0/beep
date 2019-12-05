@@ -1,10 +1,17 @@
 <div class="card bg-dark mb-4">
-  <div class="card-header fas fa-sliders-h text-right"></div>
-  <img src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-       alt="" class="card-img-top">
-  <div class="card-body text-center">
-    <h5 class="card-title text-light">Mousse Chocolat</h5>
-    <div class="row">
+  <div class="card-header">
+    <h5 class="text-light d-inline" *ngIf="edit">{{article.name}}</h5>
+    <i class="fas fa-sliders-h float-right" (click)="editArticleSettings()"  style="cursor: pointer" *ngIf="!edit"></i>
+    <i class="fas fa-times float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="edit"></i>
+  </div>
+  <img [src]="article.imageUrl"
+       alt="" class="card-img" *ngIf="!edit">
+  <div class="card-body">
+    <h5 class="card-text text-light" *ngIf="!edit">{{article.name}}</h5>
+    <app-article-edit *ngIf="edit"></app-article-edit>
+  </div>
+  <div class="card-footer" *ngIf="!edit">
+    <div class="row text-center">
       <div class="col-4 fas fa-angle-double-down fa-2x"></div>
       <div class="col-4 fas fa-trash-alt fa-2x"></div>
       <div class="col-4 fas fa-box-open fa-2x"></div>

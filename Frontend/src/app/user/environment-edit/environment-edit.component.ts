@@ -4,7 +4,7 @@ import {Permission} from '../../_models/permission';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
-import {DataService} from '../../_services/data.service';
+import {UsersService} from '../../_services/users.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {PermissionsService} from '../../_services/permissions.service';
 
@@ -21,7 +21,7 @@ export class EnvironmentEditComponent implements OnInit {
   currentMember: Permission;
   modalRef: BsModalRef;
 
-  constructor(private data: DataService, private alertify: AlertifyService, private modalSvc: BsModalService,
+  constructor(private data: UsersService, private alertify: AlertifyService, private modalSvc: BsModalService,
               private permissions: PermissionsService) {
   }
 

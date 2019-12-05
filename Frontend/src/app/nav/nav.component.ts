@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserForLogin} from '../_models/user-for-login';
 import {Router} from '@angular/router';
 import {AlertifyService} from '../_services/alertify.service';
-import {DataService} from '../_services/data.service';
+import {UsersService} from '../_services/users.service';
 import {AuthService} from '../_services/auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class NavComponent {
   };
   invitationsCount: any;
 
-  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService, private data: DataService) {
+  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService, private data: UsersService) {
     this.data.invitationsCountUpdated.subscribe(count => {
       this.invitationsCount = count;
     });

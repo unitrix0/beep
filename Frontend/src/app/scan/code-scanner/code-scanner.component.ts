@@ -24,7 +24,7 @@ export class CodeScannerComponent implements OnInit {
 
   startScan() {
     this.scanner.updateVideoInputDevices().then(value1 => {
-      this.scanner.device = value1[2]; // TODO Device aus settings
+      this.scanner.device = value1[0]; // TODO Device aus settings
     });
     this.scanner.askForPermission().then(value => {
       console.log('Permissions response: ' + value);
