@@ -33,7 +33,6 @@ import {InviteDialogComponent} from './user/invite-dialog/invite-dialog.componen
 import {ValidateInvitationRecipientDirective} from './_helpers/validate-invitation-recipient.directive';
 import {ResetScanService} from './_services/reset-scan.service';
 import {CodeScannerComponent} from './scan/code-scanner/code-scanner.component';
-import {CheckInComponent} from './scan/check-in/check-in.component';
 import {ShowOnPermissionDirective} from './_directives/show-on-permission.directive';
 import {PermissionsService} from './_services/permissions.service';
 import {EnvironmentEditComponent} from './user/environment-edit/environment-edit.component';
@@ -43,6 +42,9 @@ import {ArticleFilterComponent} from './articles/Sidebar/article-filter.componen
 import { EnvironmentFilterComponent } from './articles/Sidebar/environment-filter.component';
 import { EnvironmentSelectorComponent } from './environment-selector/environment-selector.component';
 import { PaginationComponent } from './articles/Sidebar/pagination.component';
+import { ArticleUserSettingsComponent } from './articles/article-user-settings/article-user-settings.component';
+import { ArticleStockComponent } from './articles/article-stock/article-stock.component';
+import {ArticlesService} from './_services/articles.service';
 
 
 export function jwtGetter() {
@@ -70,7 +72,6 @@ registerLocaleData(localeCh, 'de-CH');
     InviteDialogComponent,
     ValidateInvitationRecipientDirective,
     CodeScannerComponent,
-    CheckInComponent,
     ShowOnPermissionDirective,
     EnvironmentEditComponent,
     ProfileComponent,
@@ -78,7 +79,9 @@ registerLocaleData(localeCh, 'de-CH');
     ArticleFilterComponent,
     EnvironmentFilterComponent,
     EnvironmentSelectorComponent,
-    PaginationComponent
+    PaginationComponent,
+    ArticleUserSettingsComponent,
+    ArticleStockComponent
   ],
   imports: [
     HttpClientModule,
@@ -88,6 +91,8 @@ registerLocaleData(localeCh, 'de-CH');
         tokenGetter: jwtGetter,
         whitelistedDomains: ['localhost:5000', 'localhost:5001'],
         blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:5001/api/auth']
+        // whitelistedDomains: ['drone02:5000', 'drone02:5001'],
+        // blacklistedRoutes: ['drone02:5000/api/auth', 'drone02:5001/api/auth']
       }
     }),
     FormsModule,
@@ -106,7 +111,8 @@ registerLocaleData(localeCh, 'de-CH');
     EditUserResolver,
     InvitationsResolver,
     ResetScanService,
-    PermissionsService
+    PermissionsService,
+    ArticlesService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component(
   {
@@ -8,4 +8,22 @@ import {Component} from '@angular/core';
   })
 
 export class ArticleFilterComponent {
+  @Input() storeId: number;
+  @Output() storeIdChange = new EventEmitter();
+  @Input() keepOnStock: boolean;
+  @Output() keepOnStockChange = new EventEmitter();
+  @Input() isOnStock: boolean;
+  @Output() isOnStockChange = new EventEmitter();
+  @Input() isOpened: boolean;
+  @Output() isOpenedChange = new EventEmitter();
+
+  @Output() setFilter = new EventEmitter();
+
+  constructor() {
+  }
+
+
+  emitSetFilter() {
+    this.setFilter.emit();
+  }
 }

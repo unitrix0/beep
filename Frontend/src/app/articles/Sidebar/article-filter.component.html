@@ -1,40 +1,38 @@
 <div class="card bg-dark mb-3">
   <h5 class="card-header bg-info text-light">Filter</h5>
-  <form action="">
-    <div class="card-body">
+  <div class="card-body">
 
-      <div class="form-group">
-        <label for="storeSelector">Gekauft bei</label>
-        <select class="form-control form-control-sm" id="storeSelector">
-          <option>Migros</option>
-          <option>Coop</option>
-          <option>Spar</option>
-          <option>Denner</option>
-        </select>
-      </div>
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="isOpened" checked="">
-        <label class="custom-control-label" for="isOpened">Ist geöffnet</label>
-      </div>
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="keepOnStock" checked="">
-        <label class="custom-control-label" for="keepOnStock">An Lager halten</label>
-      </div>
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="isOnStock" checked="">
-        <label class="custom-control-label" for="isOnStock">Ist verfügbar</label>
-      </div>
-
+    <div class="form-group">
+      <label for="storeSelector">Gekauft bei</label>
+      <select class="form-control form-control-sm" id="storeSelector" [(ngModel)]="storeId" (change)="storeIdChange.emit(storeId)">
+        <option value="1">Migros</option>
+        <option value="2">Coop</option>
+        <option value="3">Spar</option>
+        <option value="4">Denner</option>
+      </select>
     </div>
-    <div class="card-footer">
-      <div class="row">
-        <div class="col-6">
-          <div class="btn btn-secondary btn-sm">Löschen</div>
-        </div>
-        <div class="col-6 text-right">
-          <div class="btn btn-success btn-sm">Setzen</div>
-        </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="isOpened" [(ngModel)]="isOpened" (change)="isOpenedChange.emit(isOpened)">
+      <label class="custom-control-label" for="isOpened">Ist geöffnet</label>
+    </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="keepOnStock" [(ngModel)]="keepOnStock" (change)="keepOnStockChange.emit(keepOnStock)">
+      <label class="custom-control-label" for="keepOnStock">An Lager halten</label>
+    </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="isOnStock" [(ngModel)]="isOnStock" (change)="isOpenedChange.emit(isOnStock)">
+      <label class="custom-control-label" for="isOnStock">Ist verfügbar</label>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-6">
+        <div class="btn btn-secondary btn-sm">Löschen</div>
+      </div>
+      <div class="col-6 text-right">
+        <div class="btn btn-success btn-sm" (click)="emitSetFilter()">Setzen</div>
       </div>
     </div>
-  </form>
+  </div>
 </div>

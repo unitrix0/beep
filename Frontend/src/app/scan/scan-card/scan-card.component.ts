@@ -16,7 +16,7 @@ export class ScanCardComponent implements OnInit {
   @Output() scanTimedOut = new EventEmitter();
 
   doScan = false;
-  private scanTimeout = 30;
+  private scanTimeout = 15;
   private timeoutCounter = 0;
   private timeoutProgress: number;
   private timer: Timer;

@@ -12,29 +12,42 @@ export class CodeScannerComponent implements OnInit {
   scanner: ZXingScannerComponent;
 
   private lastCode: string;
+  private beep;
+  private suspended: boolean;
 
   constructor() {
+    this.beep = new Audio();
+    this.beep.src = '../../../assets/Beep.mp3';
+    this.beep.load();
   }
 
   ngOnInit() {
-    this.scanner.updateVideoInputDevices().then(value => {
-      console.log(value);
-    });
   }
 
   startScan() {
     this.scanner.updateVideoInputDevices().then(value1 => {
+      console.log(value1[0]);
       this.scanner.device = value1[0]; // TODO Device aus settings
     });
     this.scanner.askForPermission().then(value => {
       console.log('Permissions response: ' + value);
+      if (value) {
+        this.scanner.tryHarder = true;
+      }
     });
+  }
+
+  stopScan() {
+    this.scanner.device = null;
+    this.scanner.reset();
   }
 
   private scanSuccess(newCode: string) {
     if (this.lastCode === newCode) {
       return;
     }
+    this.beep.play();
+    console.log('new code: ' + newCode);
     this.lastCode = newCode;
     this.barcodeDetected.emit(newCode);
   }

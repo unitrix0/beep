@@ -2,11 +2,10 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {UsersService} from '../_services/users.service';
 import {ResetScanService} from '../_services/reset-scan.service';
 import {CodeScannerComponent} from './code-scanner/code-scanner.component';
-import {CheckInComponent} from './check-in/check-in.component';
-import {BeepEnvironment} from '../_models/beep-environment';
 import {AlertifyService} from '../_services/alertify.service';
 import {AuthService} from '../_services/auth.service';
 import {PermissionsService} from '../_services/permissions.service';
+import {ArticlesService} from '../_services/articles.service';
 
 @Component({
   selector: 'app-scan',
@@ -15,33 +14,45 @@ import {PermissionsService} from '../_services/permissions.service';
 })
 export class ScanComponent implements OnInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
-  @ViewChild(CheckInComponent) checkIn: CheckInComponent;
 
   scanMode = 'none';
+  hasPermission: boolean;
 
-  constructor(private data: UsersService, private auth: AuthService, private resetScan: ResetScanService,
-              private changeDetector: ChangeDetectorRef, private alertify: AlertifyService, private permissions: PermissionsService) {
+  constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
+              private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
+              private permissions: PermissionsService) {
   }
 
   ngOnInit() {
-    this.data.updateInvitationsCount(this.auth.decodedToken.nameid);
+    this.usrService.updateInvitationsCount(this.auth.decodedToken.nameid);
+    this.hasPermission = this.permissions.hasPermissionOr(this.permissions.flags.canScan, this.permissions.flags.isOwner);
   }
 
 
   startScan(newMode: string) {
     this.scanMode = newMode;
-    this.changeDetector.detectChanges();
+    this.changeDetector.detectChanges(); // Damit ViwChild referenz funktioniert
     console.log('start Scanning: ' + newMode);
     this.scanner.startScan();
   }
 
   scanTimeout() {
-    this.scanMode = 'none';
     console.log('scan timeout');
+    this.scanner.stopScan();
+    this.scanMode = 'none';
   }
 
   barcodeDetected(result: string) {
-    this.checkIn.code = result;
+    console.log(this.auth.decodedToken);
+    this.articles.lookupArticle(result, this.auth.decodedToken.environment_id)
+      .subscribe(value => {
+        console.log(value);
+      }, error => {
+        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
+      });
+    // 1. Stop scan
+    // 2. lookup barcode in DB
+    // 3.
     this.resetScanTimeout();
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {PaginatedResult} from '../_models/pagination';
+import {PaginatedResult, Pagination} from '../_models/pagination';
 import {Article} from '../_models/article';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -20,7 +20,6 @@ export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
     return this.dataService.getArticles(environmentId, this.pageNumber, this.pageSize).pipe(
       catchError(err => {
         this.alertify.error('Fehler beim Abfragen der Daten: ' + err.message);
-        this.router.navigate(['/']);
         return of(null);
       })
     );

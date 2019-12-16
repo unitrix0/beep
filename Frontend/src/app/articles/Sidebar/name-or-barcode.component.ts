@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component(
   {
@@ -8,4 +8,7 @@ import {Component} from '@angular/core';
   })
 
 export class NameOrBarcodeComponent {
+  @Input() nameOrEan: string;
+  @Output() nameOrEanChange = new EventEmitter();
+
 }

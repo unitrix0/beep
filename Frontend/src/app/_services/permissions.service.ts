@@ -13,6 +13,8 @@ export class PermissionsService {
   public flags = PermissionFlags;
   private readonly userPermissions: number;
 
+  private cnt: number = 0;
+
   constructor(authService: AuthService) {
     this.userPermissions = parseInt(authService.decodedToken.permissions, 2);
   }
@@ -25,7 +27,12 @@ export class PermissionsService {
     let flags: PermissionFlags;
     orFlags.forEach(f => flags |= f);
 
-    console.log('Permission Check: ' + this.userPermissions + ' & ' + flags + ' => ' + (this.userPermissions & flags));
+    if (this.cnt > 20) {
+      this.cnt = 0;
+      console.trace();
+      console.log('Permission Check (' + this.cnt + ') ' + this.userPermissions + ' & ' + flags + ' => ' + (this.userPermissions & flags));
+    }
+    this.cnt++;
     return (this.userPermissions & flags) !== 0;
   }
 }
