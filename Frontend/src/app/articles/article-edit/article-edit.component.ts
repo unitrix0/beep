@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BsLocaleService, defineLocale, deLocale} from 'ngx-bootstrap';
-import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
+import {Article} from '../../_models/article';
+import {AlertifyService} from '../../_services/alertify.service';
 
 defineLocale('de', deLocale);
 
@@ -11,32 +12,26 @@ defineLocale('de', deLocale);
   styleUrls: ['./article-edit.component.css']
 })
 export class ArticleEditComponent implements OnInit {
-  tabStyle = {'height': '150px'};
-  private userSettings: ArticleUserSettings = new class implements ArticleUserSettings {
-    amountOnStock: number;
-    isOpened: boolean;
-    keepStockAmount: number;
-    keepStockMode: number;
-    openedOn: Date;
-    unitId: number;
-  };
-  article: Article = new class implements Article {
-    id: number;
-    userSettings: ArticleUserSettings = this.userSettings;
-    barcode: string;
-    groupId: number;
-    hasLifetime: boolean;
-    imageUrl: string;
-    name: string;
-    typicalLifetime: number;
-    unitId: number;
-  };
+  @Output() articleCreated = new EventEmitter<Article>();
+  @Input() article: Article;
 
-  constructor(private localeService: BsLocaleService, private articleData: ArticlesService) {
+  constructor(private localeService: BsLocaleService, private articleData: ArticlesService, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
     this.localeService.use('de');
   }
+
+  saveArticle() {
+    console.log(this.article);
+    this.articleData.saveArticle(this.article)
+      .subscribe(createdArticle => {
+        this.alertify.success('Artikel gespeichert');
+        this.articleCreated.emit(createdArticle);
+      }, error => {
+        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
+      });
+  }
+
 
 }

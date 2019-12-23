@@ -24,6 +24,7 @@ export class AlertifyService {
   }
 
   error(message: string) {
+    console.log(message);
     alertify.alert('Bepp!', message);
   }
 

@@ -19,6 +19,7 @@ export class CodeScannerComponent implements OnInit {
     this.beep = new Audio();
     this.beep.src = '../../../assets/Beep.mp3';
     this.beep.load();
+    this.beep.volume = 0.1; // TODO Settings
   }
 
   ngOnInit() {

@@ -6,6 +6,8 @@ import {AlertifyService} from '../_services/alertify.service';
 import {AuthService} from '../_services/auth.service';
 import {PermissionsService} from '../_services/permissions.service';
 import {ArticlesService} from '../_services/articles.service';
+import {ScanModes} from '../_enums/scan-modes.enum';
+import {Article} from '../_models/article';
 
 @Component({
   selector: 'app-scan',
@@ -14,9 +16,10 @@ import {ArticlesService} from '../_services/articles.service';
 })
 export class ScanComponent implements OnInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
-
-  scanMode = 'none';
-  hasPermission: boolean;
+  scanMode = ScanModes.none;
+  scannedArticle: Article;
+  private hasPermission: boolean;
+  private scanModes = ScanModes;
 
   constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
               private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
@@ -29,7 +32,7 @@ export class ScanComponent implements OnInit {
   }
 
 
-  startScan(newMode: string) {
+  startScan(newMode: ScanModes) {
     this.scanMode = newMode;
     this.changeDetector.detectChanges(); // Damit ViwChild referenz funktioniert
     console.log('start Scanning: ' + newMode);
@@ -39,24 +42,40 @@ export class ScanComponent implements OnInit {
   scanTimeout() {
     console.log('scan timeout');
     this.scanner.stopScan();
-    this.scanMode = 'none';
+    this.scanMode = ScanModes.none;
   }
 
-  barcodeDetected(result: string) {
-    console.log(this.auth.decodedToken);
-    this.articles.lookupArticle(result, this.auth.decodedToken.environment_id)
-      .subscribe(value => {
-        console.log(value);
-      }, error => {
-        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
-      });
-    // 1. Stop scan
-    // 2. lookup barcode in DB
-    // 3.
+  barcodeDetected(barcode: string) {
+    switch (this.scanMode) {
+      case ScanModes.checkin:
+        this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
+          .subscribe(article => {
+            this.scannedArticle = article;
+            if (this.scannedArticle.id === 0) {
+              this.scannedArticle.barcode = barcode;
+            }
+            if (this.scannedArticle.articleUserSettings.id === 0) {
+              this.scannedArticle.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
+            }
+            console.log(this.scannedArticle);
+          }, error => {
+            this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
+          });
+        break;
+      case ScanModes.checkout:
+        break;
+      case ScanModes.open:
+        break;
+    }
     this.resetScanTimeout();
+    this.scanner.stopScan();
   }
 
   resetScanTimeout() {
     this.resetScan.reset.emit(this.scanMode);
+  }
+
+  newArticleCreated(newArticle: Article) {
+    this.scannedArticle = newArticle;
   }
 }

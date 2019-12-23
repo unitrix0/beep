@@ -1,0 +1,21 @@
+.no-round-corners{
+  border-radius: 0rem;
+}
+.circle:before {
+  position: relative;
+  top: 6px;
+  content: ' \25CF';
+  font-size: 8px;
+}
+
+.circle-transparent:before {
+  color: transparent;
+  position: relative;
+  top: 5px;
+  content: ' \25CF';
+  font-size: 10px;
+}
+
+.button-group-spacer{
+  margin-right: 2.45rem;
+}

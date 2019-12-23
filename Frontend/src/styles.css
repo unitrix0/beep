@@ -5,6 +5,19 @@
 @import "../node_modules/alertifyjs/build/css/alertify.min.css";
 @import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
 
-select.form-control-sm{
+select.form-control-sm {
   padding: 6px 10px;
+}
+
+.styled-input {
+  background: darkslategrey;
+  border: 1px solid lightslategrey;
+}
+
+label {
+  color: white;
+}
+
+.fas {
+  color: rgba(255, 255, 255, 0.5);
 }

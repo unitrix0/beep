@@ -9,7 +9,7 @@ import {Article} from '../../_models/article';
 export class ArticleCardComponent implements OnInit {
   @Input() article: Article;
 
-  edit = false;
+  edit = true;
 
   constructor() {
   }

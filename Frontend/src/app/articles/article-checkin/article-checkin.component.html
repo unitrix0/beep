@@ -1,0 +1,81 @@
+<form #checkInForm="ngForm" id="checkInForm" (ngSubmit)="saveStockEntry()">
+  <div class="row">
+    <div class="col">
+      <h5 class="text-light">{{article.name}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 text-center">
+      <img src="{{article.imageUrl}}" alt="" class="card-img" *ngIf="article.imageUrl != null ||article.imageUrl != ''">
+      <i class="fas fa-photo-video fa-9x" *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
+    </div>
+    <div class="col border-bottom border-light">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="stockAmount">Anzahl</label>
+              <div class="input-group w-25">
+                <input type="text" class="form-control form-control-sm" id="stockAmount" name="stockAmount" required
+                       [(ngModel)]="stockEntry.stockAmount">
+                <div class="input-group-append">
+                  <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>
+                  <button class="btn btn-sm btn-info fas fa-plus" type="button" (click)="adjustAmount('+')"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="dateGroup">Ablaufdatum</label>
+              <div class="input-group input-group-sm" id="dateGroup">
+                <input type="text" class="form-control no-round-corners" name="expireDateDay" required
+                       [ngModel]="stockEntry.expireDate | date:'dd'">
+                <div class="input-group-append">
+                  <span class="input-group-text circle"></span>
+                </div>
+                <input type="text" class="form-control" name="expireDateMonth" required
+                       [ngModel]="stockEntry.expireDate | date:'MM'">
+                <div class="input-group-append">
+                  <span class="input-group-text circle"></span>
+                </div>
+                <input type="text" class="form-control no-round-corners" name="expireDateYear" required
+                       [ngModel]="stockEntry.expireDate | date:'yyyy'">
+              </div>
+              <div class="btn-toolbar ml-1 mt-1" role="toolbar">
+                <div class="btn-group button-group-spacer" role="group">
+                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                          (click)="decreaseExpireDate('d')"></button>
+                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                          (click)="increaseExpireDate('d')"></button>
+                </div>
+                <div class="btn-group button-group-spacer" role="group">
+                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                          (click)="decreaseExpireDate('m')"></button>
+                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                          (click)="increaseExpireDate('m')"></button>
+                </div>
+                <div class="btn-group" role="group">
+                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                          (click)="decreaseExpireDate('y')"></button>
+                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                          (click)="increaseExpireDate('y')"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-3"></div>
+    <div class="col">
+      <button class="btn btn-sm btn-danger">Verwerfen</button>
+      <button class="btn btn-sm btn-success float-right" form="checkInForm">Einbuchen</button>
+    </div>
+  </div>
+
+</form>

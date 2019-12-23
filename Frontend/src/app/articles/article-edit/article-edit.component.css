@@ -1,3 +1,9 @@
 .card-img{
-  max-width: 300px;
+  width: available;
+}
+
+tab{
+  min-height: 250px;
+  min-width: 410px;
+  border-bottom: white solid 1px;
 }

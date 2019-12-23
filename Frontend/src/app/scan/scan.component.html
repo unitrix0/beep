@@ -8,32 +8,36 @@
   </div>
   <div class="row mt-3">
     <div class="col-12 col-sm-4">
-      <app-scan-card [modeName]="'Einbuchen'" [description]="'Artikel wurde neu gekauft'"
-                     [icon]="'fa-angle-double-down'" [enabled]="scanMode == 'none' && hasPermission"
+      <app-scan-card [scanMode]="scanModes.checkin" [description]="'Artikel wurde neu gekauft'"
+                     [icon]="'fa-angle-double-down'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
-      <app-scan-card [modeName]="'Ausbuchen'" [description]="'Artikel wurde aufgebraucht'"
-                     [icon]="'fa-trash-alt'" [enabled]="scanMode == 'none' && hasPermission"
+      <app-scan-card [scanMode]="scanModes.checkout" [description]="'Artikel wurde aufgebraucht'"
+                     [icon]="'fa-trash-alt'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
-      <app-scan-card [modeName]="'Geöffnet'" [description]="'Artikel wurde geöffnet'"
-                     [icon]="'fa-box-open'" [enabled]="scanMode == 'none' && hasPermission"
+      <app-scan-card [scanMode]="scanModes.open" [description]="'Artikel wurde geöffnet'"
+                     [icon]="'fa-box-open'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
     </div>
   </div>
-<!--  *ngIf="scanMode != 'none'"-->
-  <div class="row mt-4" >
+  <div class="row mt-4" *ngIf="scanMode != 0">
     <div class="col-4">
       <app-code-scanner (barcodeDetected)="barcodeDetected($event)"></app-code-scanner>
     </div>
     <div class="col-8">
-      <app-article-edit></app-article-edit>
+      <app-article-edit [article]="scannedArticle" *ngIf="scannedArticle &&
+      (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
+                        (articleCreated)="newArticleCreated($event)">
+      </app-article-edit>
+      <app-article-checkin [article]="scannedArticle" *ngIf="scannedArticle &&
+      (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"></app-article-checkin>
     </div>
   </div>
 
-  <div class="row" [ngClass]="scanMode == 'none'? 'mt-5' : 'mt-3'">
+  <div class="row" [ngClass]="scanMode == scanModes.none ? 'mt-5' : 'mt-3'">
     <div class="col-md-12">
       <h4 class="text-light">Letzte Aktivitäten</h4>
 

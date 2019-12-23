@@ -1,12 +1,9 @@
 export interface Article {
   id: number;
-  unitId: number;
-  imageUrl: string;
-  name: string;
   barcode: string;
-  typicalLifetime: number;
-  hasLifetime: boolean;
+  name: string;
   groupId: number;
-
-  userSettings: ArticleUserSettings;
+  hasLifetime: boolean;
+  imageUrl: string;
+  articleUserSettings: ArticleUserSettings;
 }

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ResetScanService} from '../../_services/reset-scan.service';
 import {Timer} from '../../_helpers/timer';
+import {ScanModes} from '../../_enums/scan-modes.enum';
 
 @Component({
   selector: 'app-scan-card',
@@ -9,10 +10,10 @@ import {Timer} from '../../_helpers/timer';
 })
 export class ScanCardComponent implements OnInit {
   @Input() icon: string;
-  @Input() modeName: string;
+  @Input() scanMode: ScanModes;
   @Input() description: string;
   @Input() enabled: boolean;
-  @Output() scanStarted = new EventEmitter<string>();
+  @Output() scanStarted = new EventEmitter<ScanModes>();
   @Output() scanTimedOut = new EventEmitter();
 
   doScan = false;
@@ -20,6 +21,7 @@ export class ScanCardComponent implements OnInit {
   private timeoutCounter = 0;
   private timeoutProgress: number;
   private timer: Timer;
+  private scanModes = ScanModes;
 
   constructor(private resetService: ResetScanService) {
   }
@@ -33,21 +35,21 @@ export class ScanCardComponent implements OnInit {
     if (!this.enabled) {
       return;
     }
-    this.scanStarted.emit(this.modeName);
+    this.scanStarted.emit(this.scanMode);
     this.doScan = true;
-    this.timer.start();
+    // this.timer.start();
   }
 
   private SubscribeResetService() {
-    this.resetService.reset.subscribe((scanMode: string) => {
-      if (scanMode !== this.modeName) {
+    this.resetService.reset.subscribe((scanMode: ScanModes) => {
+      if (scanMode !== this.scanMode) {
         return;
       }
-      console.log(this.modeName + ' got reset');
+      console.log(this.scanModes[this.scanMode] + ' got reset');
       this.timer.stop();
       this.timeoutProgress = 0;
       this.timeoutCounter = 0;
-      this.timer.start();
+      // this.timer.start();
     });
   }
 

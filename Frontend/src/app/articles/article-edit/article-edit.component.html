@@ -1,57 +1,92 @@
-<div class="row">
-  <div class="col">
-    <h5 class="text-white">{{article.name}}</h5>
+<form id="articleForm">
+  <div class="row">
+    <div class="col">
+      <h5 class="text-light">{{article.name}}</h5>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-3 text-center">
-    <img src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-         alt="" class="card-img">
-    <div class="text-body mt-1">{{article.barcode}}</div>
-  </div>
-  <div class="col">
-    <tabset #tabs>
-      <tab [ngStyle]="tabStyle">
-        <ng-template tabHeading>
-          <span [ngClass]="tabs.tabs[0].active ? '' : 'text-light'">Allgemein</span>
-        </ng-template>
-        <div class="container mt-3">
-          <div class="row">
-            <div class="col-6">
-              <div class="text-light">Artikelgruppe</div>
-              <select class="custom-select custom-select-sm" [(ngModel)]="article.groupId">
-                <option *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
-              </select>
-              <div class="text-light mt-2">Einheit</div>
-              <select class="custom-select custom-select-sm" [(ngModel)]="article.unitId">
-                <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </tab>
+  <div class="row">
+    <div class="col-3 text-center border-light border">
+      <img src="{{article.imageUrl}}" alt="" class="card-img">
+      <i class="fas fa-photo-video fa-9x card-img text-center mt-4"
+         *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
+      <div class="text-body">{{article.barcode}}</div>
+    </div>
+    <div class="col">
 
-      <tab [ngStyle]="tabStyle">
-        <ng-template tabHeading>
-          <span [ngClass]="tabs.tabs[1].active ? '' : 'text-light'">Einstellungen</span>
-        </ng-template>
-        <div class="container mt-3">
-          <div class="row">
-            <div class="col-6">
-              <div class="text-light">Soll Lagerbestand</div>
-              <input type="text" class="form-control form-control-sm w-25" [(ngModel)]="userSettings.keepStockAmount">
-              <div class="text-light mt-2">Lagerbestand Modus</div>
-              <select class="custom-select custom-select-sm" [(ngModel)]="userSettings.keepStockMode">
-                <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}</option>
-              </select>
-              <div class="text-light mt-2">Einheit</div>
-              <select class="custom-select custom-select-sm" [(ngModel)]="article.unitId">
-                <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})</option>
-              </select>
+      <tabset #tabs>
+        <tab>
+          <ng-template tabHeading>
+            <span [ngClass]="tabs.tabs[0].active ? '' : 'text-light'">Artikel</span>
+          </ng-template>
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col-7">
+                <div class="form-group">
+                  <label for="articleName">Name:</label>
+                  <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="article.name"
+                         name="articleName" id="articleName" required>
+                </div>
+                <div class="form-group">
+                  <label for="articleGroup">Artikelgruppe</label>
+                  <select class="custom-select custom-select-sm" id="articleGroup" [(ngModel)]="article.groupId"
+                          name="groupId" required>
+                    <option *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="hasExpireDate" name="hasLifetime"
+                           [(ngModel)]="article.hasLifetime" required>
+                    <label class="custom-control-label" for="hasExpireDate">Hat Ablaufdatum </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </tab>
-    </tabset>
+        </tab>
+
+        <tab>
+          <ng-template tabHeading>
+            <span [ngClass]="tabs.tabs[1].active ? '' : 'text-light'">Einstellungen</span>
+          </ng-template>
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col-7">
+                <div class="form-group">
+                  <label for="keepStockAmount">Soll Lagerbestand</label>
+                  <input type="text" class="form-control form-control-sm w-25" name="keepStockAmount"
+                         [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount" required>
+                </div>
+                <div class="form-group">
+                  <label for="keepStockMode">Lagerbestand Modus</label>
+                  <select class="custom-select custom-select-sm" id="keepStockMode" name="keepStockMode"
+                          [(ngModel)]="article.articleUserSettings.keepStockMode" required>
+                    <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="unit">Einheit</label>
+                  <select class="custom-select custom-select-sm" id="unit"
+                          [(ngModel)]="article.articleUserSettings.unitId"
+                          name="unitId" required>
+                    <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+
+
+    </div>
   </div>
-</div>
+  <div class="row mt-2">
+    <div class="col-3"></div>
+    <div class="col">
+      <button class="btn btn-sm btn-danger">Verwerfen</button>
+      <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()">Speichern</button>
+    </div>
+  </div>
+</form>

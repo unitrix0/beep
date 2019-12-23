@@ -6,8 +6,3 @@
 .list-group-item-cursor {
   cursor: pointer;
 }
-
-.env-name-input {
-  background: darkslategrey;
-  border: 1px solid lightslategrey;
-}

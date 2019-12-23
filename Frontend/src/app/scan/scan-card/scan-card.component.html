@@ -1,7 +1,7 @@
 <div class="card bg-dark text-center" [ngClass]="[doScan? 'border-info': '', enabled ? '':'disabled']"
      (click)="startScan()">
-  <div class="fas fa-7x mt-3 mb-2 text-white-50" [ngClass]="icon"></div>
-  <h5 class="card-title text-center text-light">{{modeName}}</h5>
+  <div class="fas fa-7x mt-3 mb-2" [ngClass]="icon"></div>
+  <h5 class="card-title text-center text-light">{{scanModes[scanMode]}}</h5>
   <p class="card-text text-light">{{description}}</p>
   <div class="progress bg-dark" *ngIf="doScan">
     <div class="progress-bar bg-success" style="height: 2px" role="progressbar" [style.width]="timeoutProgress+'%'"></div>

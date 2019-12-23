@@ -2,7 +2,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
@@ -39,12 +39,14 @@ import {EnvironmentEditComponent} from './user/environment-edit/environment-edit
 import {ProfileComponent} from './user/profile/profile.component';
 import {NameOrBarcodeComponent} from './articles/Sidebar/name-or-barcode.component';
 import {ArticleFilterComponent} from './articles/Sidebar/article-filter.component';
-import { EnvironmentFilterComponent } from './articles/Sidebar/environment-filter.component';
-import { EnvironmentSelectorComponent } from './environment-selector/environment-selector.component';
-import { PaginationComponent } from './articles/Sidebar/pagination.component';
-import { ArticleUserSettingsComponent } from './articles/article-user-settings/article-user-settings.component';
-import { ArticleStockComponent } from './articles/article-stock/article-stock.component';
+import {EnvironmentFilterComponent} from './articles/Sidebar/environment-filter.component';
+import {EnvironmentSelectorComponent} from './environment-selector/environment-selector.component';
+import {PaginationComponent} from './articles/Sidebar/pagination.component';
+import {ArticleUserSettingsComponent} from './articles/article-user-settings/article-user-settings.component';
+import {ArticleStockComponent} from './articles/article-stock/article-stock.component';
 import {ArticlesService} from './_services/articles.service';
+import {ArticleCheckinComponent} from './articles/article-checkin/article-checkin.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 export function jwtGetter() {
@@ -81,7 +83,8 @@ registerLocaleData(localeCh, 'de-CH');
     EnvironmentSelectorComponent,
     PaginationComponent,
     ArticleUserSettingsComponent,
-    ArticleStockComponent
+    ArticleStockComponent,
+    ArticleCheckinComponent
   ],
   imports: [
     HttpClientModule,
@@ -101,7 +104,9 @@ registerLocaleData(localeCh, 'de-CH');
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
-    ZXingScannerModule
+    ZXingScannerModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},
