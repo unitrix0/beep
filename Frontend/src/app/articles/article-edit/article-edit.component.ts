@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BsLocaleService, defineLocale, deLocale} from 'ngx-bootstrap';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {BsLocaleService, defineLocale, deLocale, TabDirective} from 'ngx-bootstrap';
 import {ArticlesService} from '../../_services/articles.service';
 import {Article} from '../../_models/article';
 import {AlertifyService} from '../../_services/alertify.service';
+import {ArticleStockComponent} from '../article-stock/article-stock.component';
+import {AuthService} from '../../_services/auth.service';
 
 defineLocale('de', deLocale);
 
@@ -14,8 +16,10 @@ defineLocale('de', deLocale);
 export class ArticleEditComponent implements OnInit {
   @Output() articleCreated = new EventEmitter<Article>();
   @Input() article: Article;
+  @ViewChild(ArticleStockComponent) stockComponent: ArticleStockComponent;
 
-  constructor(private localeService: BsLocaleService, private articleData: ArticlesService, private alertify: AlertifyService) {
+  constructor(private localeService: BsLocaleService, private articleData: ArticlesService,
+              private alertify: AlertifyService, private auth: AuthService) {
   }
 
   ngOnInit() {
@@ -23,7 +27,6 @@ export class ArticleEditComponent implements OnInit {
   }
 
   saveArticle() {
-    console.log(this.article);
     this.articleData.saveArticle(this.article)
       .subscribe(createdArticle => {
         this.alertify.success('Artikel gespeichert');
@@ -33,5 +36,9 @@ export class ArticleEditComponent implements OnInit {
       });
   }
 
-
+  onSelectTab(tab: TabDirective) {
+    if (tab.id === '3') {
+      this.stockComponent.loadData(1);
+    }
+  }
 }

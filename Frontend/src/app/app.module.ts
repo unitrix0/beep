@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule, PaginationModule, TabsModule} from 'ngx-bootstrap';
 
 import {AuthService} from './_services/auth.service';
 import {AppComponent} from './app.component';
@@ -47,6 +47,7 @@ import {ArticleStockComponent} from './articles/article-stock/article-stock.comp
 import {ArticlesService} from './_services/articles.service';
 import {ArticleCheckinComponent} from './articles/article-checkin/article-checkin.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ArticleImageComponent} from './articles/article-image/article-image.component';
 
 
 export function jwtGetter() {
@@ -84,7 +85,8 @@ registerLocaleData(localeCh, 'de-CH');
     PaginationComponent,
     ArticleUserSettingsComponent,
     ArticleStockComponent,
-    ArticleCheckinComponent
+    ArticleCheckinComponent,
+    ArticleImageComponent
   ],
   imports: [
     HttpClientModule,
@@ -106,7 +108,8 @@ registerLocaleData(localeCh, 'de-CH');
     TabsModule.forRoot(),
     ZXingScannerModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PaginationModule.forRoot()
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},

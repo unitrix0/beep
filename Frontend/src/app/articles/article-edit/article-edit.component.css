@@ -1,9 +1,15 @@
-.card-img{
+.card-img {
   width: available;
 }
 
-tab{
+tab {
   min-height: 250px;
-  min-width: 410px;
+  min-width: 520px;
   border-bottom: white solid 1px;
 }
+
+.no-round-corners {
+  border-radius: 0rem;
+}
+
+

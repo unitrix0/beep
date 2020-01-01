@@ -1,6 +1,3 @@
-.no-round-corners{
-  border-radius: 0rem;
-}
 .circle:before {
   position: relative;
   top: 6px;
@@ -18,4 +15,8 @@
 
 .button-group-spacer{
   margin-right: 2.45rem;
+}
+
+.no-round-corners{
+  border-radius: 0rem;
 }

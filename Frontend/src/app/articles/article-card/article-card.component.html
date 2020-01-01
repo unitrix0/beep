@@ -1,4 +1,4 @@
-<div class="card bg-dark mb-4" style="min-width: 280px">
+<div class="card bg-dark mb-4" [ngClass]="edit? 'edit-mode':''">
   <div class="card-header">
     <h5 class="text-light d-inline" *ngIf="edit">{{article.name}}</h5>
     <i class="fas fa-sliders-h float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="!edit"></i>

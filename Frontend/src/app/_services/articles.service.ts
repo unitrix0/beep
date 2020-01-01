@@ -10,6 +10,7 @@ import {Unit} from '../_models/unit';
 import {StockMode} from '../_models/stock-mode';
 import {ArticleGroup} from '../_models/article-group';
 import {CheckIn} from '../_models/check-in';
+import {StockEntry} from '../_models/stock.entry';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,6 @@ export class ArticlesService {
   }
 
   lookupArticle(barcode: string, environmentId: number): Observable<Article> {
-
     return this.http.get<Article>(this.baseUrl + 'LookupArticle/' + barcode + '/' + environmentId);
   }
 
@@ -69,6 +69,26 @@ export class ArticlesService {
 
   getUsualLifetime(barcode: string, environmentId: number): Observable<number> {
     return this.http.get<number>(this.baseUrl + 'GetUsualLifetime/' + barcode + '/' + environmentId);
+  }
+
+  getArticleStock(articleId: number, environmentId: number, pageNumber: number): Observable<PaginatedResult<StockEntry[]>> {
+    const params = new HttpParams()
+      .append('pageNumber', pageNumber.toString())
+      .append('itemsPerPage', '3')
+      .append('articleId', articleId.toString())
+      .append('environmentId', environmentId.toString());
+
+    return this.http.get<StockEntry[]>(this.baseUrl + 'GetArticleStock', {observe: 'response', params: params})
+      .pipe(
+        map(response => {
+          const result: PaginatedResult<StockEntry[]> = new PaginatedResult<StockEntry[]>();
+          result.content = response.body;
+          if (response.headers.get('Pagination') != null) {
+            result.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return result;
+        })
+      );
   }
 
   private getBaseData() {

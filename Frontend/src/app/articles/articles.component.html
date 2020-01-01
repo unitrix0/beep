@@ -13,8 +13,8 @@
     </div>
     <div class="col-10">
       <h5 class="text-body" *ngIf="articles.length == 0">Es wurden noch keine Artikel eingescannt</h5>
-      <div class="card-deck" *ngFor="let article of articles">
-        <app-article-card [article]="article"></app-article-card>
+      <div class="card-deck">
+        <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
       </div>
     </div>
   </div>

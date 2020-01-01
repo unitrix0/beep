@@ -29,13 +29,13 @@ export class ArticleCheckinComponent implements OnInit {
   ngOnInit() {
     this.articleData.getUsualLifetime(this.article.barcode, this.article.articleUserSettings.environmentId)
       .subscribe(usualLifetime => {
-        console.log(usualLifetime);
+        const today = new Date();
 
         const newEntry = new class implements CheckIn {
           articleId: number;
           barcode: string;
           environmentId: number;
-          expireDate = new Date();
+          expireDate = new Date(today.getFullYear(), today.getMonth(), today.getDay());
           stockAmount = 0;
           usualLifetime: number;
         };
@@ -46,7 +46,10 @@ export class ArticleCheckinComponent implements OnInit {
   }
 
   saveStockEntry() {
-    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - Date.now();
+    const today = new Date();
+    const now = new Date(today.getFullYear(), today.getMonth(), today.getDay()).getTime();
+
+    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - now;
     this.stockEntry.barcode = this.article.barcode;
     this.stockEntry.environmentId = this.article.articleUserSettings.environmentId;
     this.stockEntry.articleId = this.article.id;

@@ -1,28 +1,21 @@
 <form id="articleForm">
   <div class="row">
-    <div class="col">
-      <h5 class="text-light">{{article.name}}</h5>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-3 text-center border-light border">
-      <img src="{{article.imageUrl}}" alt="" class="card-img">
-      <i class="fas fa-photo-video fa-9x card-img text-center mt-4"
-         *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
+    <div class="col-4 text-center">
+      <app-article-image [imageUrl]="article.imageUrl"></app-article-image>
       <div class="text-body">{{article.barcode}}</div>
     </div>
     <div class="col">
 
       <tabset #tabs>
-        <tab>
+        <tab (selectTab)="onSelectTab($event)">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[0].active ? '' : 'text-light'">Artikel</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">
-              <div class="col-7">
+              <div class="col-8">
                 <div class="form-group">
-                  <label for="articleName">Name:</label>
+                  <label for="articleName">Name</label>
                   <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="article.name"
                          name="articleName" id="articleName" required>
                 </div>
@@ -30,7 +23,8 @@
                   <label for="articleGroup">Artikelgruppe</label>
                   <select class="custom-select custom-select-sm" id="articleGroup" [(ngModel)]="article.groupId"
                           name="groupId" required>
-                    <option *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
+                    <option style="text-overflow: ellipsis; overflow: hidden"
+                            *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -45,29 +39,39 @@
           </div>
         </tab>
 
-        <tab>
+        <tab (selectTab)="onSelectTab($event)">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[1].active ? '' : 'text-light'">Einstellungen</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">
-              <div class="col-7">
+              <div class="col-8">
                 <div class="form-group">
                   <label for="keepStockAmount">Soll Lagerbestand</label>
-                  <input type="text" class="form-control form-control-sm w-25" name="keepStockAmount"
-                         [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount" required>
+                  <div class="input-group input-group-sm w-50">
+                    <input type="text" class="form-control form-control-sm text-right no-round-corners"
+                           name="keepStockAmount"
+                           [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount" required>
+                    <div class="input-group-append">
+                      <span
+                        class="input-group-text">{{articleData.units[unitSelector.selectedIndex]?.abbreviation}}</span>
+                    </div>
+                  </div>
                 </div>
+
+                <label for="keepStockMode">Lagerbestand Modus</label>
                 <div class="form-group">
-                  <label for="keepStockMode">Lagerbestand Modus</label>
-                  <select class="custom-select custom-select-sm" id="keepStockMode" name="keepStockMode"
-                          [(ngModel)]="article.articleUserSettings.keepStockMode" required>
-                    <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}</option>
+                  <select class="custom-select custom-select-sm" id="keepStockMode"
+                          [(ngModel)]="article.articleUserSettings.keepStockMode"
+                          name="keepStockMode" required>
+                    <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="unit">Einheit</label>
                   <select class="custom-select custom-select-sm" id="unit"
-                          [(ngModel)]="article.articleUserSettings.unitId"
+                          [(ngModel)]="article.articleUserSettings.unitId" #unitSelector
                           name="unitId" required>
                     <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})
                     </option>
@@ -77,13 +81,22 @@
             </div>
           </div>
         </tab>
+        <tab (selectTab)="onSelectTab($event)" id="3">
+          <ng-template tabHeading>
+            <span [ngClass]="tabs.tabs[2].active ? '' : 'text-light'">Lager</span>
+          </ng-template>
+          <div class="container mt-3">
+            <app-article-stock [articleId]="article.id"
+                               [environmentId]="auth.decodedToken.environment_id"></app-article-stock>
+          </div>
+        </tab>
       </tabset>
 
 
     </div>
   </div>
   <div class="row mt-2">
-    <div class="col-3"></div>
+    <div class="col-4"></div>
     <div class="col">
       <button class="btn btn-sm btn-danger">Verwerfen</button>
       <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()">Speichern</button>

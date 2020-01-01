@@ -2,8 +2,10 @@
   max-width: 250px;
 }
 
-editSize {
-  width: 700px;
-  height: 450px
+.card {
+  min-width: 250px;
 }
 
+.edit-mode {
+  min-width: 700px;
+}
