@@ -4,6 +4,7 @@ import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {Pagination} from '../../_models/pagination';
 import {PageChangedEvent} from 'ngx-bootstrap';
+import {Article} from '../../_models/article';
 
 
 @Component({
@@ -12,12 +13,10 @@ import {PageChangedEvent} from 'ngx-bootstrap';
   styleUrls: ['./article-stock.component.css']
 })
 export class ArticleStockComponent implements OnInit {
-  @Input() articleId: number;
-  @Input() environmentId: number;
+  @Input() article: Article;
 
   private pagination: Pagination;
   private entries: StockEntry[];
-  private totalAmount: number;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
   }
@@ -32,14 +31,10 @@ export class ArticleStockComponent implements OnInit {
   }
 
   public loadData(page: number) {
-    console.log('Loading Data...');
-    this.articleData.getArticleStock(this.articleId, this.environmentId, page)
+    this.articleData.getArticleStock(this.article.id, this.article.articleUserSettings.environmentId, page)
       .subscribe(result => {
         this.entries = result.content;
         this.pagination = result.pagination;
-        this.totalAmount = this.entries
-          .map(e => e.amountOnStock)
-          .reduce((sum, current) => sum + current);
       }, error => {
         this.alertify.error(error.message);
       });

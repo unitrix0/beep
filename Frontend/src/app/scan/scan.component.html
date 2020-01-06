@@ -10,17 +10,17 @@
     <div class="col-12 col-sm-4">
       <app-scan-card [scanMode]="scanModes.checkin" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [scanMode]="scanModes.checkout" [description]="'Artikel wurde aufgebraucht'"
                      [icon]="'fa-trash-alt'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [scanMode]="scanModes.open" [description]="'Artikel wurde geöffnet'"
                      [icon]="'fa-box-open'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="scanTimeout()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
   </div>
   <div class="row mt-4" *ngIf="scanMode != 0">
@@ -28,12 +28,13 @@
       <app-code-scanner (barcodeDetected)="barcodeDetected($event)"></app-code-scanner>
     </div>
     <div class="col-8">
-      <app-article-edit [article]="scannedArticle" *ngIf="scannedArticle &&
-      (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
+      <app-article-edit [article]="scannedArticle" [editMode]="false"
+                        *ngIf="scannedArticle && (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
                         (articleCreated)="newArticleCreated($event)">
       </app-article-edit>
       <app-article-checkin [article]="scannedArticle" *ngIf="scannedArticle &&
-      (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"></app-article-checkin>
+      (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"
+      (checkInSuccessful)="finishScan()"></app-article-checkin>
     </div>
   </div>
 

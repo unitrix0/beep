@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CheckIn} from '../../_models/check-in';
 import '../../_helpers/date-extensions';
 import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
+import {DateSuggestions} from '../../_models/date.suggestions';
 
 
 @Component({
@@ -13,13 +14,15 @@ import {AlertifyService} from '../../_services/alertify.service';
 })
 export class ArticleCheckinComponent implements OnInit {
   @Input() article: Article;
+  @Output() checkInSuccessful = new EventEmitter();
 
+  expireDateSuggestion = new Date(Date.now());
   stockEntry = new class implements CheckIn {
     articleId: number;
     barcode: string;
     environmentId: number;
     expireDate: Date;
-    stockAmount: number;
+    amountOnStock: number;
     usualLifetime: number;
   };
 
@@ -27,37 +30,34 @@ export class ArticleCheckinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.articleData.getUsualLifetime(this.article.barcode, this.article.articleUserSettings.environmentId)
-      .subscribe(usualLifetime => {
-        const today = new Date();
-
+    this.articleData.getArticleDateSuggestions(this.article.barcode, this.article.articleUserSettings.environmentId)
+      .subscribe((suggestions: DateSuggestions) => {
         const newEntry = new class implements CheckIn {
           articleId: number;
           barcode: string;
           environmentId: number;
-          expireDate = new Date(today.getFullYear(), today.getMonth(), today.getDay());
-          stockAmount = 0;
+          expireDate = new Date(suggestions.lastExpireDate);
+          amountOnStock = 0;
           usualLifetime: number;
         };
 
-        newEntry.expireDate.addMilliseconds(usualLifetime);
+        this.expireDateSuggestion = new Date(this.expireDateSuggestion.addMilliseconds(suggestions.usualLifetime));
         this.stockEntry = newEntry;
       });
   }
 
   saveStockEntry() {
     const today = new Date();
-    const now = new Date(today.getFullYear(), today.getMonth(), today.getDay()).getTime();
 
-    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - now;
+    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - today.getDateOnly().getTime();
     this.stockEntry.barcode = this.article.barcode;
     this.stockEntry.environmentId = this.article.articleUserSettings.environmentId;
     this.stockEntry.articleId = this.article.id;
-    console.log(this.stockEntry);
 
     this.articleData.saveStockEntry(this.stockEntry)
       .subscribe(value => {
         this.alertify.success('Artikel eingebucht');
+        this.checkInSuccessful.emit();
       }, error => {
         console.log(error);
         this.alertify.error('Artikel konnte nicht eingebucht werden: ' + error.message);
@@ -67,11 +67,11 @@ export class ArticleCheckinComponent implements OnInit {
   adjustAmount(direction: string) {
     switch (direction) {
       case '+':
-        this.stockEntry.stockAmount++;
+        this.stockEntry.amountOnStock++;
         break;
       case '-':
-        if (this.stockEntry.stockAmount > 0) {
-          this.stockEntry.stockAmount--;
+        if (this.stockEntry.amountOnStock > 0) {
+          this.stockEntry.amountOnStock--;
         }
         break;
     }
@@ -104,4 +104,5 @@ export class ArticleCheckinComponent implements OnInit {
         break;
     }
   }
+
 }

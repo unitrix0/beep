@@ -39,7 +39,7 @@ export class ScanComponent implements OnInit {
     this.scanner.startScan();
   }
 
-  scanTimeout() {
+  finishScan() {
     console.log('scan timeout');
     this.scanner.stopScan();
     this.scanMode = ScanModes.none;

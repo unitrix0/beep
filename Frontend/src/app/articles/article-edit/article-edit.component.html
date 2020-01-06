@@ -1,13 +1,13 @@
 <form id="articleForm">
   <div class="row">
-    <div class="col-4 text-center">
+    <div class="col-3 text-center">
       <app-article-image [imageUrl]="article.imageUrl"></app-article-image>
-      <div class="text-body">{{article.barcode}}</div>
+      <div class="text-body mt-2">{{article.barcode}}</div>
     </div>
-    <div class="col">
 
+    <div class="col">
       <tabset #tabs>
-        <tab (selectTab)="onSelectTab($event)">
+        <tab (selectTab)="onSelectTab($event)" [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[0].active ? '' : 'text-light'">Artikel</span>
           </ng-template>
@@ -39,7 +39,7 @@
           </div>
         </tab>
 
-        <tab (selectTab)="onSelectTab($event)">
+        <tab (selectTab)="onSelectTab($event)" [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[1].active ? '' : 'text-light'">Einstellungen</span>
           </ng-template>
@@ -81,13 +81,13 @@
             </div>
           </div>
         </tab>
-        <tab (selectTab)="onSelectTab($event)" id="3">
+        <tab (selectTab)="onSelectTab($event)" id="3" *ngIf="editMode"
+             [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[2].active ? '' : 'text-light'">Lager</span>
           </ng-template>
           <div class="container mt-3">
-            <app-article-stock [articleId]="article.id"
-                               [environmentId]="auth.decodedToken.environment_id"></app-article-stock>
+            <app-article-stock [article]="article"></app-article-stock>
           </div>
         </tab>
       </tabset>
@@ -96,9 +96,9 @@
     </div>
   </div>
   <div class="row mt-2">
-    <div class="col-4"></div>
+    <div class="col-3"></div>
     <div class="col">
-      <button class="btn btn-sm btn-danger">Verwerfen</button>
+      <button class="btn btn-sm btn-danger" *ngIf="!editMode">Verwerfen</button>
       <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()">Speichern</button>
     </div>
   </div>

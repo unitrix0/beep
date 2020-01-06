@@ -2,14 +2,20 @@
   width: available;
 }
 
-tab {
+.edit-size {
   min-height: 250px;
   min-width: 520px;
-  border-bottom: white solid 1px;
+}
+
+.check-in-size {
+  min-height: 260px;
+  min-width: 400px;
 }
 
 .no-round-corners {
   border-radius: 0rem;
 }
 
-
+tab{
+  border-bottom: white solid 1px;
+}

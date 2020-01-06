@@ -8,7 +8,18 @@ interface Date {
   addSeconds(this: Date, seconds: number): Date;
 
   addMilliseconds(this: Date, ms: number): Date;
+
+  addMinutes(this: Date, minutes: number): Date;
+
+  /**
+   * Gibt ein Date-Objekt zurück bei dem nur das Datum gesetzt ist.
+   */
+  getDateOnly(this: Date): Date;
 }
+
+Date.prototype.getDateOnly = function (this: Date): Date {
+  return new Date(this.getFullYear(), this.getMonth(), this.getDate());
+};
 
 Date.prototype.addDays = function addDays(this: Date, days: number): Date {
   this.setDate(this.getDate() + days);
@@ -32,5 +43,10 @@ Date.prototype.addSeconds = function addSeconds(this: Date, seconds: number): Da
 
 Date.prototype.addMilliseconds = function addMilliseconds(this: Date, ms: number): Date {
   this.setTime(this.getTime() + ms);
+  return this;
+};
+
+Date.prototype.addMinutes = function addMinutes(this: Date, minutes: number): Date {
+  this.setTime(this.getTime() + (minutes * 60000));
   return this;
 };

@@ -17,7 +17,7 @@
               <label for="stockAmount">Anzahl</label>
               <div class="input-group w-25">
                 <input type="text" class="form-control form-control-sm" id="stockAmount" name="stockAmount" required
-                       [(ngModel)]="stockEntry.stockAmount">
+                       [(ngModel)]="stockEntry.amountOnStock">
                 <div class="input-group-append">
                   <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>
                   <button class="btn btn-sm btn-info fas fa-plus" type="button" (click)="adjustAmount('+')"></button>
@@ -64,6 +64,13 @@
                           (click)="increaseExpireDate('y')"></button>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="previousDate">Vorschlag</label>
+              <button class="btn btn-block btn-info" (click)="this.stockEntry.expireDate = this.expireDateSuggestion.getDateOnly();" type="button"
+                      name="expireDateSuggestion" id="previousDate" >{{expireDateSuggestion | date:'dd.MM.yyyy'}}</button>
             </div>
           </div>
         </div>

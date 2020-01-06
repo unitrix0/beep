@@ -11,6 +11,7 @@ import {StockMode} from '../_models/stock-mode';
 import {ArticleGroup} from '../_models/article-group';
 import {CheckIn} from '../_models/check-in';
 import {StockEntry} from '../_models/stock.entry';
+import {DateSuggestions} from '../_models/date.suggestions';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,8 @@ export class ArticlesService {
     return this.http.post<Article>(this.baseUrl + 'AddStockEntry', stockEntry);
   }
 
-  getUsualLifetime(barcode: string, environmentId: number): Observable<number> {
-    return this.http.get<number>(this.baseUrl + 'GetUsualLifetime/' + barcode + '/' + environmentId);
+  getArticleDateSuggestions(barcode: string, environmentId: number): Observable<DateSuggestions> {
+    return this.http.get<DateSuggestions>(this.baseUrl + 'GetArticleDateSuggestions/' + barcode + '/' + environmentId);
   }
 
   getArticleStock(articleId: number, environmentId: number, pageNumber: number): Observable<PaginatedResult<StockEntry[]>> {
@@ -89,6 +90,10 @@ export class ArticlesService {
           return result;
         })
       );
+  }
+
+  getUnitAbbreviation(unitId: number): string {
+    return this.units.find(u => u.id === unitId).abbreviation;
   }
 
   private getBaseData() {

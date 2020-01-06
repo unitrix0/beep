@@ -16,6 +16,7 @@ defineLocale('de', deLocale);
 export class ArticleEditComponent implements OnInit {
   @Output() articleCreated = new EventEmitter<Article>();
   @Input() article: Article;
+  @Input() editMode: boolean;
   @ViewChild(ArticleStockComponent) stockComponent: ArticleStockComponent;
 
   constructor(private localeService: BsLocaleService, private articleData: ArticlesService,

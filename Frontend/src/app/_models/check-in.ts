@@ -1,5 +1,5 @@
 export interface CheckIn {
-  stockAmount: number;
+  amountOnStock: number;
   expireDate: Date;
   usualLifetime: number;
   environmentId: number;

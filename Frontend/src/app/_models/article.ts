@@ -5,5 +5,6 @@ export interface Article {
   groupId: number;
   hasLifetime: boolean;
   imageUrl: string;
+  totalStockAmount: number;
   articleUserSettings: ArticleUserSettings;
 }

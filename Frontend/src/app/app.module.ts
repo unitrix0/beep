@@ -48,6 +48,7 @@ import {ArticlesService} from './_services/articles.service';
 import {ArticleCheckinComponent} from './articles/article-checkin/article-checkin.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ArticleImageComponent} from './articles/article-image/article-image.component';
+import {TimeOffsetHeaderInterceptor, TimeOffsetInterceptorProvider} from './_interceptors/timeoffset-header-interceptor.service';
 
 
 export function jwtGetter() {
@@ -120,7 +121,8 @@ registerLocaleData(localeCh, 'de-CH');
     InvitationsResolver,
     ResetScanService,
     PermissionsService,
-    ArticlesService
+    ArticlesService,
+    TimeOffsetInterceptorProvider
   ],
   bootstrap: [AppComponent],
   entryComponents: [
