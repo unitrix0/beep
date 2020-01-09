@@ -5,4 +5,5 @@ export interface CheckIn {
   environmentId: number;
   barcode: string;
   articleId: number;
+  clientTimezoneOffset: number;
 }
