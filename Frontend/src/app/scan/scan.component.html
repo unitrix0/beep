@@ -34,7 +34,7 @@
       </app-article-edit>
       <app-article-checkin [article]="scannedArticle" *ngIf="scannedArticle &&
       (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"
-      (checkInSuccessful)="finishScan()"></app-article-checkin>
+                           (doneOrCanceled)="finishScan()"></app-article-checkin>
     </div>
   </div>
 

@@ -9,3 +9,7 @@
 .edit-mode {
   min-width: 700px;
 }
+
+.fas {
+  color: rgba(255, 255, 255, 0.5);
+}

@@ -19,7 +19,6 @@ export class EnvironmentEditComponent implements OnInit {
   members: Permission[];
   currentEnvironment: BeepEnvironment;
   currentMember: Permission;
-  modalRef: BsModalRef;
 
   constructor(private data: UsersService, private alertify: AlertifyService, private modalSvc: BsModalService,
               private permissions: PermissionsService) {
@@ -75,12 +74,11 @@ export class EnvironmentEditComponent implements OnInit {
   }
 
   openInviteDialog() {
-    this.modalRef = this.modalSvc.show(InviteDialogComponent);
-    this.modalRef.content.SendInvitation.subscribe((eventArgs: SendInvitationEventArgs) => {
-      this.modalRef.hide();
-
+    const modalRef = this.modalSvc.show(InviteDialogComponent);
+    modalRef.content.SendInvitation.subscribe((eventArgs: SendInvitationEventArgs) => {
       this.data.inviteMember(eventArgs.recipient, this.currentEnvironment.id, eventArgs.isMail)
         .subscribe(value => {
+          modalRef.hide();
           this.alertify.success('Einladung verschickt');
         }, error => {
           this.alertify.error('Die Einladung konnte nicht verschickt werden: ' + error.message);

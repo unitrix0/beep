@@ -65,6 +65,7 @@ export class ArticlesService {
   }
 
   saveStockEntry(stockEntry: CheckIn): Observable<Article> {
+    console.log(JSON.stringify(stockEntry));
     return this.http.post<Article>(this.baseUrl + 'AddStockEntry', stockEntry);
   }
 
@@ -94,6 +95,14 @@ export class ArticlesService {
 
   getUnitAbbreviation(unitId: number): string {
     return this.units.find(u => u.id === unitId).abbreviation;
+  }
+
+  checkOutById(entryId: number, amount: number): Observable<Object> {
+    const parameters = new HttpParams()
+      .append('entryId', entryId.toString())
+      .append('amount', amount.toString());
+
+    return this.http.delete(this.baseUrl + 'CheckOutById/', {params: parameters});
   }
 
   private getBaseData() {

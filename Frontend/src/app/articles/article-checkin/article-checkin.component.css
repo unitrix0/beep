@@ -13,10 +13,27 @@
   font-size: 10px;
 }
 
-.button-group-spacer{
+.button-group-spacer {
   margin-right: 2.45rem;
 }
 
-.no-round-corners{
+.no-round-corners {
   border-radius: 0rem;
+}
+
+.custom-invalid-input {
+  border: solid 2px red;
+}
+
+/* Remove Spinners for number inputs */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

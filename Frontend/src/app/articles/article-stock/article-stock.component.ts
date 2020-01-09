@@ -3,8 +3,9 @@ import {StockEntry} from '../../_models/stock.entry';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {Pagination} from '../../_models/pagination';
-import {PageChangedEvent} from 'ngx-bootstrap';
+import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
+import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ArticleStockComponent implements OnInit {
   private pagination: Pagination;
   private entries: StockEntry[];
 
-  constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
+  constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -42,5 +43,31 @@ export class ArticleStockComponent implements OnInit {
 
   pageChanged(args: PageChangedEvent) {
     this.loadData(args.page);
+  }
+
+  checkOut(entryId: number) {
+    const modalRef = this.modalService.show(CheckOutDialogComponent, {backdrop: 'static'});
+    modalRef.content.okClicked.subscribe((amount: number) => {
+      this.articleData.checkOutById(entryId, amount)
+        .subscribe(value => {
+          modalRef.hide();
+          this.alertify.success('Artikel ausgebucht');
+          this.cleanupArray(entryId, amount);
+          this.article.totalStockAmount -= amount;
+        }, error => {
+          this.alertify.error('Artikel konnte nicht ausgebucht werden: ' + error.message);
+        });
+    });
+
+  }
+
+  private cleanupArray(entryId: number, amount: number) {
+    const entry = this.entries.find(e => e.id === entryId);
+
+    if (entry.amountOnStock === 1 || entry.amountOnStock === amount) {
+      this.entries.splice(this.entries.findIndex(e => e.id === entryId), 1);
+    } else {
+      entry.amountOnStock -= amount;
+    }
   }
 }

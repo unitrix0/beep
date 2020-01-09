@@ -14,10 +14,11 @@ import {DateSuggestions} from '../../_models/date.suggestions';
 })
 export class ArticleCheckinComponent implements OnInit {
   @Input() article: Article;
-  @Output() checkInSuccessful = new EventEmitter();
+  @Output() doneOrCanceled = new EventEmitter();
 
   expireDateSuggestion = new Date(Date.now());
   stockEntry = new class implements CheckIn {
+    clientTimezoneOffset: number;
     articleId: number;
     barcode: string;
     environmentId: number;
@@ -33,11 +34,12 @@ export class ArticleCheckinComponent implements OnInit {
     this.articleData.getArticleDateSuggestions(this.article.barcode, this.article.articleUserSettings.environmentId)
       .subscribe((suggestions: DateSuggestions) => {
         const newEntry = new class implements CheckIn {
+          clientTimezoneOffset = new Date().getTimezoneOffset() * -1;
           articleId: number;
           barcode: string;
           environmentId: number;
           expireDate = new Date(suggestions.lastExpireDate);
-          amountOnStock = 0;
+          amountOnStock = 1;
           usualLifetime: number;
         };
 
@@ -57,7 +59,7 @@ export class ArticleCheckinComponent implements OnInit {
     this.articleData.saveStockEntry(this.stockEntry)
       .subscribe(value => {
         this.alertify.success('Artikel eingebucht');
-        this.checkInSuccessful.emit();
+        this.doneOrCanceled.emit();
       }, error => {
         console.log(error);
         this.alertify.error('Artikel konnte nicht eingebucht werden: ' + error.message);

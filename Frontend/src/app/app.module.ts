@@ -48,7 +48,9 @@ import {ArticlesService} from './_services/articles.service';
 import {ArticleCheckinComponent} from './articles/article-checkin/article-checkin.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ArticleImageComponent} from './articles/article-image/article-image.component';
-
+import { CheckOutDialogComponent } from './articles/check-out-dialog/check-out-dialog.component';
+import { MinimumValueDirective } from './_directives/minimum-value.directive';
+import { MaximumValueDirective } from './_directives/maximum-value.directive';
 
 
 export function jwtGetter() {
@@ -87,7 +89,10 @@ registerLocaleData(localeCh, 'de-CH');
     ArticleUserSettingsComponent,
     ArticleStockComponent,
     ArticleCheckinComponent,
-    ArticleImageComponent
+    ArticleImageComponent,
+    CheckOutDialogComponent,
+    MinimumValueDirective,
+    MaximumValueDirective
   ],
   imports: [
     HttpClientModule,
@@ -126,7 +131,7 @@ registerLocaleData(localeCh, 'de-CH');
   bootstrap: [AppComponent],
   entryComponents: [
     InviteDialogComponent,
-    ArticleEditComponent
+    CheckOutDialogComponent
   ]
 })
 export class AppModule {

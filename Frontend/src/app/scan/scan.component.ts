@@ -35,12 +35,11 @@ export class ScanComponent implements OnInit {
   startScan(newMode: ScanModes) {
     this.scanMode = newMode;
     this.changeDetector.detectChanges(); // Damit ViwChild referenz funktioniert
-    console.log('start Scanning: ' + newMode);
+    console.log('Start Scanning: ' + newMode);
     this.scanner.startScan();
   }
 
   finishScan() {
-    console.log('scan timeout');
     this.scanner.stopScan();
     this.scanMode = ScanModes.none;
   }

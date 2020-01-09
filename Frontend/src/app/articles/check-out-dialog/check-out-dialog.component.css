@@ -1,0 +1,8 @@
+.remove-spinners {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  margin: 0;
+}
+.custom-invalid-input {
+  border: solid 2px red;
+}

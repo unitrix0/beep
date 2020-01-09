@@ -7,3 +7,7 @@ div.disabled {
   pointer-events: none;
   cursor: default;
 }
+
+.fas {
+  color: rgba(255, 255, 255, 0.5);
+}
