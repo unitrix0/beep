@@ -17,3 +17,7 @@ select.form-control-sm {
 label {
   color: white;
 }
+
+.custom-invalid-input {
+  border-bottom: solid 2px red;
+}

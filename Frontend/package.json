@@ -25,7 +25,9 @@
     "bootstrap": "^4.4.1",
     "bootswatch": "^4.4.1",
     "core-js": "^2.6.11",
+    "ngx-barcode-scanner": "0.0.7",
     "ngx-bootstrap": "^5.2.0",
+    "quagga": "^0.12.1",
     "rxjs": "~6.5.3",
     "tslib": "^1.10.0",
     "zone.js": "~0.8.26"

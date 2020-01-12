@@ -1,6 +1,5 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap';
-import {Form} from '@angular/forms';
 
 @Component({
   selector: 'app-check-out-dialog',
@@ -10,6 +9,7 @@ import {Form} from '@angular/forms';
 export class CheckOutDialogComponent implements OnInit {
   @Output() okClicked = new EventEmitter<number>();
   amount: number;
+  totalAmount: number;
 
   constructor(private modalRef: BsModalRef) {
   }
@@ -25,10 +25,14 @@ export class CheckOutDialogComponent implements OnInit {
   adjustAmount(s: string) {
     switch (s) {
       case '-':
-        this.amount--;
+        if (this.amount > 1) {
+          this.amount--;
+        }
         break;
       case '+':
-        this.amount++;
+        if (this.amount < this.totalAmount) {
+          this.amount++;
+        }
         break;
     }
   }

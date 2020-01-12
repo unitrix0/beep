@@ -10,7 +10,7 @@ import {ScanModes} from '../../_enums/scan-modes.enum';
 })
 export class ScanCardComponent implements OnInit {
   @Input() icon: string;
-  @Input() scanMode: ScanModes;
+  @Input() mode: ScanModes;
   @Input() description: string;
   @Input() enabled: boolean;
   @Output() scanStarted = new EventEmitter<ScanModes>();
@@ -35,17 +35,17 @@ export class ScanCardComponent implements OnInit {
     if (!this.enabled) {
       return;
     }
-    this.scanStarted.emit(this.scanMode);
+    this.scanStarted.emit(this.mode);
     this.doScan = true;
     // this.timer.start();
   }
 
   private SubscribeResetService() {
     this.resetService.reset.subscribe((scanMode: ScanModes) => {
-      if (scanMode !== this.scanMode) {
+      if (scanMode !== this.mode) {
         return;
       }
-      console.log(this.scanModes[this.scanMode] + ' got reset');
+      console.log(this.scanModes[this.mode] + ' got reset');
       this.timer.stop();
       this.timeoutProgress = 0;
       this.timeoutCounter = 0;

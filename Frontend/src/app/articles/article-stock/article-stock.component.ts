@@ -45,8 +45,8 @@ export class ArticleStockComponent implements OnInit {
     this.loadData(args.page);
   }
 
-  checkOut(entryId: number) {
-    const modalRef = this.modalService.show(CheckOutDialogComponent, {backdrop: 'static'});
+  checkOut(entryId: number, entryAmount: number) {
+    const modalRef = this.modalService.show(CheckOutDialogComponent, {ignoreBackdropClick: true, initialState: {totalAmount: entryAmount}});
     modalRef.content.okClicked.subscribe((amount: number) => {
       this.articleData.checkOutById(entryId, amount)
         .subscribe(value => {

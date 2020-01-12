@@ -8,12 +8,9 @@ import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 })
 export class CodeScannerComponent implements OnInit {
   @Output() barcodeDetected = new EventEmitter<string>();
-  @ViewChild(ZXingScannerComponent)
-  scanner: ZXingScannerComponent;
-
-  private lastCode: string;
+  @ViewChild(ZXingScannerComponent) scanner: ZXingScannerComponent;
   private beep;
-  private suspended: boolean;
+  private lastCode: string;
 
   constructor() {
     this.beep = new Audio();
@@ -26,21 +23,18 @@ export class CodeScannerComponent implements OnInit {
   }
 
   startScan() {
-    this.scanner.updateVideoInputDevices().then(value1 => {
-      console.log(value1[0]);
-      this.scanner.device = value1[0]; // TODO Device aus settings
+    this.scanner.updateVideoInputDevices().then(devices => {
+      this.scanner.device = devices[0]; // TODO Device aus settings
     });
-    this.scanner.askForPermission().then(value => {
-      console.log('Permissions response: ' + value);
-      if (value) {
-        this.scanner.tryHarder = true;
-      }
+
+    this.scanner.askForPermission().then(permission => {
+      console.log('Permissions response: ' + permission);
+      // this.scanner.tryHarder = true;
     });
   }
 
   stopScan() {
-    this.scanner.device = null;
-    this.scanner.reset();
+    this.scanner.enable = false;
   }
 
   private scanSuccess(newCode: string) {
