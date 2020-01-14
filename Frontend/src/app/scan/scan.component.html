@@ -29,12 +29,21 @@
     </div>
     <div class="col-8">
       <app-article-edit [article]="scannedArticle" [editMode]="false"
-                        *ngIf="scannedArticle && (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
+                        *ngIf=" scanMode === scanModes.checkin && scannedArticle &&
+                        (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
                         (articleCreated)="newArticleCreated($event)">
       </app-article-edit>
-      <app-article-checkin [article]="scannedArticle" *ngIf="scannedArticle &&
-      (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"
-                           (doneOrCanceled)="finishScan()"></app-article-checkin>
+
+      <app-article-checkin [article]="scannedArticle"
+                           *ngIf="scanMode === scanModes.checkin && scannedArticle &&
+                           (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"
+                           (doneOrCanceled)="finishScan()">
+      </app-article-checkin>
+
+      <app-article-check-out [article]="scannedArticle"
+                             *ngIf="scanMode == scanModes.checkout && scannedArticle && scannedArticle.id != 0"
+                             (doneOrCanceled)="finishScan()">
+      </app-article-check-out>
     </div>
   </div>
 

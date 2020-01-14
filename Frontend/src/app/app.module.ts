@@ -51,9 +51,7 @@ import {ArticleImageComponent} from './articles/article-image/article-image.comp
 import {CheckOutDialogComponent} from './articles/check-out-dialog/check-out-dialog.component';
 import {MinimumValueDirective} from './_directives/minimum-value.directive';
 import {MaximumValueDirective} from './_directives/maximum-value.directive';
-import {BarecodeScannerLivestreamModule} from 'ngx-barcode-scanner';
-import { CodeScanner2Component } from './scan/code-scanner2/code-scanner2.component';
-import { CodeScannerDialogComponent } from './scan/code-scanner-dialog/code-scanner-dialog.component';
+import { ArticleCheckOutComponent } from './articles/article-check-out/article-check-out.component';
 
 
 export function jwtGetter() {
@@ -96,8 +94,7 @@ registerLocaleData(localeCh, 'de-CH');
     CheckOutDialogComponent,
     MinimumValueDirective,
     MaximumValueDirective,
-    CodeScanner2Component,
-    CodeScannerDialogComponent
+    ArticleCheckOutComponent,
   ],
   imports: [
     HttpClientModule,
@@ -120,8 +117,7 @@ registerLocaleData(localeCh, 'de-CH');
     ZXingScannerModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    PaginationModule.forRoot(),
-    BarecodeScannerLivestreamModule
+    PaginationModule.forRoot()
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},
@@ -137,8 +133,7 @@ registerLocaleData(localeCh, 'de-CH');
   bootstrap: [AppComponent],
   entryComponents: [
     InviteDialogComponent,
-    CheckOutDialogComponent,
-    CodeScannerDialogComponent
+    CheckOutDialogComponent
   ]
 })
 export class AppModule {

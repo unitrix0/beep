@@ -34,7 +34,8 @@
     Total: {{article.totalStockAmount}} {{articleData.getUnitAbbreviation(article.articleUserSettings.unitId)}}</div>
   <div class="col">
     <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
-                [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"></pagination>
+                [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
+                firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"></pagination>
   </div>
   <div class="col"></div>
 </div>

@@ -42,26 +42,19 @@ export class ScanComponent implements OnInit {
 
   barcodeDetected(barcode: string) {
     this.scanner.stopScan();
-    switch (this.scanMode) {
-      case ScanModes.checkin:
-        this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
-          .subscribe(article => {
-            this.scannedArticle = article;
-            if (this.scannedArticle.id === 0) {
-              this.scannedArticle.barcode = barcode;
-            }
-            if (this.scannedArticle.articleUserSettings.id === 0) {
-              this.scannedArticle.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
-            }
-          }, error => {
-            this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
-          });
-        break;
-      case ScanModes.checkout:
-        break;
-      case ScanModes.open:
-        break;
-    }
+    this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
+      .subscribe(article => {
+        this.scannedArticle = article;
+        if (this.scannedArticle.id === 0) {
+          this.scannedArticle.barcode = barcode;
+        }
+        if (this.scannedArticle.articleUserSettings.id === 0) {
+          this.scannedArticle.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
+        }
+      }, error => {
+        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
+      });
+
     this.resetScanTimeout();
   }
 

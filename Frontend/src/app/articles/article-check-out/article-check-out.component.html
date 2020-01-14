@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h5 class="text-light">{{article.name}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 text-center">
+      <app-article-image [imageUrl]="article.imageUrl"></app-article-image>
+      <div class="text-body mt-2">{{article.barcode}}</div>
+    </div>
+    <div class="col">
+      <table class="table table-sm table-dark table-hover table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Anz.</th>
+          <th scope="col">Ablaufdatum</th>
+          <th scope="col">Füllstand</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-light" *ngFor="let entry of stockEntries" (click)="selectEntry(entry.id)"
+        [class.table-success]="entry.id === selectedEntryId">
+          <td>{{entry.amountOnStock}}</td>
+          <td>{{entry.expireDate | date: 'dd.MM.yyyy'}}</td>
+          <td>{{entry.amountRemaining}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col d-flex justify-content-center" *ngIf="pagination?.totalItems > 3">
+      <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
+                  [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
+                  firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"></pagination>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-3"></div>
+    <div class="col">
+      <button class="btn btn-sm btn-danger" type="button" (click)="doneOrCanceled.emit()">Verwerfen</button>
+      <button class="btn btn-sm btn-success float-right" (click)="checkOut();">Ausbuchen</button>
+    </div>
+  </div>
+</div>
