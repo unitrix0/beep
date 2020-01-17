@@ -60,12 +60,15 @@ export class ArticlesService {
     return this.http.get<Article>(this.baseUrl + 'LookupArticle/' + barcode + '/' + environmentId);
   }
 
-  saveArticle(article: Article): Observable<Article> {
-    return this.http.post<Article>(this.baseUrl + 'SaveArticle', article);
+  createArticle(article: Article): Observable<Article> {
+    return this.http.post<Article>(this.baseUrl + 'CreateArticle', article);
+  }
+
+  updateArticle(article: Article): Observable<object> {
+    return this.http.patch(this.baseUrl + 'UpdateArticle', article);
   }
 
   saveStockEntry(stockEntry: CheckIn): Observable<Article> {
-    console.log(JSON.stringify(stockEntry));
     return this.http.post<Article>(this.baseUrl + 'AddStockEntry', stockEntry);
   }
 

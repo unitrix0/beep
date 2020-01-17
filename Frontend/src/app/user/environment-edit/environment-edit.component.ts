@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BeepEnvironment} from '../../_models/beep-environment';
 import {Permission} from '../../_models/permission';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalService} from 'ngx-bootstrap';
 import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
 import {UsersService} from '../../_services/users.service';

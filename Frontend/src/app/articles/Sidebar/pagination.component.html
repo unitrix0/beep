@@ -2,28 +2,8 @@
 <div class="card bg-dark mb-3">
   <h5 class="card-header bg-info text-light">Seiten</h5>
   <div class="card-body">
-    <div>
-      <ul class="pagination">
-        <li class="page-item disabled">
-          <a class="page-link" href="#">&laquo;</a>
-        </li>
-        <li class="page-item active">
-          <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">2</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">4</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">&raquo;</a>
-        </li>
-      </ul>
-    </div>
-
+    <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
+                [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged.emit($event)"
+                firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"></pagination>
   </div>
 </div>

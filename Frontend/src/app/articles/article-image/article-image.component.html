@@ -1,3 +1,21 @@
-<img [src]="imageUrl" alt="" class="card-img" *ngIf="imageUrl && imageUrl != ''">
+<img [src]="imageUrl" alt="" class="card-img" style="width: 157px;" *ngIf="imageUrl && imageUrl != ''">
 <div class="fas fa-photo-video fa-9x fa-fw mt-4" *ngIf="!imageUrl ||imageUrl == ''"></div>
-<button class="btn btn-secondary btn-sm btn-info mt-3">Auswählen</button>
+<button class="btn btn-secondary btn-sm btn-info mt-3" type="button" (click)="openModal(template)">Auswählen</button>
+
+<!--modal-->
+<ng-template #template>
+  <div class="modal-header">
+    <h5 class="modal-titel pull-left">Beep! - Artikel Bild</h5>
+    <button type="button" class="close pull-right" (click)="cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="imgUrl" class="text-body">URL zum Produktbild</label>
+    <input type="text" class="form-control form-control-sm" id="imgUrl" [(ngModel)]="imageUrl">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-cancel" (click)="cancel()">Abbrechen</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="setChanged()">Setzen</button>
+  </div>
+</ng-template>

@@ -31,7 +31,7 @@
       <app-article-edit [article]="scannedArticle" [editMode]="false"
                         *ngIf=" scanMode === scanModes.checkin && scannedArticle &&
                         (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
-                        (articleCreated)="newArticleCreated($event)">
+                        (save)="createArticle();">
       </app-article-edit>
 
       <app-article-checkin [article]="scannedArticle"

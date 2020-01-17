@@ -5,6 +5,7 @@ import {ArticlesService} from '../_services/articles.service';
 import {ArticlesFilter} from '../_models/articles-filter';
 import {PaginatedResult, Pagination} from '../_models/pagination';
 import {AlertifyService} from '../_services/alertify.service';
+import {PageChangedEvent} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-articles',
@@ -30,13 +31,14 @@ export class ArticlesComponent implements OnInit {
   }
 
   setFilter() {
-    this.data.getArticles(this.environmentId, this.pagination.currentPage, this.pagination.itemsPerPage, this.filter)
+    this.LoadData(1);
+  }
+
+  private LoadData(page: number) {
+    this.data.getArticles(this.environmentId, page, this.pagination.itemsPerPage, this.filter)
       .subscribe((value: PaginatedResult<Article[]>) => {
-        console.log('subscribe');
-        console.log(value.pagination);
         this.articles = value.content;
         this.pagination = value.pagination;
-        console.log(value.content);
       }, error => {
         this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error.message);
       });
@@ -44,5 +46,9 @@ export class ArticlesComponent implements OnInit {
 
   changed() {
     console.log('changed: ' + this.filter.isOpened);
+  }
+
+  pageChanged(eventArgs: PageChangedEvent) {
+    this.LoadData(eventArgs.page);
   }
 }

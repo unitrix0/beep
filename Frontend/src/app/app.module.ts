@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {BsDropdownModule, ModalModule, PaginationModule, TabsModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule, PaginationModule, ProgressbarModule, TabsModule} from 'ngx-bootstrap';
 
 import {AuthService} from './_services/auth.service';
 import {AppComponent} from './app.component';
@@ -52,7 +52,7 @@ import {CheckOutDialogComponent} from './articles/check-out-dialog/check-out-dia
 import {MinimumValueDirective} from './_directives/minimum-value.directive';
 import {MaximumValueDirective} from './_directives/maximum-value.directive';
 import { ArticleCheckOutComponent } from './articles/article-check-out/article-check-out.component';
-
+import {FillLevelComponent} from './_helpers/fill-level.component';
 
 export function jwtGetter() {
   const token = localStorage.getItem('token');
@@ -95,6 +95,8 @@ registerLocaleData(localeCh, 'de-CH');
     MinimumValueDirective,
     MaximumValueDirective,
     ArticleCheckOutComponent,
+    FillLevelComponent,
+    FillLevelComponent
   ],
   imports: [
     HttpClientModule,
@@ -117,7 +119,8 @@ registerLocaleData(localeCh, 'de-CH');
     ZXingScannerModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ProgressbarModule.forRoot()
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},

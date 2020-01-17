@@ -62,12 +62,18 @@ export class ScanComponent implements OnInit {
     this.resetScan.reset.emit(this.scanMode);
   }
 
-  newArticleCreated(newArticle: Article) {
-    this.scannedArticle = newArticle;
-  }
-
   finishScan() {
     this.scannedArticle = null;
     this.scanMode = this.scanModes.none;
+  }
+
+  createArticle() {
+    this.articles.createArticle(this.scannedArticle)
+      .subscribe(createdArticle => {
+        this.alertify.success('Artikel gespeichert');
+        this.scannedArticle = createdArticle;
+      }, error => {
+        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
+      });
   }
 }

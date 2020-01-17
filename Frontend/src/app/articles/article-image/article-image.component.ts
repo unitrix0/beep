@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-article-image',
@@ -7,10 +8,29 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ArticleImageComponent implements OnInit {
   @Input() imageUrl: string;
+  @Output() imageUrlChange = new EventEmitter();
 
-  constructor() { }
+  private modalRef: BsModalRef;
+  private urlBackup: string;
 
-  ngOnInit() {
+  constructor(private modalService: BsModalService) {
   }
 
+  ngOnInit(): void {
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.urlBackup = this.imageUrl;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  cancel() {
+    this.imageUrl = this.urlBackup;
+    this.modalRef.hide();
+  }
+
+  setChanged() {
+    this.modalRef.hide();
+    this.imageUrlChange.emit(this.imageUrl);
+  }
 }

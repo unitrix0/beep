@@ -4,12 +4,13 @@
       <app-environment-filter [(environmentId)]="environmentId"></app-environment-filter>
       <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan"></app-name-or-barcode>
       <app-article-filter (setFilter)="setFilter()"
-        [(isOnStock)]="filter.isOnStock"
-        [(keepOnStock)]="filter.keepOnStock"
-        [(isOpened)]="filter.isOpened"
-        [(storeId)]="filter.storeId" (isOpenedChange)="changed()">
+                          [(isOnStock)]="filter.isOnStock"
+                          [(keepOnStock)]="filter.keepOnStock"
+                          [(isOpened)]="filter.isOpened"
+                          [(storeId)]="filter.storeId">
       </app-article-filter>
-      <app-pagination></app-pagination>
+      <app-pagination [pagination]="pagination" (pageChanged)="pageChanged($event)"
+                      *ngIf="pagination.totalPages > 1"></app-pagination>
     </div>
     <div class="col-10">
       <h5 class="text-body" *ngIf="articles.length == 0">Es wurden noch keine Artikel eingescannt</h5>

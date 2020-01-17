@@ -14,7 +14,11 @@
       <tr class="text-light" *ngFor="let entry of entries">
         <td>{{entry.amountOnStock}}</td>
         <td>{{entry.expireDate | date: 'dd.MM.yyyy'}}</td>
-        <td>{{entry.amountRemaining}}</td>
+        <td>
+          <app-fill-level [currentValue]="entry.amountRemaining" [maxContent]="article.contentAmount"
+                          [unitAbbreviation]="articleData.getUnitAbbreviation(article.unitId)">
+          </app-fill-level>
+        </td>
         <td class="text-center">
           <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="customCheck1" checked="" [ngModel]="entry.isOpened">
@@ -31,11 +35,12 @@
 </div>
 <div class="row">
   <div class="col text-light">
-    Total: {{article.totalStockAmount}} {{articleData.getUnitAbbreviation(article.articleUserSettings.unitId)}}</div>
+    Total: {{article.totalStockAmount}} {{articleData.getUnitAbbreviation(article.unitId)}}</div>
   <div class="col">
     <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
                 [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
-                firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"></pagination>
+                firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"
+                *ngIf="pagination.totalPages > 1"></pagination>
   </div>
   <div class="col"></div>
 </div>

@@ -29,10 +29,11 @@
           <div class="col-md-12">
             <h5 class="text-light mt-3">Name</h5>
             <div class="form-group">
-              <input type="text" name="evnNameEdit" id="envNameEdit"
+              <input type="text" name="evnNameEdit" id="envNameEdit" #envNameEdit
                      class="form-control mb-4 styled-input text-light"
                      aria-describedby="envNameHelp"
-                     [ngModel]="currentEnvironment.name">
+                     [ngModel]="currentEnvironment.name" (focusin)="envNameEdit.classList.remove('text-light')"
+                     (focusout)="envNameEdit.classList.add('text-light')">
             </div>
           </div>
         </div>

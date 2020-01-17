@@ -9,6 +9,6 @@
   <img [src]="article.imageUrl" alt="" class="card-img" *ngIf="!edit && article.imageUrl != null">
   <div class="card-body">
     <h5 class="card-text text-light text-center" *ngIf="!edit">{{article.name}}</h5>
-    <app-article-edit [article]="article" editMode="true" *ngIf="edit"></app-article-edit>
+    <app-article-edit [article]="article" editMode="true" *ngIf="edit" (save)="updateArticle();"></app-article-edit>
   </div>
 </div>

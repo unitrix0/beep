@@ -20,7 +20,7 @@
       <label class="custom-control-label" for="keepOnStock">An Lager halten</label>
     </div>
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="isOnStock" [(ngModel)]="isOnStock" (change)="isOpenedChange.emit(isOnStock)">
+      <input type="checkbox" class="custom-control-input" id="isOnStock" [(ngModel)]="isOnStock" (change)="isOnStockChange.emit(isOnStock)">
       <label class="custom-control-label" for="isOnStock">Ist verfügbar</label>
     </div>
 
