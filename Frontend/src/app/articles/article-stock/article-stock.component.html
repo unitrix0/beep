@@ -1,46 +1,6 @@
-<div class="row">
-  <div class="col">
-    <table class="table table-sm table-dark table-hover table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Anz.</th>
-        <th scope="col">Ablaufdatum</th>
-        <th scope="col">Füllstand</th>
-        <th scope="col" class="text-center">Geöffnet</th>
-        <th scope="col" class="text-center">Entsorgen</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="text-light" *ngFor="let entry of entries">
-        <td>{{entry.amountOnStock}}</td>
-        <td>{{entry.expireDate | date: 'dd.MM.yyyy'}}</td>
-        <td>
-          <app-fill-level [currentValue]="entry.amountRemaining" [maxContent]="article.contentAmount"
-                          [unitAbbreviation]="articleData.getUnitAbbreviation(article.unitId)">
-          </app-fill-level>
-        </td>
-        <td class="text-center">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="" [ngModel]="entry.isOpened">
-            <label class="custom-control-label" for="customCheck1"></label>
-          </div>
-        </td>
-        <td class="text-center">
-          <div class="fas fa-trash-alt" style="cursor: pointer" (click)="checkOut(entry.id, entry.amountOnStock)"></div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<div class="row">
-  <div class="col text-light">
-    Total: {{article.totalStockAmount}} {{articleData.getUnitAbbreviation(article.unitId)}}</div>
-  <div class="col">
-    <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
-                [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
-                firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"
-                *ngIf="pagination.totalPages > 1"></pagination>
-  </div>
-  <div class="col"></div>
-</div>
+<app-stock-entry-list
+  [stockData]="stockData"
+  [article]="article"
+  (checkOutClicked)="checkOut($event)"
+  (pageChanged)="pageChanged($event)">
+</app-stock-entry-list>

@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StockEntry} from '../../_models/stock.entry';
-import {PaginatedResult, Pagination} from '../../_models/pagination';
+import {PaginatedResult} from '../../_models/pagination';
 import {Article} from '../../_models/article';
-import {PageChangedEvent} from 'ngx-bootstrap';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
+import {StockListColumns} from '../../_enums/stock-list-columns.enum';
+import {PageChangedEvent} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-article-check-out',
@@ -12,12 +13,14 @@ import {AlertifyService} from '../../_services/alertify.service';
   styleUrls: ['./article-check-out.component.css']
 })
 export class ArticleCheckOutComponent implements OnInit {
-
+  /** Definiert ob die Komponente für den "Geöffnet" modus verwendet wird */
+  @Input() forOpenMode: boolean;
   @Input() article: Article;
   @Output() doneOrCanceled = new EventEmitter();
-
-  private stockEntries: StockEntry[];
-  private pagination: Pagination;
+  private actionLabel: string;
+  private actionButtonLabel: string;
+  private showCols = [StockListColumns.amount, StockListColumns.expireDate, StockListColumns.fillLevel];
+  private stockData: PaginatedResult<StockEntry[]>;
   private selectedEntryId: number;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
@@ -25,18 +28,23 @@ export class ArticleCheckOutComponent implements OnInit {
 
   ngOnInit() {
     this.LoadData(1);
+    this.actionLabel = this.forOpenMode ? 'geöffnet oder verbraucht wurde' : 'ausgebucht werden soll';
+    this.actionButtonLabel = this.forOpenMode ? 'Wählen' : 'Ausbuchen';
   }
 
-  pageChanged(eventArgs: PageChangedEvent) {
-    this.LoadData(eventArgs.page);
+  pageChanged(args: PageChangedEvent) {
+    this.LoadData(args.page);
   }
 
-  selectEntry(id: number) {
-    console.log(id);
-    this.selectedEntryId = id;
+  private action() {
+    if (this.forOpenMode) {
+
+    } else {
+      this.checkOut();
+    }
   }
 
-  checkOut() {
+  private checkOut() {
     this.articleData.checkOutById(this.selectedEntryId, 1)
       .subscribe(value => {
         this.alertify.success('Artikel Ausgebucht');
@@ -49,8 +57,7 @@ export class ArticleCheckOutComponent implements OnInit {
   private LoadData(pageNumber: number) {
     this.articleData.getArticleStock(this.article.id, this.article.articleUserSettings.environmentId, pageNumber)
       .subscribe((result: PaginatedResult<StockEntry[]>) => {
-        this.pagination = result.pagination;
-        this.stockEntries = result.content;
+        this.stockData = result;
       });
   }
 }

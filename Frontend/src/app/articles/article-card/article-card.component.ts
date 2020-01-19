@@ -22,7 +22,8 @@ export class ArticleCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  editArticleSettings() {
+  private editArticleSettings() {
+    console.log('expand');
     if (!this.edit) {
       this.articleBackup = JSON.stringify(this.article);
       this.edit = true;
@@ -39,7 +40,7 @@ export class ArticleCardComponent implements OnInit {
     }
   }
 
-  updateArticle() {
+  private updateArticle() {
     this.articleData.updateArticle(this.article)
       .subscribe(value => {
         this.alertify.success('Änderungen gespeichert');

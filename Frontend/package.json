@@ -25,6 +25,7 @@
     "bootstrap": "^4.4.1",
     "bootswatch": "^4.4.1",
     "core-js": "^2.6.11",
+    "ng5-slider": "^1.2.4",
     "ngx-bootstrap": "^5.2.0",
     "quagga": "^0.12.1",
     "rxjs": "~6.5.3",

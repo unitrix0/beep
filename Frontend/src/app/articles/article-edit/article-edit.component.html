@@ -7,7 +7,7 @@
 
     <div class="col">
       <tabset #tabs>
-        <tab (selectTab)="onSelectTab($event)" [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[0].active ? '' : 'text-light'">Artikel</span>
           </ng-template>
@@ -62,7 +62,7 @@
           </div>
         </tab>
 
-        <tab (selectTab)="onSelectTab($event)" [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[1].active ? '' : 'text-light'">Einstellungen</span>
           </ng-template>
@@ -77,7 +77,7 @@
                            [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount" required>
                     <div class="input-group-append">
                       <span
-                        class="input-group-text">{{articleData.units[unitSelector.selectedIndex]?.abbreviation}}</span>
+                        class="input-group-text">Stk.</span>
                     </div>
                   </div>
                 </div>
@@ -95,13 +95,13 @@
             </div>
           </div>
         </tab>
-        <tab (selectTab)="onSelectTab($event)" id="3" *ngIf="editMode"
+        <tab *ngIf="editMode"
              [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
           <ng-template tabHeading>
             <span [ngClass]="tabs.tabs[2].active ? '' : 'text-light'">Lager</span>
           </ng-template>
           <div class="container mt-3">
-            <app-article-stock [article]="article"></app-article-stock>
+            <app-article-stock [article]="article" ></app-article-stock>
           </div>
         </tab>
       </tabset>

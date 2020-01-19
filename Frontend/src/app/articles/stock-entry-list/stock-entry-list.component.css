@@ -1,0 +1,21 @@
+.table-success,
+.table-success > th,
+.table-success > td {
+  background-color: #54a754;
+}
+
+.table-success th,
+.table-success td,
+.table-success thead th,
+.table-success tbody + tbody {
+  border-color: #54a754;
+}
+
+.table-hover .table-success:hover {
+  background-color: #54a754;
+}
+
+.table-hover .table-success:hover > td,
+.table-hover .table-success:hover > th {
+  background-color: #54a754;
+}

@@ -53,6 +53,9 @@ import {MinimumValueDirective} from './_directives/minimum-value.directive';
 import {MaximumValueDirective} from './_directives/maximum-value.directive';
 import { ArticleCheckOutComponent } from './articles/article-check-out/article-check-out.component';
 import {FillLevelComponent} from './_helpers/fill-level.component';
+import { StockEntryListComponent } from './articles/stock-entry-list/stock-entry-list.component';
+import { ArticleOpenComponent } from './articles/article-open/article-open.component';
+import {Ng5SliderModule} from 'ng5-slider';
 
 export function jwtGetter() {
   const token = localStorage.getItem('token');
@@ -96,7 +99,9 @@ registerLocaleData(localeCh, 'de-CH');
     MaximumValueDirective,
     ArticleCheckOutComponent,
     FillLevelComponent,
-    FillLevelComponent
+    FillLevelComponent,
+    StockEntryListComponent,
+    ArticleOpenComponent
   ],
   imports: [
     HttpClientModule,
@@ -120,7 +125,8 @@ registerLocaleData(localeCh, 'de-CH');
     ReactiveFormsModule,
     BrowserAnimationsModule,
     PaginationModule.forRoot(),
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    Ng5SliderModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},

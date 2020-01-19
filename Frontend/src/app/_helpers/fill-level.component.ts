@@ -1,10 +1,12 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {StockEntry} from '../_models/stock.entry';
 
 @Component({
   selector: 'app-fill-level',
   template: `
-    <progressbar [max]="1" [value]="currentValue" [type]="barType">
-      <span>{{maxContent * currentValue}} {{unitAbbreviation}}</span>
+    <div *ngIf="!entry.isOpened">ungeöffnet</div>
+    <progressbar [max]="1" [value]="entry.amountRemaining" [type]="barType" *ngIf="entry.isOpened">
+      <span>{{maxContent * entry.amountOnStock * entry.amountRemaining}} {{unitAbbreviation}}</span>
     </progressbar>
   `,
   styles: [``]
@@ -12,9 +14,9 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 export class FillLevelComponent implements OnInit, OnChanges {
 
   /**
-   * Aktueller Füllstand
+   * Lager eintrag mit füllstand
    */
-  @Input() currentValue: number;
+  @Input() entry: StockEntry;
   /**
    * Maximaler inhalt des Artikels. Z.B.: 4 (Stk.)
    */
@@ -33,7 +35,7 @@ export class FillLevelComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.barType = this.currentValue === 1 ? 'success' : 'warning';
+    this.barType = this.entry.amountRemaining === 1 ? 'success' : 'warning';
   }
 
 }

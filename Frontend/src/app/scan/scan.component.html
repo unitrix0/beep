@@ -13,12 +13,12 @@
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
-      <app-scan-card [mode]="scanModes.checkout" [description]="'Artikel wurde aufgebraucht'"
+      <app-scan-card [mode]="scanModes.checkout" [description]="'Artikel wurde komplett aufgebraucht'"
                      [icon]="'fa-trash-alt'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
-      <app-scan-card [mode]="scanModes.open" [description]="'Artikel wurde geöffnet'"
+      <app-scan-card [mode]="scanModes.open" [description]="'Artikel wurde geöffnet/verbraucht'"
                      [icon]="'fa-box-open'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
     </div>
@@ -41,8 +41,9 @@
       </app-article-checkin>
 
       <app-article-check-out [article]="scannedArticle"
-                             *ngIf="scanMode == scanModes.checkout && scannedArticle && scannedArticle.id != 0"
-                             (doneOrCanceled)="finishScan()">
+                             *ngIf="(scanMode == scanModes.checkout || scanMode == scanModes.open)
+                             && scannedArticle && scannedArticle.id != 0"
+                             (doneOrCanceled)="finishScan()" [forOpenMode]="scanMode == scanModes.open">
       </app-article-check-out>
     </div>
   </div>

@@ -27,11 +27,6 @@ export class PermissionsService {
     let flags: PermissionFlags;
     orFlags.forEach(f => flags |= f);
 
-    if (this.cnt > 20) {
-      this.cnt = 0;
-      console.log('Permission Check (' + this.cnt + ') ' + this.userPermissions + ' & ' + flags + ' => ' + (this.userPermissions & flags));
-    }
-    this.cnt++;
     return (this.userPermissions & flags) !== 0;
   }
 }
