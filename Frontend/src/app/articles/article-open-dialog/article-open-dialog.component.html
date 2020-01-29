@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h5 class="modal-title">Beep! - Artikel öffnen</h5>
+  <button class="close float-right" (click)="modalRef.hide()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body">
+ <app-article-open [(remaining)]="remaining"></app-article-open>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-sm btn-cancel float-right" (click)="modalRef.hide()">Abbrechen</button>
+  <button class="btn btn-sm btn-success float-right" (click)="Ok()">Ok</button>
+</div>

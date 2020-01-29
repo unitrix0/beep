@@ -8,7 +8,7 @@ import {PermissionsService} from '../_services/permissions.service';
 import {ArticlesService} from '../_services/articles.service';
 import {ScanModes} from '../_enums/scan-modes.enum';
 import {Article} from '../_models/article';
-import {BsModalService} from 'ngx-bootstrap';
+import {ScanCardComponent} from './scan-card/scan-card.component';
 
 @Component({
   selector: 'app-scan',
@@ -17,6 +17,9 @@ import {BsModalService} from 'ngx-bootstrap';
 })
 export class ScanComponent implements OnInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
+  @ViewChild('scanCheckIn') scanCheckIn: ScanCardComponent;
+  @ViewChild('scanCheckOut') scanCheckOut: ScanCardComponent;
+  @ViewChild('scanOpen') scanOpen: ScanCardComponent;
   scanMode = ScanModes.none;
   scannedArticle: Article;
   private hasPermission: boolean;
@@ -24,7 +27,7 @@ export class ScanComponent implements OnInit {
 
   constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
               private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
-              private permissions: PermissionsService, private modalService: BsModalService) {
+              private permissions: PermissionsService) {
   }
 
   ngOnInit() {
@@ -35,7 +38,7 @@ export class ScanComponent implements OnInit {
 
   startScan(newMode: ScanModes) {
     this.scanMode = newMode;
-    this.changeDetector.detectChanges(); // Damit ViwChild referenz funktioniert
+    this.changeDetector.detectChanges(); // Damit ViwChild referenz für 'scanner' funktioniert
     this.scanner.startScan();
   }
 
@@ -63,6 +66,9 @@ export class ScanComponent implements OnInit {
   }
 
   finishScan() {
+    this.scanCheckIn.doScan = false;
+    this.scanCheckOut.doScan = false;
+    this.scanOpen.doScan = false;
     this.scannedArticle = null;
     this.scanMode = this.scanModes.none;
   }

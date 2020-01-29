@@ -108,6 +108,10 @@ export class ArticlesService {
     return this.http.delete(this.baseUrl + 'CheckOutById/', {params: parameters});
   }
 
+  openArticle(stockEntry: StockEntry): Observable<object> {
+    return this.http.put(this.baseUrl + 'OpenArticle/', stockEntry);
+  }
+
   private getBaseData() {
     this.http.get(this.baseUrl + 'GetBaseData').subscribe((response: { units, articleGroups }) => {
       this.units = response.units;

@@ -6,6 +6,7 @@ import {PaginatedResult} from '../../_models/pagination';
 import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
+import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
 
 
 @Component({
@@ -17,15 +18,48 @@ export class ArticleStockComponent implements OnInit {
   @Input() article: Article;
   private stockData: PaginatedResult<StockEntry[]>;
 
-  constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modalService: BsModalService) {
+  constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modService: BsModalService) {
   }
 
   ngOnInit() {
     this.loadStock(1);
   }
 
+  private pageChanged(args: PageChangedEvent) {
+    this.loadStock(args.page);
+  }
+
+  private openArticle(args: { mouseEvent: MouseEvent; entry: StockEntry }) {
+    const modalRef = this.modService.show(ArticleOpenDialogComponent,
+      {
+        ignoreBackdropClick: true,
+        initialState: {remaining: args.entry.amountRemaining}
+      });
+
+    modalRef.content.okClicked.subscribe(newRemaining => {
+      const entryCpy: StockEntry = Object.assign({}, args.entry);
+      if (!entryCpy.isOpened) {
+        entryCpy.openedOn = new Date().today();
+      }
+      entryCpy.isOpened = true;
+      entryCpy.clientTimezoneOffset = new Date().getTimezoneOffset() * -1;
+      entryCpy.amountRemaining = newRemaining;
+      this.articleData.openArticle(entryCpy)
+        .subscribe(value => {
+          modalRef.hide();
+          this.alertify.success('Geöffnet');
+          this.applyOpenArticle(args.entry, newRemaining);
+          return;
+        }, error => {
+          this.alertify.error('Vorgang konnte nicht abgeschlossen werden: ' + error.message);
+        });
+    });
+
+    args.mouseEvent.preventDefault();
+  }
+
   private checkOut(entry: StockEntry) {
-    const modalRef = this.modalService.show(CheckOutDialogComponent, {
+    const modalRef = this.modService.show(CheckOutDialogComponent, {
       ignoreBackdropClick: true,
       initialState: {totalAmount: entry.amountOnStock}
     });
@@ -35,16 +69,12 @@ export class ArticleStockComponent implements OnInit {
         .subscribe(value => {
           modalRef.hide();
           this.alertify.success('Artikel ausgebucht');
-          this.cleanupArray(entry.amountOnStock, amount);
+          this.applyCheckOut(entry.id, amount);
           this.article.totalStockAmount -= amount;
         }, error => {
           this.alertify.error('Artikel konnte nicht ausgebucht werden: ' + error.message);
         });
     });
-  }
-
-  pageChanged(args: PageChangedEvent) {
-    this.loadStock(args.page);
   }
 
   private loadStock(page: number) {
@@ -56,7 +86,7 @@ export class ArticleStockComponent implements OnInit {
       });
   }
 
-  private cleanupArray(entryId: number, amount: number) {
+  private applyCheckOut(entryId: number, amount: number) {
     const entry = this.stockData.content.find(e => e.id === entryId);
 
     if (entry.amountOnStock === 1 || entry.amountOnStock === amount) {
@@ -64,5 +94,24 @@ export class ArticleStockComponent implements OnInit {
     } else {
       entry.amountOnStock -= amount;
     }
+  }
+
+  private applyOpenArticle(entry: StockEntry, newRemaining: number) {
+    if (entry.amountOnStock === 1) {
+      entry.openedOn = new Date().today();
+      entry.isOpened = true;
+      entry.amountRemaining = newRemaining;
+      return;
+    }
+
+    const newEntry: StockEntry = Object.assign({}, entry);
+    newEntry.amountRemaining = newRemaining;
+    newEntry.isOpened = true;
+    newEntry.openedOn = new Date().today();
+    newEntry.amountOnStock = 1;
+
+    entry.amountOnStock--;
+
+    this.stockData.content.unshift(newEntry);
   }
 }

@@ -51,7 +51,7 @@ export class ArticleCheckinComponent implements OnInit {
   saveStockEntry() {
     const today = new Date();
 
-    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - today.getDateOnly().getTime();
+    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - today.today().getTime();
     this.stockEntry.barcode = this.article.barcode;
     this.stockEntry.environmentId = this.article.articleUserSettings.environmentId;
     this.stockEntry.articleId = this.article.id;

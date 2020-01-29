@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Options} from 'ng5-slider';
 
 @Component({
@@ -7,14 +7,14 @@ import {Options} from 'ng5-slider';
   styleUrls: ['./article-open.component.css']
 })
 export class ArticleOpenComponent implements OnInit {
-  @Output() remaining: number;
+  @Input() remaining: number;
   @Output() remainingChange = new EventEmitter();
-
   private ticks: number[] = [0.25, 0.3, 0.5, 0.6, 0.75];
   private tickLabels: { [val: number]: string } = {0.25: '1/4', 0.3: '1/3', 0.5: '1/2', 0.6: '2/3', 0.75: '3/4'};
-  options: Options = {
-    floor: 0.25,
-    ceil: 0.75,
+  private options: Options = {
+    floor: 0,
+    ceil: 1,
+    step: 0.05,
     showTicks: true,
     stepsArray: this.ticks.map((tick: number) => {
       return {value: tick};
@@ -28,9 +28,6 @@ export class ArticleOpenComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  private calc(numerator: number, denominator: number): number {
-    return numerator / denominator;
+    console.log(this.remaining);
   }
 }

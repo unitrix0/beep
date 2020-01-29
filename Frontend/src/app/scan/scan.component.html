@@ -10,17 +10,17 @@
     <div class="col-12 col-sm-4">
       <app-scan-card [mode]="scanModes.checkin" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanCheckIn></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [mode]="scanModes.checkout" [description]="'Artikel wurde komplett aufgebraucht'"
                      [icon]="'fa-trash-alt'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanCheckOut></app-scan-card>
     </div>
     <div class="col-12 col-sm-4">
       <app-scan-card [mode]="scanModes.open" [description]="'Artikel wurde geöffnet/verbraucht'"
                      [icon]="'fa-box-open'" [enabled]="scanMode == scanModes.none && hasPermission"
-                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()"></app-scan-card>
+                     (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanOpen></app-scan-card>
     </div>
   </div>
   <div class="row mt-4" *ngIf="scanMode != scanModes.none">

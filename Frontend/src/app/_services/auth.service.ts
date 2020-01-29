@@ -72,7 +72,7 @@ export class AuthService {
     const params = new HttpParams()
       .append('environmentId', newEnvironmentId.toString());
 
-    return this.http.post(this.baseUrl + 'UpdatePermissionClaims/' + this.decodedToken.nameid, {}, {params: params})
+    return this.http.get(this.baseUrl + 'UpdatePermissionClaims/' + this.decodedToken.nameid, {params: params})
       .pipe(
         map((response: any) => {
           if (response) {

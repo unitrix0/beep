@@ -14,10 +14,10 @@ interface Date {
   /**
    * Gibt ein Date-Objekt zurück bei dem nur das Datum gesetzt ist.
    */
-  getDateOnly(this: Date): Date;
+  today(this: Date): Date;
 }
 
-Date.prototype.getDateOnly = function (this: Date): Date {
+Date.prototype.today = function (this: Date): Date {
   return new Date(this.getFullYear(), this.getMonth(), this.getDate());
 };
 

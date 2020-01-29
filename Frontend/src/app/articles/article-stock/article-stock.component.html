@@ -2,5 +2,7 @@
   [stockData]="stockData"
   [article]="article"
   (checkOutClicked)="checkOut($event)"
-  (pageChanged)="pageChanged($event)">
+  (openArticleClicked)="openArticle($event)"
+  (pageChanged)="pageChanged($event)"
+  [rowSelect]="false">
 </app-stock-entry-list>

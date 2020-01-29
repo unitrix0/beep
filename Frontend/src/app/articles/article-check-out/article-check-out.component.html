@@ -10,10 +10,11 @@
       <div class="text-body mt-2">{{article.barcode}}</div>
     </div>
     <div class="col">
-      <div class="text-light mb-1">Wählen Sie den Artikel der {{actionLabel}}</div>
+      <div class="text-light mb-1" *ngIf="!showArticleOpen">Wählen Sie den Artikel der {{actionLabel}}</div>
       <app-stock-entry-list [stockData]="this.stockData" (entrySelected)="selectedEntryId = $event"
                             [article]="article" [selectedColumns]="showCols"
-                            (pageChanged)="pageChanged($event)"></app-stock-entry-list>
+                            (pageChanged)="pageChanged($event)" *ngIf="!showArticleOpen"></app-stock-entry-list>
+      <app-article-open [(remaining)]="selectedEntry.amountRemaining" *ngIf="showArticleOpen"></app-article-open>
     </div>
   </div>
   <div class="row mt-2">

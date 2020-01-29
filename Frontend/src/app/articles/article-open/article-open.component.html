@@ -5,7 +5,7 @@
 </div>
 <div class="row mt-4">
   <div class="col">
-    <ng5-slider [options]="options" [value]="remaining" (valueChange)="remainingChange.emit($event)"></ng5-slider>
+    <ng5-slider [options]="options" [(value)]="remaining" (valueChange)="remainingChange.emit($event)"></ng5-slider>
   </div>
 </div>
 

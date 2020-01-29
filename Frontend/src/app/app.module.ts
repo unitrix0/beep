@@ -56,6 +56,7 @@ import {FillLevelComponent} from './_helpers/fill-level.component';
 import { StockEntryListComponent } from './articles/stock-entry-list/stock-entry-list.component';
 import { ArticleOpenComponent } from './articles/article-open/article-open.component';
 import {Ng5SliderModule} from 'ng5-slider';
+import { ArticleOpenDialogComponent } from './articles/article-open-dialog/article-open-dialog.component';
 
 export function jwtGetter() {
   const token = localStorage.getItem('token');
@@ -101,7 +102,8 @@ registerLocaleData(localeCh, 'de-CH');
     FillLevelComponent,
     FillLevelComponent,
     StockEntryListComponent,
-    ArticleOpenComponent
+    ArticleOpenComponent,
+    ArticleOpenDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -142,7 +144,8 @@ registerLocaleData(localeCh, 'de-CH');
   bootstrap: [AppComponent],
   entryComponents: [
     InviteDialogComponent,
-    CheckOutDialogComponent
+    CheckOutDialogComponent,
+    ArticleOpenDialogComponent
   ]
 })
 export class AppModule {

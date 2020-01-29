@@ -22,6 +22,8 @@ export class ArticleCheckOutComponent implements OnInit {
   private showCols = [StockListColumns.amount, StockListColumns.expireDate, StockListColumns.fillLevel];
   private stockData: PaginatedResult<StockEntry[]>;
   private selectedEntryId: number;
+  private showArticleOpen: boolean;
+  private selectedEntry: StockEntry;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
   }
@@ -37,11 +39,29 @@ export class ArticleCheckOutComponent implements OnInit {
   }
 
   private action() {
-    if (this.forOpenMode) {
-
+    if (this.forOpenMode && !this.showArticleOpen) {
+      this.selectedEntry = this.stockData.content.find(e => e.id === this.selectedEntryId);
+      this.showArticleOpen = true;
+    } else if (this.forOpenMode && this.showArticleOpen) {
+      this.openArticle();
     } else {
       this.checkOut();
     }
+  }
+
+  private openArticle() {
+    if (!this.selectedEntry.isOpened) {
+      this.selectedEntry.openedOn = new Date().today();
+    }
+    this.selectedEntry.isOpened = true;
+    this.selectedEntry.clientTimezoneOffset = new Date().getTimezoneOffset() * -1;
+    this.articleData.openArticle(this.selectedEntry)
+      .subscribe(() => {
+        this.alertify.success('Geöffnet');
+        this.doneOrCanceled.emit();
+      }, error => {
+        this.alertify.error('Vorgang fehlgeschlagen: ' + error.message);
+      });
   }
 
   private checkOut() {

@@ -22,8 +22,9 @@
         </td>
         <td class="text-center" *ngIf="showColumn(columns.isOpened)">
           <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="" [ngModel]="entry.isOpened">
-            <label class="custom-control-label" for="customCheck1"></label>
+            <input type="checkbox" class="custom-control-input" id="chkOpen{{entry.id}}" value="{{entry.id}}"
+            [(ngModel)]="entry.isOpened" (click)="openArticle($event)">
+            <label class="custom-control-label" for="chkOpen{{entry.id}}"></label>
           </div>
         </td>
         <td class="text-center" *ngIf="showColumn(columns.checkOut)">
@@ -36,7 +37,8 @@
 </div>
 <div class="row">
   <div class="col text-light">
-    Total: {{article.totalStockAmount}} Stk.</div>
+    Total: {{article.totalStockAmount}} Stk.
+  </div>
   <div class="col">
     <pagination [totalItems]="stockData.pagination.totalItems" maxSize="5"
                 [itemsPerPage]="stockData.pagination.itemsPerPage"

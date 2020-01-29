@@ -74,7 +74,7 @@
             <div class="form-group">
               <label for="previousDate">Vorschlag</label>
               <button class="btn btn-block btn-info"
-                      (click)="this.stockEntry.expireDate = this.expireDateSuggestion.getDateOnly();" type="button"
+                      (click)="this.stockEntry.expireDate = this.expireDateSuggestion.today();" type="button"
                       name="expireDateSuggestion"
                       id="previousDate">{{expireDateSuggestion | date:'dd.MM.yyyy'}}</button>
             </div>
