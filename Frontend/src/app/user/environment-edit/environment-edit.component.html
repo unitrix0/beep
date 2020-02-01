@@ -14,7 +14,8 @@
       </div>
       <div class="text-right mb-3">
         <button class="btn btn-danger btn-sm mr-2" (click)="deleteEnvironment()"
-                [disabled]="environments.length == 1">Löschen
+                [disabled]="onlyOneEnvironment() || !currentEnvironment || currentEnvironment.ownerId != userId">
+          Löschen
         </button>
         <button class="btn btn-success btn-sm" (click)="addEnvironment()">Hinzufügen</button>
       </div>
@@ -28,12 +29,17 @@
         <div class="row" *ngIf="currentEnvironment">
           <div class="col-md-12">
             <h5 class="text-light mt-3">Name</h5>
-            <div class="form-group">
-              <input type="text" name="evnNameEdit" id="envNameEdit" #envNameEdit
-                     class="form-control mb-4 styled-input text-light"
-                     aria-describedby="envNameHelp"
+            <div class="input-group mb-4">
+              <input type="text" class="form-control styled-input" style="height: 48px"
+                     #envNameEdit #input="ngModel" [readOnly]="currentEnvironment.ownerId != userId"
+                     [class.text-light]="currentEnvironment.ownerId === userId"
                      [ngModel]="currentEnvironment.name" (focusin)="envNameEdit.classList.remove('text-light')"
                      (focusout)="envNameEdit.classList.add('text-light')">
+              <div class="input-group-append">
+                <button class="btn btn-success" type="button" *ngIf="input.dirty" (click)="updateEnvName(input.value)">
+                  <i class="fas fa-save"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -49,7 +55,7 @@
               </a>
             </div>
             <button class="btn btn-danger btn-sm" (click)="removeMember()"
-                    [disabled]="currentMember.isOwner ||
+                    [disabled]="!currentMember || currentMember.isOwner ||
                     !permissions.hasPermissionOr(permissions.flags.isOwner || permissions.flags.manageUsers)">
               Entfernen
             </button>
@@ -61,7 +67,9 @@
 
           <div class="col-md-8">
             <h5 class="text-light">Berechtigungen</h5>
-            <div class="list-group mb-2">
+            <div class="text-light" *ngIf="!currentMember">Wählen Sie einen Benutzer um die Berechtigungen anzupassen
+            </div>
+            <div class="list-group mb-2" *ngIf="currentMember">
               <div class="custom-control custom-checkbox mt-1 mb-1">
                 <input type="checkbox" class="custom-control-input" id="checkIn"
                        [checked]="currentMember.canScan || currentMember.isOwner"
@@ -86,7 +94,9 @@
               </div>
             </div>
 
-            <button class="btn btn-success btn-sm float-right mb-3" (click)="savePermissions()">Speichern</button>
+            <button class="btn btn-success btn-sm float-right mb-3" *ngIf="currentMember"
+                    (click)="savePermissions()">Speichern
+            </button>
           </div>
         </div>
       </div>

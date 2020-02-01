@@ -17,7 +17,7 @@
               <label for="stockAmount">Anzahl</label>
               <div class="input-group w-25">
                 <input type="number" class="form-control form-control-sm" id="stockAmount" name="stockAmount"
-                       #stockAmount="ngModel" [ngClass]="{'custom-invalid-input' : stockAmount.invalid}"
+                       #stockAmount="ngModel" [ngClass]="{'custom-is-invalid' : stockAmount.invalid}"
                        [(ngModel)]="stockEntry.amountOnStock" required appMinimumValue="1">
                 <div class="input-group-append">
                   <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>
@@ -34,19 +34,19 @@
               <div class="input-group input-group-sm" id="dateGroup">
                 <input type="number" class="form-control no-round-corners" name="expireDateDay" #expireDay="ngModel"
                        [ngModel]="stockEntry.expireDate | date:'dd'"
-                       [ngClass]="{'custom-invalid-input' : expireDay.invalid}" required appMinimumValue="1" appMaximumValue="31">
+                       [ngClass]="{'custom-is-invalid' : expireDay.invalid}" required appMinimumValue="1" appMaximumValue="31">
                 <div class="input-group-append">
                   <span class="input-group-text circle"></span>
                 </div>
                 <input type="number" class="form-control" name="expireDateMonth" #expireMonth="ngModel"
                        [ngModel]="stockEntry.expireDate | date:'MM'"
-                       [ngClass]="{'custom-invalid-input' : expireMonth.invalid}" required appMinimumValue="1" appMaximumValue="12">
+                       [ngClass]="{'custom-is-invalid' : expireMonth.invalid}" required appMinimumValue="1" appMaximumValue="12">
                 <div class="input-group-append">
                   <span class="input-group-text circle"></span>
                 </div>
                 <input type="number" class="form-control no-round-corners" name="expireDateYear" #expireYear="ngModel"
                        [ngModel]="stockEntry.expireDate | date:'yyyy'"
-                       [ngClass]="{'custom-invalid-input' : expireYear.invalid}" required appMinimumValue="1900">
+                       [ngClass]="{'custom-is-invalid' : expireYear.invalid}" required appMinimumValue="1900">
               </div>
               <div class="btn-toolbar ml-1 mt-1" role="toolbar">
                 <div class="btn-group button-group-spacer" role="group">
@@ -74,7 +74,7 @@
             <div class="form-group">
               <label for="previousDate">Vorschlag</label>
               <button class="btn btn-block btn-info"
-                      (click)="this.stockEntry.expireDate = this.expireDateSuggestion.today();" type="button"
+                      (click)="useSuggestedDate();" type="button"
                       name="expireDateSuggestion"
                       id="previousDate">{{expireDateSuggestion | date:'dd.MM.yyyy'}}</button>
             </div>

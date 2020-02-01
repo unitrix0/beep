@@ -1,7 +1,8 @@
 <form id="articleForm" #f="ngForm">
   <div class="row">
     <div class="col-3 text-center">
-      <app-article-image [(imageUrl)]="article.imageUrl" (imageUrlChange)="f.control.markAsTouched()"></app-article-image>
+      <app-article-image [(imageUrl)]="article.imageUrl"
+                         (imageUrlChange)="f.control.markAsTouched()"></app-article-image>
       <div class="text-body mt-2">{{article.barcode}}</div>
     </div>
 
@@ -17,12 +18,15 @@
                 <div class="form-group">
                   <label for="articleName">Name</label>
                   <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="article.name"
-                         name="articleName" id="articleName" required>
+                         [ngClass]="{'is-invalid' : name.touched && name.invalid}"
+                         name="articleName" id="articleName" #name="ngModel" required>
                 </div>
                 <div class="form-group">
                   <label for="articleGroup">Artikelgruppe</label>
-                  <select class="custom-select custom-select-sm" id="articleGroup" [(ngModel)]="article.groupId"
-                          name="groupId" required>
+                  <select class="custom-select custom-select-sm" id="articleGroup"
+                          [(ngModel)]="article.groupId"
+                          [ngClass]="{'is-invalid': articleGroup.touched && articleGroup.invalid}"
+                          name="groupId" #articleGroup="ngModel" appRequiredSelect="0">
                     <option style="text-overflow: ellipsis; overflow: hidden"
                             *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
                   </select>
@@ -30,7 +34,7 @@
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="hasExpireDate" name="hasLifetime"
-                           [(ngModel)]="article.hasLifetime" required>
+                           [(ngModel)]="article.hasLifetime">
                     <label class="custom-control-label" for="hasExpireDate">Hat Ablaufdatum </label>
                   </div>
                 </div>
@@ -39,8 +43,9 @@
                 <div class="form-group">
                   <label for="unit">Einheit</label>
                   <select class="custom-select custom-select-sm" id="unit"
-                          [(ngModel)]="article.unitId" #unitSelector
-                          name="unitId" required>
+                          [(ngModel)]="article.unitId" #unitSelector="ngModel"
+                          [ngClass]="{'is-invalid': unitSelector.touched && unitSelector.invalid}" name="unitId"
+                          appRequiredSelect="0">
                     <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})
                     </option>
                   </select>
@@ -49,11 +54,12 @@
                   <label for="contentAmount">Inhaltsmenge</label>
                   <div class="input-group input-group-sm w-50">
                     <input type="text" class="form-control form-control-sm text-right no-round-corners"
-                           name="contentAmount"
-                           [(ngModel)]="article.contentAmount" id="contentAmount" required>
+                           name="contentAmount" #contentAmount="ngModel"
+                           [ngClass]="{'custom-is-invalid': contentAmount.touched && contentAmount.invalid}"
+                           [(ngModel)]="article.contentAmount" id="contentAmount" required appMinimumValue="1">
                     <div class="input-group-append">
                       <span
-                        class="input-group-text">{{articleData.units[unitSelector.selectedIndex]?.abbreviation}}</span>
+                        class="input-group-text">{{articleData.units[unitSelector.value - 1]?.abbreviation}}</span>
                     </div>
                   </div>
                 </div>
@@ -74,7 +80,9 @@
                   <div class="input-group input-group-sm w-50">
                     <input type="text" class="form-control form-control-sm text-right no-round-corners"
                            name="keepStockAmount"
-                           [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount" required>
+                           [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount"
+                           [ngClass]="{'is-invalid': keepStockAmount.touched && keepStockAmount.invalid}"
+                           #keepStockAmount="ngModel" required appMinimumValue="0">
                     <div class="input-group-append">
                       <span
                         class="input-group-text">Stk.</span>
@@ -86,7 +94,8 @@
                 <div class="form-group">
                   <select class="custom-select custom-select-sm" id="keepStockMode"
                           [(ngModel)]="article.articleUserSettings.keepStockMode"
-                          name="keepStockMode" required>
+                          [ngClass]="{'is-invalid': keepStockMode.touched && keepStockMode.invalid}"
+                          name="keepStockMode" #keepStockMode="ngModel" appRequiredSelect="0">
                     <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}
                     </option>
                   </select>
@@ -101,7 +110,7 @@
             <span [ngClass]="tabs.tabs[2].active ? '' : 'text-light'">Lager</span>
           </ng-template>
           <div class="container mt-3">
-            <app-article-stock [article]="article" ></app-article-stock>
+            <app-article-stock [article]="article"></app-article-stock>
           </div>
         </tab>
       </tabset>
@@ -113,7 +122,9 @@
     <div class="col-3"></div>
     <div class="col">
       <button class="btn btn-sm btn-danger" *ngIf="!editMode">Verwerfen</button>
-      <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()">Speichern</button>
+      <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()"
+              [disabled]="!f.valid">Speichern
+      </button>
     </div>
   </div>
 </form>

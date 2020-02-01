@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../_models/user';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -8,6 +9,8 @@ import {User} from '../../_models/user';
 })
 export class ProfileComponent implements OnInit {
   @Input() user: User;
+  password: string;
+  confirmPassword: string;
 
   constructor() {
   }

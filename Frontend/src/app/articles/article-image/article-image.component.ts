@@ -11,7 +11,7 @@ export class ArticleImageComponent implements OnInit {
   @Output() imageUrlChange = new EventEmitter();
 
   private modalRef: BsModalRef;
-  private urlBackup: string;
+  private urlCopy: string;
 
   constructor(private modalService: BsModalService) {
   }
@@ -20,17 +20,16 @@ export class ArticleImageComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.urlBackup = this.imageUrl;
+    this.urlCopy = this.imageUrl;
     this.modalRef = this.modalService.show(template);
   }
 
-  cancel() {
-    this.imageUrl = this.urlBackup;
+  Ok() {
+    this.imageUrlChange.emit(this.urlCopy);
     this.modalRef.hide();
   }
 
-  setChanged() {
+  cancel() {
     this.modalRef.hide();
-    this.imageUrlChange.emit(this.imageUrl);
   }
 }

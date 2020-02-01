@@ -18,6 +18,6 @@ label {
   color: white;
 }
 
-.custom-invalid-input {
+.custom-is-invalid {
   border-bottom: solid 2px red;
 }

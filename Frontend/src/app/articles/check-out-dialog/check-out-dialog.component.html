@@ -7,7 +7,7 @@
     <label for="checkoutAmount" class="text-body">Anzahl</label>
     <div class="input-group w-50">
       <input type="number" class="form-control form-control-sm remove-spinners" id="checkoutAmount" name="checkoutAmount"
-             #checkoutAmount="ngModel" [ngClass]="{'custom-invalid-input' : checkoutAmount.invalid}"
+             #checkoutAmount="ngModel" [ngClass]="{'custom-is-invalid' : checkoutAmount.invalid}"
              [(ngModel)]="amount" required appMinimumValue="1" [appMaximumValue]="totalAmount">
       <div class="input-group-append">
         <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>

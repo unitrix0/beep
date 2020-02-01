@@ -51,14 +51,14 @@ import {ArticleImageComponent} from './articles/article-image/article-image.comp
 import {CheckOutDialogComponent} from './articles/check-out-dialog/check-out-dialog.component';
 import {MinimumValueDirective} from './_directives/minimum-value.directive';
 import {MaximumValueDirective} from './_directives/maximum-value.directive';
-import { ArticleCheckOutComponent } from './articles/article-check-out/article-check-out.component';
+import {ArticleCheckOutComponent} from './articles/article-check-out/article-check-out.component';
 import {FillLevelComponent} from './_helpers/fill-level.component';
-import { StockEntryListComponent } from './articles/stock-entry-list/stock-entry-list.component';
-import { ArticleOpenComponent } from './articles/article-open/article-open.component';
+import {StockEntryListComponent} from './articles/stock-entry-list/stock-entry-list.component';
+import {ArticleOpenComponent} from './articles/article-open/article-open.component';
 import {Ng5SliderModule} from 'ng5-slider';
-import { ArticleOpenDialogComponent } from './articles/article-open-dialog/article-open-dialog.component';
+import {ArticleOpenDialogComponent} from './articles/article-open-dialog/article-open-dialog.component';
 import {RequiredSelectDirective} from './_directives/required-select.directive';
-import {MatchFieldDirective} from './_directives/match-field.directive';
+import {CustomFormsModule} from 'ngx-custom-validators';
 
 export function jwtGetter() {
   const token = localStorage.getItem('token');
@@ -107,7 +107,6 @@ registerLocaleData(localeCh, 'de-CH');
     ArticleOpenComponent,
     ArticleOpenDialogComponent,
     RequiredSelectDirective,
-    MatchFieldDirective
   ],
   imports: [
     HttpClientModule,
@@ -132,7 +131,8 @@ registerLocaleData(localeCh, 'de-CH');
     BrowserAnimationsModule,
     PaginationModule.forRoot(),
     ProgressbarModule.forRoot(),
-    Ng5SliderModule
+    Ng5SliderModule,
+    CustomFormsModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},

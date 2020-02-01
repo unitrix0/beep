@@ -6,16 +6,16 @@
 <ng-template #template>
   <div class="modal-header">
     <h5 class="modal-titel pull-left">Beep! - Artikel Bild</h5>
-    <button type="button" class="close pull-right" (click)="cancel()">
+    <button type="button" class="close pull-right" (click)="Ok()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <label for="imgUrl" class="text-body">URL zum Produktbild</label>
-    <input type="text" class="form-control form-control-sm" id="imgUrl" [(ngModel)]="imageUrl">
+    <input type="text" class="form-control form-control-sm" id="imgUrl" [(ngModel)]="urlCopy" url>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-sm btn-cancel" (click)="cancel()">Abbrechen</button>
-    <button type="button" class="btn btn-sm btn-success" (click)="setChanged()">Setzen</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="Ok()">Setzen</button>
   </div>
 </ng-template>
