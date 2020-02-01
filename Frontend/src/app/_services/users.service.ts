@@ -1,7 +1,5 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PaginatedResult} from '../_models/pagination';
-import {Article} from '../_models/article';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
@@ -98,5 +96,10 @@ export class UsersService {
       .append('environmentId', environmentId.toString());
 
     return this.http.get<Permission[]>(this.baseUrl + 'GetEnvironmentPermissions/' + userId, {params: params});
+  }
+
+  updateEnvironmentName(environmentId: number, newName: string): Observable<object> {
+    const p = new HttpParams().append('NewName', newName);
+    return this.http.put(this.baseUrl + 'UpdateEnvironmentName/' + environmentId, null, {params: p});
   }
 }

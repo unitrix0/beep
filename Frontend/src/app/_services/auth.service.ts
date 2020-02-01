@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {UserForLogin} from '../_models/user-for-login';
 import {environment} from '../../environments/environment';
 import {UserToken} from '../_models/userToken';
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserForRegistration} from '../_models/user-for-registration';
 import {User} from '../_models/user';
@@ -15,16 +15,14 @@ import {PermissionFlags} from '../_enums/permission-flags.enum';
 export class AuthService {
   decodedToken: any;
   currentUser: UserToken;
-
-  get permissions(): PermissionFlags {
-    return this.parsePermissions(this.decodedToken.permissions);
-    ;
-  }
-
   private jwtHelper = new JwtHelperService();
   private baseUrl = environment.apiUrl + 'auth/';
 
   constructor(private http: HttpClient, private router: Router) {
+  }
+
+  get permissions(): PermissionFlags {
+    return this.parsePermissions(this.decodedToken.permissions);
   }
 
   login(user: UserForLogin): Observable<void> {

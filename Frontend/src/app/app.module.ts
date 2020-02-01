@@ -57,6 +57,8 @@ import { StockEntryListComponent } from './articles/stock-entry-list/stock-entry
 import { ArticleOpenComponent } from './articles/article-open/article-open.component';
 import {Ng5SliderModule} from 'ng5-slider';
 import { ArticleOpenDialogComponent } from './articles/article-open-dialog/article-open-dialog.component';
+import {RequiredSelectDirective} from './_directives/required-select.directive';
+import {MatchFieldDirective} from './_directives/match-field.directive';
 
 export function jwtGetter() {
   const token = localStorage.getItem('token');
@@ -103,7 +105,9 @@ registerLocaleData(localeCh, 'de-CH');
     FillLevelComponent,
     StockEntryListComponent,
     ArticleOpenComponent,
-    ArticleOpenDialogComponent
+    ArticleOpenDialogComponent,
+    RequiredSelectDirective,
+    MatchFieldDirective
   ],
   imports: [
     HttpClientModule,

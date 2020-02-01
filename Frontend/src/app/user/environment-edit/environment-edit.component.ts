@@ -29,6 +29,7 @@ export class EnvironmentEditComponent implements OnInit {
 
   selectEnvironment(environmentIdx: number) {
     this.currentEnvironment = this.environments[environmentIdx];
+    console.log(this.currentEnvironment.ownerId + '!=' + this.userId);
     this.data.getEnvironmentPermissions(this.currentEnvironment.id, this.userId)
       .subscribe(value => {
         this.members = value;
@@ -95,6 +96,20 @@ export class EnvironmentEditComponent implements OnInit {
         this.alertify.success('Benutzer entfernt');
       }, error => {
         this.alertify.error('Der Benutzer konnte nicht entfernt werden: ' + error.message);
+      });
+  }
+
+  onlyOneEnvironment() {
+    return this.environments.filter(e => e.ownerId === this.userId).length === 1;
+  }
+
+  updateEnvName(newName: string) {
+    this.data.updateEnvironmentName(this.currentEnvironment.id, newName)
+      .subscribe(() => {
+        this.currentEnvironment.name = newName;
+        this.alertify.success('Name gespeichert');
+      }, error => {
+        this.alertify.error('Der Name konnte nicht angepasst werden: ' + error.message);
       });
   }
 }
