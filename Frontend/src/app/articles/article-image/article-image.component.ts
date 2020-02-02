@@ -24,7 +24,7 @@ export class ArticleImageComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  Ok() {
+  ok() {
     this.imageUrlChange.emit(this.urlCopy);
     this.modalRef.hide();
   }

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {UsersService} from '../_services/users.service';
 import {ResetScanService} from '../_services/reset-scan.service';
 import {CodeScannerComponent} from './code-scanner/code-scanner.component';
@@ -9,6 +9,7 @@ import {ArticlesService} from '../_services/articles.service';
 import {ScanModes} from '../_enums/scan-modes.enum';
 import {Article} from '../_models/article';
 import {ScanCardComponent} from './scan-card/scan-card.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-scan',
@@ -20,14 +21,16 @@ export class ScanComponent implements OnInit {
   @ViewChild('scanCheckIn') scanCheckIn: ScanCardComponent;
   @ViewChild('scanCheckOut') scanCheckOut: ScanCardComponent;
   @ViewChild('scanOpen') scanOpen: ScanCardComponent;
+  @ViewChild('template') notFoundDialog: TemplateRef<any>;
   scanMode = ScanModes.none;
   scannedArticle: Article;
   private hasPermission: boolean;
   private scanModes = ScanModes;
+  private modalRef: BsModalRef;
 
   constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
               private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
-              private permissions: PermissionsService) {
+              private permissions: PermissionsService, private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -48,6 +51,11 @@ export class ScanComponent implements OnInit {
     this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
       .subscribe(article => {
         this.scannedArticle = article;
+        if (this.scannedArticle.id === 0 && (this.scanMode === ScanModes.checkout || this.scanMode === ScanModes.open)) {
+          this.notFound();
+          this.finishScan();
+          return;
+        }
         if (this.scannedArticle.id === 0) {
           this.scannedArticle.barcode = barcode;
         }
@@ -81,5 +89,9 @@ export class ScanComponent implements OnInit {
       }, error => {
         this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
       });
+  }
+
+  notFound() {
+    this.modalRef = this.modalService.show(this.notFoundDialog);
   }
 }
