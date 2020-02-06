@@ -1,3 +1,5 @@
+import {ArticleStore} from './article-store';
+
 export interface Article {
   id: number;
   barcode: string;
@@ -9,4 +11,5 @@ export interface Article {
   imageUrl: string;
   totalStockAmount: number;
   articleUserSettings: ArticleUserSettings;
+  stores: ArticleStore[];
 }

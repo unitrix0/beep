@@ -4,9 +4,10 @@
     <form action="">
       <div class="form-group">
         <label for="searchText">Name oder EAN</label>
-        <input type="text" class="form-control" id="searchText">
+        <input type="text" class="form-control" id="searchText" name="searchText" [(ngModel)]="nameOrEan">
       </div>
-      <button class="btn btn-sm btn-info float-right">Scan Barcode</button>
+      <button class="btn btn-sm btn-info float-right" (click)="startScan()" [class.mb-3]="showScanner">Scan Barcode</button>
     </form>
+   <app-code-scanner *ngIf="showScanner" (barcodeDetected)="codeDetected($event)"></app-code-scanner>
   </div>
 </div>

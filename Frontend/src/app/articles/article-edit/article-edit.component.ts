@@ -2,10 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {BsLocaleService, defineLocale, deLocale} from 'ngx-bootstrap';
 import {ArticlesService} from '../../_services/articles.service';
 import {Article} from '../../_models/article';
-import {ArticleStockComponent} from '../article-stock/article-stock.component';
 import {NgForm} from '@angular/forms';
-import {PaginatedResult} from '../../_models/pagination';
-import {StockEntry} from '../../_models/stock.entry';
+import {ArticleStore} from '../../_models/article-store';
 
 defineLocale('de', deLocale);
 
@@ -34,5 +32,22 @@ export class ArticleEditComponent implements OnInit {
 
   saveArticle() {
     this.save.emit();
+  }
+
+  articleHasStore(storeId: number): boolean {
+    return this.article.stores.find(s => s.storeId === storeId) != null;
+  }
+
+  addRemoveStore(articleId: number, storeId: number) {
+    const idx = this.article.stores.findIndex(s => s.storeId === storeId);
+    if (idx > -1 && this.article.stores.length > 1) {
+      this.article.stores.splice(idx, 1);
+    } else {
+      const item: ArticleStore = new class implements ArticleStore {
+        articleId = articleId;
+        storeId = storeId;
+      };
+      this.article.stores.push(item);
+    }
   }
 }

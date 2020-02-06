@@ -29,7 +29,6 @@ export class CodeScannerComponent implements OnInit {
 
     this.scanner.askForPermission().then(permission => {
       console.log('Permissions response: ' + permission);
-      // this.scanner.tryHarder = true;
     });
   }
 

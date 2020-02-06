@@ -18,7 +18,7 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'scan', component: ScanComponent},
-      {path: 'articles/:environmentId', component: ArticlesComponent, resolve: {articles: ArticlesResolver}},
+      {path: 'articles', component: ArticlesComponent, resolve: {articles: ArticlesResolver}},
       {path: 'shopping-list', component: ShoppingListComponent},
       {path: 'users/:id', component: UserComponent, resolve: {user: EditUserResolver}},
       {path: 'users/:id/invitations', component: InvitationsComponent, resolve: {invitations: InvitationsResolver}}

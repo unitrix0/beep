@@ -6,6 +6,7 @@ import {ArticlesFilter} from '../_models/articles-filter';
 import {PaginatedResult, Pagination} from '../_models/pagination';
 import {AlertifyService} from '../_services/alertify.service';
 import {PageChangedEvent} from 'ngx-bootstrap';
+import {AuthService} from '../_services/auth.service';
 
 @Component({
   selector: 'app-articles',
@@ -14,11 +15,10 @@ import {PageChangedEvent} from 'ngx-bootstrap';
 })
 export class ArticlesComponent implements OnInit {
   articles: Article[];
-  environmentId: number;
-  filter: ArticlesFilter = {storeId: 1, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
+  filter: ArticlesFilter = {environmentId: 0, storeId: 1, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
   pagination: Pagination;
 
-  constructor(private data: ArticlesService, private route: ActivatedRoute, private alertify: AlertifyService) {
+  constructor(private data: ArticlesService, private route: ActivatedRoute, private alertify: AlertifyService, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -34,21 +34,17 @@ export class ArticlesComponent implements OnInit {
     this.LoadData(1);
   }
 
+  pageChanged(eventArgs: PageChangedEvent) {
+    this.LoadData(eventArgs.page);
+  }
+
   private LoadData(page: number) {
-    this.data.getArticles(this.environmentId, page, this.pagination.itemsPerPage, this.filter)
+    this.data.getArticles(this.authService.decodedToken.environment_id, page, this.pagination.itemsPerPage, this.filter)
       .subscribe((value: PaginatedResult<Article[]>) => {
         this.articles = value.content;
         this.pagination = value.pagination;
       }, error => {
         this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error.message);
       });
-  }
-
-  changed() {
-    console.log('changed: ' + this.filter.isOpened);
-  }
-
-  pageChanged(eventArgs: PageChangedEvent) {
-    this.LoadData(eventArgs.page);
   }
 }

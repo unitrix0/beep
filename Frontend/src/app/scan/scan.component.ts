@@ -21,7 +21,7 @@ export class ScanComponent implements OnInit {
   @ViewChild('scanCheckIn') scanCheckIn: ScanCardComponent;
   @ViewChild('scanCheckOut') scanCheckOut: ScanCardComponent;
   @ViewChild('scanOpen') scanOpen: ScanCardComponent;
-  @ViewChild('template') notFoundDialog: TemplateRef<any>;
+  @ViewChild('notFoundDlg') notFoundDialog: TemplateRef<any>;
   scanMode = ScanModes.none;
   scannedArticle: Article;
   private hasPermission: boolean;
@@ -51,7 +51,8 @@ export class ScanComponent implements OnInit {
     this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
       .subscribe(article => {
         this.scannedArticle = article;
-        if (this.scannedArticle.id === 0 && (this.scanMode === ScanModes.checkout || this.scanMode === ScanModes.open)) {
+        if (this.scannedArticle.id === 0 &&
+          (this.scanMode === ScanModes.checkout || this.scanMode === ScanModes.open)) {
           this.notFound();
           this.finishScan();
           return;

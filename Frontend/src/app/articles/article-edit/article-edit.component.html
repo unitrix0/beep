@@ -113,6 +113,30 @@
             <app-article-stock [article]="article"></app-article-stock>
           </div>
         </tab>
+        <tab *ngIf="editMode"
+             [ngClass]="editMode ? 'edit-size' : 'check-in-size'">
+          <ng-template tabHeading>
+            <span [ngClass]="tabs.tabs[3].active ? '' : 'text-light'">Läden</span>
+          </ng-template>
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col mb-1 text-light">Artikel ist in diesen Läden erhältlich:</div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="list-group mb-3">
+                  <a class="list-group-item list-group-item-action list-group-item-cursor"
+                     *ngFor="let store of articleData.stores"
+                     (click)="addRemoveStore(article.id, store.id)" [class.active]="articleHasStore(store.id)">
+                    <i class="fas fa-check mr-2" style="color: lawngreen" *ngIf="articleHasStore(store.id)"></i>
+                    {{store.name}}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </tab>
       </tabset>
 
 
