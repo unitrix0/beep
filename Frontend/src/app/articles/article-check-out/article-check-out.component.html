@@ -12,7 +12,7 @@
     <div class="col">
       <div class="text-light mb-1" *ngIf="!showArticleOpen">Wählen Sie den Artikel der {{actionLabel}}</div>
       <app-stock-entry-list [stockData]="this.stockData" (entrySelected)="selectedEntryId = $event"
-                            [article]="article" [selectedColumns]="showCols"
+                            [selectedColumns]="showCols" [article]="article"
                             (pageChanged)="pageChanged($event)" *ngIf="!showArticleOpen"></app-stock-entry-list>
       <app-article-open [(remaining)]="selectedEntry.amountRemaining" *ngIf="showArticleOpen"></app-article-open>
     </div>
@@ -21,7 +21,8 @@
     <div class="col-3"></div>
     <div class="col">
       <button class="btn btn-sm btn-danger" type="button" (click)="doneOrCanceled.emit()">Verwerfen</button>
-      <button class="btn btn-sm btn-success float-right" [disabled]="!selectedEntryId || selectedEntryId == 0" (click)="action();">{{actionButtonLabel}}</button>
+      <button class="btn btn-sm btn-success float-right" [disabled]="!selectedEntryId || selectedEntryId == 0"
+              (click)="action();">{{actionButtonLabel}}</button>
     </div>
   </div>
 </div>

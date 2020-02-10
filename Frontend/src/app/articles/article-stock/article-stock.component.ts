@@ -7,6 +7,7 @@ import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
+import {PermissionFlags} from '../../_enums/permission-flags.enum';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-di
 })
 export class ArticleStockComponent implements OnInit {
   @Input() article: Article;
+  @Input() articleUserSettings: ArticleUserSettings;
   private stockData: PaginatedResult<StockEntry[]>;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modService: BsModalService) {
@@ -78,8 +80,9 @@ export class ArticleStockComponent implements OnInit {
   }
 
   private loadStock(page: number) {
-    this.articleData.getArticleStock(this.article.id, this.article.articleUserSettings.environmentId, page)
+    this.articleData.getArticleStock(this.article.id, this.articleUserSettings.environmentId, page)
       .subscribe(result => {
+        console.log(this.articleUserSettings.environmentId);
         this.stockData = result;
       }, error => {
         this.alertify.error(error.message);

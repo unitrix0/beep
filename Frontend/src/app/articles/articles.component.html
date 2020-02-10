@@ -1,7 +1,7 @@
 <div class="container-fluid mt-4">
   <div class="row">
     <div class="col-2">
-      <app-environment-filter></app-environment-filter>
+      <app-environment-filter (changed)="environmentChanged()"></app-environment-filter>
       <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan"></app-name-or-barcode>
       <app-article-filter (setFilter)="setFilter()"
                           [(isOnStock)]="filter.isOnStock"
@@ -15,7 +15,8 @@
     <div class="col-10">
       <h5 class="text-body" *ngIf="articles.length == 0">Es wurden noch keine Artikel eingescannt</h5>
       <div class="card-deck">
-        <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
+        <app-article-card *ngFor="let article of articles" [article]="article" [environmentId]="filter.environmentId">
+        </app-article-card>
       </div>
     </div>
   </div>

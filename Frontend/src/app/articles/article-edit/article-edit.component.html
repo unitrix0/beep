@@ -19,14 +19,16 @@
                   <label for="articleName">Name</label>
                   <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="article.name"
                          [ngClass]="{'is-invalid' : name.touched && name.invalid}"
-                         name="articleName" id="articleName" #name="ngModel" required>
+                         name="articleName" id="articleName" #name="ngModel" required
+                         [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
                 </div>
                 <div class="form-group">
                   <label for="articleGroup">Artikelgruppe</label>
                   <select class="custom-select custom-select-sm" id="articleGroup"
                           [(ngModel)]="article.groupId"
                           [ngClass]="{'is-invalid': articleGroup.touched && articleGroup.invalid}"
-                          name="groupId" #articleGroup="ngModel" appRequiredSelect="0">
+                          name="groupId" #articleGroup="ngModel" appRequiredSelect="0"
+                          [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
                     <option style="text-overflow: ellipsis; overflow: hidden"
                             *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
                   </select>
@@ -34,7 +36,8 @@
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="hasExpireDate" name="hasLifetime"
-                           [(ngModel)]="article.hasLifetime">
+                           [(ngModel)]="article.hasLifetime"
+                           [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
                     <label class="custom-control-label" for="hasExpireDate">Hat Ablaufdatum </label>
                   </div>
                 </div>
@@ -45,7 +48,7 @@
                   <select class="custom-select custom-select-sm" id="unit"
                           [(ngModel)]="article.unitId" #unitSelector="ngModel"
                           [ngClass]="{'is-invalid': unitSelector.touched && unitSelector.invalid}" name="unitId"
-                          appRequiredSelect="0">
+                          appRequiredSelect="0" [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
                     <option *ngFor="let u of articleData.units" [ngValue]="u.id">{{u.name}} ({{u.abbreviation}})
                     </option>
                   </select>
@@ -56,7 +59,8 @@
                     <input type="text" class="form-control form-control-sm text-right no-round-corners"
                            name="contentAmount" #contentAmount="ngModel"
                            [ngClass]="{'custom-is-invalid': contentAmount.touched && contentAmount.invalid}"
-                           [(ngModel)]="article.contentAmount" id="contentAmount" required appMinimumValue="1">
+                           [(ngModel)]="article.contentAmount" id="contentAmount" required appMinimumValue="1"
+                           [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
                     <div class="input-group-append">
                       <span
                         class="input-group-text">{{articleData.units[unitSelector.value - 1]?.abbreviation}}</span>
@@ -80,9 +84,10 @@
                   <div class="input-group input-group-sm w-50">
                     <input type="text" class="form-control form-control-sm text-right no-round-corners"
                            name="keepStockAmount"
-                           [(ngModel)]="article.articleUserSettings.keepStockAmount" id="keepStockAmount"
+                           [(ngModel)]="articleUserSettings.keepStockAmount" id="keepStockAmount"
                            [ngClass]="{'is-invalid': keepStockAmount.touched && keepStockAmount.invalid}"
-                           #keepStockAmount="ngModel" required appMinimumValue="0">
+                           #keepStockAmount="ngModel" required appMinimumValue="0"
+                           [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
                     <div class="input-group-append">
                       <span
                         class="input-group-text">Stk.</span>
@@ -93,9 +98,10 @@
                 <label for="keepStockMode">Lagerbestand Modus</label>
                 <div class="form-group">
                   <select class="custom-select custom-select-sm" id="keepStockMode"
-                          [(ngModel)]="article.articleUserSettings.keepStockMode"
+                          [(ngModel)]="articleUserSettings.keepStockMode"
                           [ngClass]="{'is-invalid': keepStockMode.touched && keepStockMode.invalid}"
-                          name="keepStockMode" #keepStockMode="ngModel" appRequiredSelect="0">
+                          name="keepStockMode" #keepStockMode="ngModel" appRequiredSelect="0"
+                          [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
                     <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}
                     </option>
                   </select>
@@ -110,7 +116,7 @@
             <span [ngClass]="tabs.tabs[2].active ? '' : 'text-light'">Lager</span>
           </ng-template>
           <div class="container mt-3">
-            <app-article-stock [article]="article"></app-article-stock>
+            <app-article-stock [article]="article" [articleUserSettings]="articleUserSettings"></app-article-stock>
           </div>
         </tab>
         <tab *ngIf="editMode"

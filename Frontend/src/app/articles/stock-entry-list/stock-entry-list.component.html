@@ -23,12 +23,13 @@
         <td class="text-center" *ngIf="showColumn(columns.isOpened)">
           <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="chkOpen{{entry.id}}" value="{{entry.id}}"
-            [(ngModel)]="entry.isOpened" (click)="openArticle($event)">
+                   [(ngModel)]="entry.isOpened" (click)="openArticle($event)"
+                   [disabled]="!permissionsService.hasPermissionOr(scanArticlePermission)">
             <label class="custom-control-label" for="chkOpen{{entry.id}}"></label>
           </div>
         </td>
         <td class="text-center" *ngIf="showColumn(columns.checkOut)">
-          <div class="fas fa-trash-alt" style="cursor: pointer" (click)="checkOutClicked.emit(entry)"></div>
+          <div class="fas fa-trash-alt" style="cursor: pointer" (click)="checkOut(entry)"></div>
         </td>
       </tr>
       </tbody>
@@ -37,7 +38,7 @@
 </div>
 <div class="row">
   <div class="col text-light">
-    Total: {{article.totalStockAmount}} Stk.
+    Total: {{stockData?.totalStockAmount}} Stk.
   </div>
   <div class="col">
     <pagination [totalItems]="stockData.pagination.totalItems" maxSize="5"

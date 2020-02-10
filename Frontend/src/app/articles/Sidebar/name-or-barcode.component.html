@@ -4,7 +4,7 @@
     <form action="">
       <div class="form-group">
         <label for="searchText">Name oder EAN</label>
-        <input type="text" class="form-control" id="searchText" name="searchText" [(ngModel)]="nameOrEan">
+        <input type="text" class="form-control" id="searchText" name="searchText" [(ngModel)]="nameOrEan" (change)="nameOrEanChange.emit(nameOrEan)">
       </div>
       <button class="btn btn-sm btn-info float-right" (click)="startScan()" [class.mb-3]="showScanner">Scan Barcode</button>
     </form>

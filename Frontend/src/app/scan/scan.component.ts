@@ -23,10 +23,14 @@ export class ScanComponent implements OnInit {
   @ViewChild('scanOpen') scanOpen: ScanCardComponent;
   @ViewChild('notFoundDlg') notFoundDialog: TemplateRef<any>;
   scanMode = ScanModes.none;
-  scannedArticle: Article;
+  private scannedArticle: Article;
+  private articleUserSettings: ArticleUserSettings;
   private hasPermission: boolean;
   private scanModes = ScanModes;
   private modalRef: BsModalRef;
+  private showCheckIn = false;
+  private showBaseData = false;
+  private showCheckOut = false;
 
   constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
               private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
@@ -39,60 +43,100 @@ export class ScanComponent implements OnInit {
   }
 
 
-  startScan(newMode: ScanModes) {
+  private startScan(newMode: ScanModes) {
     this.scanMode = newMode;
     this.changeDetector.detectChanges(); // Damit ViwChild referenz für 'scanner' funktioniert
     this.scanner.startScan();
   }
 
-
-  barcodeDetected(barcode: string) {
+  private barcodeDetected(barcode: string) {
     this.scanner.stopScan();
-    this.articles.lookupArticle(barcode, this.auth.decodedToken.environment_id)
-      .subscribe(article => {
-        this.scannedArticle = article;
-        if (this.scannedArticle.id === 0 &&
-          (this.scanMode === ScanModes.checkout || this.scanMode === ScanModes.open)) {
-          this.notFound();
-          this.finishScan();
-          return;
-        }
-        if (this.scannedArticle.id === 0) {
-          this.scannedArticle.barcode = barcode;
-        }
-        if (this.scannedArticle.articleUserSettings.id === 0) {
-          this.scannedArticle.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
-        }
-      }, error => {
-        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
-      });
-
+    this.lookupArticle(barcode);
     this.resetScanTimeout();
   }
 
-  resetScanTimeout() {
+  private resetScanTimeout() {
     this.resetScan.reset.emit(this.scanMode);
   }
 
-  finishScan() {
+  private finishScan() {
     this.scanCheckIn.doScan = false;
     this.scanCheckOut.doScan = false;
     this.scanOpen.doScan = false;
     this.scannedArticle = null;
+    this.articleUserSettings = null;
     this.scanMode = this.scanModes.none;
   }
 
-  createArticle() {
+  private showNotFoundDialog() {
+    this.modalRef = this.modalService.show(this.notFoundDialog);
+  }
+
+  private lookupArticle(barcode: string) {
+    this.articles.lookupArticle(barcode)
+      .subscribe(article => {
+        this.scannedArticle = article;
+        if ((this.scanMode === ScanModes.checkout || this.scanMode === ScanModes.open) && this.scannedArticle.id === 0) {
+          this.showNotFoundDialog();
+          this.finishScan();
+          return;
+        }
+
+        if (this.scannedArticle.id === 0) {
+          this.scannedArticle.barcode = barcode;
+          this.showBaseData = true;
+        } else {
+          this.lookupArticleUserSettings(this.scannedArticle.id, this.auth.decodedToken.environment_id);
+        }
+      }, error => {
+        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
+      });
+  }
+
+  private lookupArticleUserSettings(articleId: number, environmentId: number) {
+    this.articles.getArticleUserSettings(articleId, environmentId)
+      .subscribe(articleUsrSettings => {
+        this.articleUserSettings = articleUsrSettings;
+        if (this.articleUserSettings.id === 0) {
+          this.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
+          this.showBaseData = true;
+        } else {
+          this.showCheckIn = true;
+        }
+      }, error => {
+        this.alertify.error('Datenabfrage fehlgeschlagen: ' + error.message);
+      });
+  }
+
+  private save() {
+    if (this.scannedArticle.id === 0) {
+      this.saveArticle();
+      return;
+    }
+    this.saveArticleUserSettings();
+  }
+
+  private saveArticle() {
     this.articles.createArticle(this.scannedArticle)
       .subscribe(createdArticle => {
-        this.alertify.success('Artikel gespeichert');
-        this.scannedArticle = createdArticle;
+        if (this.saveArticleUserSettings()) {
+          this.scannedArticle = createdArticle;
+          this.alertify.success('Artikel gespeichert');
+        }
       }, error => {
         this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
       });
   }
 
-  notFound() {
-    this.modalRef = this.modalService.show(this.notFoundDialog);
+  private saveArticleUserSettings(): boolean {
+    this.articles.createArticleUserSettings(this.scannedArticle.id, this.articleUserSettings)
+      .subscribe(value => {
+        this.articleUserSettings = value;
+        return true;
+      }, error => {
+        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
+        return false;
+      });
+    return false;
   }
 }

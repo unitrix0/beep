@@ -6,6 +6,7 @@ import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {StockListColumns} from '../../_enums/stock-list-columns.enum';
 import {PageChangedEvent} from 'ngx-bootstrap';
+import {PagedStockList} from '../../_models/paged-stock-list';
 
 @Component({
   selector: 'app-article-check-out',
@@ -16,11 +17,12 @@ export class ArticleCheckOutComponent implements OnInit {
   /** Definiert ob die Komponente für den "Geöffnet" modus verwendet wird */
   @Input() forOpenMode: boolean;
   @Input() article: Article;
+  @Input() articleUserSettings: ArticleUserSettings;
   @Output() doneOrCanceled = new EventEmitter();
   private actionLabel: string;
   private actionButtonLabel: string;
   private showCols = [StockListColumns.amount, StockListColumns.expireDate, StockListColumns.fillLevel];
-  private stockData: PaginatedResult<StockEntry[]>;
+  private stockData: PagedStockList;
   private selectedEntryId: number;
   private showArticleOpen: boolean;
   private selectedEntry: StockEntry;
@@ -75,8 +77,8 @@ export class ArticleCheckOutComponent implements OnInit {
   }
 
   private LoadData(pageNumber: number) {
-    this.articleData.getArticleStock(this.article.id, this.article.articleUserSettings.environmentId, pageNumber)
-      .subscribe((result: PaginatedResult<StockEntry[]>) => {
+    this.articleData.getArticleStock(this.article.id, this.articleUserSettings.environmentId, pageNumber)
+      .subscribe((result: PagedStockList) => {
         this.stockData = result;
       });
   }

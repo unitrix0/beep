@@ -10,6 +10,5 @@ export interface Article {
   hasLifetime: boolean;
   imageUrl: string;
   totalStockAmount: number;
-  articleUserSettings: ArticleUserSettings;
   stores: ArticleStore[];
 }

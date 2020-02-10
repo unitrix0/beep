@@ -11,12 +11,8 @@ export class PermissionsService {
    * Verfügbare Permission Flags
    */
   public flags = PermissionFlags;
-  private readonly userPermissions: number;
 
-  private cnt = 0;
-
-  constructor(authService: AuthService) {
-    this.userPermissions = parseInt(authService.decodedToken.permissions, 2);
+  constructor(private authService: AuthService) {
   }
 
   /**
@@ -24,9 +20,12 @@ export class PermissionsService {
    * @param orFlags Parameter Array der erlaubten Flags
    */
   public hasPermissionOr(...orFlags: PermissionFlags[]): boolean {
-    let flags: PermissionFlags;
-    orFlags.forEach(f => flags |= f);
+    const userPermissions = parseInt(this.authService.decodedToken.permissions, 2);
+    let reqFlags: PermissionFlags = 0;
+    orFlags.forEach(f => reqFlags |= f);
 
-    return (this.userPermissions & flags) !== 0;
+    console.log(this.authService.decodedToken.environment_id + ' user:' + this.authService.decodedToken.permissions +
+      ' req:' + reqFlags + ' (' + orFlags.map(f => f).toString() + ') => ' + (userPermissions & reqFlags));
+    return (userPermissions & reqFlags) !== 0;
   }
 }

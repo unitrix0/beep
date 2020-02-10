@@ -13,6 +13,7 @@ import {CheckIn} from '../_models/check-in';
 import {StockEntry} from '../_models/stock.entry';
 import {DateSuggestions} from '../_models/date.suggestions';
 import {Store} from '../_models/store';
+import {PagedStockList} from '../_models/paged-stock-list';
 
 @Injectable({
   providedIn: 'root'
@@ -33,20 +34,17 @@ export class ArticlesService {
     ];
   }
 
-  getArticles(environmentId: number, pageNumber: number, itemsPerPage: number, filter?: ArticlesFilter):
+  getArticles(pageNumber: number, itemsPerPage: number, filter: ArticlesFilter):
     Observable<PaginatedResult<Article[]>> {
-    let params = new HttpParams()
-      .append('environmentId', environmentId.toString())
+    const params = new HttpParams()
       .append('pageNumber', pageNumber.toString())
-      .append('itemsPerPage', itemsPerPage.toString());
+      .append('itemsPerPage', itemsPerPage.toString())
+      .append('environmentId', filter.environmentId.toString())
+      .append('isOpened', String(filter.isOpened))
+      .append('keepOnStock', String(filter.keepOnStock))
+      .append('isOnStock', String(filter.isOnStock))
+      .append('nameOrEan', filter.nameOrEan);
 
-    if (filter != null) {
-      params = params.append('storeId', filter.storeId.toString())
-        .append('isOpened', String(filter.isOpened))
-        .append('keepOnStock', String(filter.keepOnStock))
-        .append('isOnStock', String(filter.isOnStock))
-        .append('nameOrEan', filter.nameOrEan);
-    }
 
     return this.http.get<Article[]>(this.baseUrl + 'GetArticles', {observe: 'response', params: params})
       .pipe(
@@ -60,12 +58,16 @@ export class ArticlesService {
         }));
   }
 
-  lookupArticle(barcode: string, environmentId: number): Observable<Article> {
-    return this.http.get<Article>(this.baseUrl + 'LookupArticle/' + barcode + '/' + environmentId);
+  lookupArticle(barcode: string): Observable<Article> {
+    return this.http.get<Article>(this.baseUrl + 'LookupArticle/' + barcode);
   }
 
   createArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(this.baseUrl + 'CreateArticle', article);
+  }
+
+  createArticleUserSettings(articleId: number, aus: ArticleUserSettings): Observable<ArticleUserSettings> {
+    return this.http.post<ArticleUserSettings>(this.baseUrl + 'CreateArticleUserSettings', aus);
   }
 
   updateArticle(article: Article): Observable<object> {
@@ -80,7 +82,7 @@ export class ArticlesService {
     return this.http.get<DateSuggestions>(this.baseUrl + 'GetArticleDateSuggestions/' + barcode + '/' + environmentId);
   }
 
-  getArticleStock(articleId: number, environmentId: number, pageNumber: number): Observable<PaginatedResult<StockEntry[]>> {
+  getArticleStock(articleId: number, environmentId: number, pageNumber: number): Observable<PagedStockList> {
     const params = new HttpParams()
       .append('pageNumber', pageNumber.toString())
       .append('itemsPerPage', '3')
@@ -90,10 +92,13 @@ export class ArticlesService {
     return this.http.get<StockEntry[]>(this.baseUrl + 'GetArticleStock', {observe: 'response', params: params})
       .pipe(
         map(response => {
-          const result: PaginatedResult<StockEntry[]> = new PaginatedResult<StockEntry[]>();
+          const result: PagedStockList = new PagedStockList();
           result.content = response.body;
           if (response.headers.get('Pagination') != null) {
             result.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          if (response.headers.get('TotalStockAmount') != null) {
+            result.totalStockAmount = parseInt(response.headers.get('TotalStockAmount'), 10);
           }
           return result;
         })
@@ -114,6 +119,14 @@ export class ArticlesService {
 
   openArticle(stockEntry: StockEntry): Observable<object> {
     return this.http.put(this.baseUrl + 'OpenArticle/', stockEntry);
+  }
+
+  getArticleUserSettings(articleId: number, environmentId: number): Observable<ArticleUserSettings> {
+    const p = new HttpParams()
+      .append('articleId', articleId.toString())
+      .append('environmentId', environmentId.toString());
+
+    return this.http.get<ArticleUserSettings>(this.baseUrl + 'GetArticleUserSettings/', {params: p});
   }
 
   private getBaseData() {

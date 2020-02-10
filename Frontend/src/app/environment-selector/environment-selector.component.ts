@@ -11,6 +11,7 @@ import {UsersService} from '../_services/users.service';
 })
 export class EnvironmentSelectorComponent implements OnInit {
   @Input() small = true;
+  @Output() environmentChanged = new EventEmitter();
 
   private environments: BeepEnvironment[];
   private activeEnvironment: string;
@@ -32,6 +33,7 @@ export class EnvironmentSelectorComponent implements OnInit {
     this.auth.updatePermissionClaims(newEnvironmentId)
       .subscribe(value => {
         this.activeEnvironment = this.environments.find(e => e.id === newEnvironmentId).name;
+        this.environmentChanged.emit();
       }, error => {
         this.alertify.error('Die Umgebung konnte nicht gewechselt werden: ' + error.mesage);
       });

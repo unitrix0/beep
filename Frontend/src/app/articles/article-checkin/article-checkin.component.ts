@@ -14,6 +14,7 @@ import {DateSuggestions} from '../../_models/date.suggestions';
 })
 export class ArticleCheckinComponent implements OnInit {
   @Input() article: Article;
+  @Input() articleUserSettings: ArticleUserSettings;
   @Output() doneOrCanceled = new EventEmitter();
 
   expireDateSuggestion = new Date(Date.now());
@@ -31,7 +32,7 @@ export class ArticleCheckinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.articleData.getArticleDateSuggestions(this.article.barcode, this.article.articleUserSettings.environmentId)
+    this.articleData.getArticleDateSuggestions(this.article.barcode, this.articleUserSettings.environmentId)
       .subscribe((suggestions: DateSuggestions) => {
         const newEntry = new class implements CheckIn {
           clientTimezoneOffset = new Date().getTimezoneOffset() * -1;
@@ -53,7 +54,7 @@ export class ArticleCheckinComponent implements OnInit {
 
     this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - today.today().getTime();
     this.stockEntry.barcode = this.article.barcode;
-    this.stockEntry.environmentId = this.article.articleUserSettings.environmentId;
+    this.stockEntry.environmentId = this.articleUserSettings.environmentId;
     this.stockEntry.articleId = this.article.id;
 
     this.articleData.saveStockEntry(this.stockEntry)

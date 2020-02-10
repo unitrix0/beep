@@ -28,22 +28,17 @@
       <app-code-scanner (barcodeDetected)="barcodeDetected($event)"></app-code-scanner>
     </div>
     <div class="col-8">
-      <app-article-edit [article]="scannedArticle" [editMode]="false"
-                        *ngIf=" scanMode === scanModes.checkin && scannedArticle &&
-                        (scannedArticle.id == 0 || scannedArticle.articleUserSettings.id == 0)"
-                        (save)="createArticle();">
+      <app-article-edit [article]="scannedArticle" [articleUserSettings]="articleUserSettings" [editMode]="false"
+                        *ngIf="showBaseData" (save)="save()">
       </app-article-edit>
 
-      <app-article-checkin [article]="scannedArticle"
-                           *ngIf="scanMode === scanModes.checkin && scannedArticle &&
-                           (scannedArticle.id != 0 || scannedArticle.articleUserSettings.id != 0)"
-                           (doneOrCanceled)="finishScan()">
+      <app-article-checkin [article]="scannedArticle" [articleUserSettings]="articleUserSettings"
+                           *ngIf="showCheckIn" (doneOrCanceled)="finishScan()">
       </app-article-checkin>
 
-      <app-article-check-out [article]="scannedArticle"
-                             *ngIf="(scanMode == scanModes.checkout || scanMode == scanModes.open)
-                             && scannedArticle && scannedArticle.id != 0"
-                             (doneOrCanceled)="finishScan()" [forOpenMode]="scanMode == scanModes.open">
+      <app-article-check-out [article]="scannedArticle" [articleUserSettings]="articleUserSettings"
+                             *ngIf="showCheckOut" (doneOrCanceled)="finishScan()"
+                             [forOpenMode]="scanMode == scanModes.open">
       </app-article-check-out>
     </div>
   </div>

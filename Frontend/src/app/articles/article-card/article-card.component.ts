@@ -11,10 +11,12 @@ import {ArticlesService} from '../../_services/articles.service';
 })
 export class ArticleCardComponent implements OnInit {
   @Input() article: Article;
+  @Input() environmentId: number;
   @ViewChild(ArticleEditComponent) editForm: ArticleEditComponent;
 
   private edit = false;
   private articleBackup: string;
+  private articleUserSettings: ArticleUserSettings;
 
   constructor(private alertify: AlertifyService, private articleData: ArticlesService) {
   }
@@ -23,20 +25,24 @@ export class ArticleCardComponent implements OnInit {
   }
 
   private editArticleSettings() {
-    console.log('expand');
     if (!this.edit) {
-      this.articleBackup = JSON.stringify(this.article);
-      this.edit = true;
-      return;
-    }
-
-    if (this.editForm.modified) {
-      this.alertify.confirm('Änderungen verwerfen?', () => {
-        this.edit = false;
-        this.article = JSON.parse(this.articleBackup);
-      });
+      this.articleData.getArticleUserSettings(this.article.id, this.environmentId)
+        .subscribe(userSettings => {
+          this.articleUserSettings = userSettings;
+          this.articleBackup = JSON.stringify(this.article);
+          this.edit = true;
+        }, error => {
+          this.alertify.error('Artikel details konnten nicht abgefragt werden: ' + error.message);
+        });
     } else {
-      this.edit = false;
+      if (this.editForm.modified) {
+        this.alertify.confirm('Änderungen verwerfen?', () => {
+          this.edit = false;
+          this.article = JSON.parse(this.articleBackup);
+        });
+      } else {
+        this.edit = false;
+      }
     }
   }
 

@@ -4,8 +4,10 @@ import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
 import {StockListColumns} from '../../_enums/stock-list-columns.enum';
 import {PaginatedResult} from '../../_models/pagination';
-import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
-import {AlertifyService} from '../../_services/alertify.service';
+import {PageChangedEvent} from 'ngx-bootstrap';
+import {PermissionsService} from '../../_services/permissions.service';
+import {PermissionFlags} from '../../_enums/permission-flags.enum';
+import {PagedStockList} from '../../_models/paged-stock-list';
 
 @Component({
   selector: 'app-stock-entry-list',
@@ -14,7 +16,7 @@ import {AlertifyService} from '../../_services/alertify.service';
 })
 export class StockEntryListComponent implements OnInit {
   @Input() article: Article;
-  @Input() stockData: PaginatedResult<StockEntry[]>;
+  @Input() stockData: PagedStockList;
   @Input() selectedColumns: StockListColumns[];
   @Input() rowSelect = true;
   @Output() entrySelected = new EventEmitter<number>();
@@ -23,8 +25,9 @@ export class StockEntryListComponent implements OnInit {
   @Output() pageChanged = new EventEmitter<PageChangedEvent>();
   private selectedEntryId: number;
   private columns = StockListColumns;
+  private scanArticlePermission = PermissionFlags.isOwner || PermissionFlags.canScan;
 
-  constructor(private articleData: ArticlesService) {
+  constructor(private articleData: ArticlesService, private permissionsService: PermissionsService) {
   }
 
   ngOnInit() {
@@ -42,6 +45,12 @@ export class StockEntryListComponent implements OnInit {
     const stockEntry = this.stockData.content.find(e => e.id === entryId);
 
     this.openArticleClicked.emit({mouseEvent: args, entry: stockEntry});
+  }
+
+  checkOut(entry: StockEntry) {
+    if (this.permissionsService.hasPermissionOr(this.scanArticlePermission)) {
+      this.checkOutClicked.emit(entry);
+    }
   }
 
   private showColumn(column: StockListColumns): boolean {
