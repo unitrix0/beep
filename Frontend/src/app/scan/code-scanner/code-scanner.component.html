@@ -4,3 +4,26 @@
     (scanSuccess)="scanSuccess($event)"
     [autostart]="false"></zxing-scanner>
 </div>
+<!-- Modal -->
+<ng-template #selectCamDlg>
+  <div class="modal-header">
+    <h5 class="modal-titel pull-left">Beep! - Kamera</h5>
+    <button type="button" class="close pull-right" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Die ausgewählte Kamera wurde nicht gefunden oder es wurde noch keine Kamera ausgewählt.
+    Wählen Sie eine Kamera für das Scannen der Barcodes:
+    <select class="custom-select custom-select-sm mt-2" id="articleGroup"
+            [(ngModel)]="selectedCam"
+            [ngClass]="{'is-invalid': camSelector.touched && camSelector.invalid}"
+            name="groupId" #camSelector="ngModel">
+      <option style="text-overflow: ellipsis; overflow: hidden"
+              *ngFor="let c of cameras" [ngValue]="c.deviceId">{{c.label}}</option>
+    </select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-success" (click)="selectCamDlg_ok();">Ok</button>
+  </div>
+</ng-template>

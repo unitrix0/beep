@@ -10,6 +10,7 @@ import {ScanModes} from '../_enums/scan-modes.enum';
 import {Article} from '../_models/article';
 import {ScanCardComponent} from './scan-card/scan-card.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {SettingsService} from '../_services/settings.service';
 
 @Component({
   selector: 'app-scan',
@@ -41,7 +42,6 @@ export class ScanComponent implements OnInit {
     this.usrService.updateInvitationsCount(this.auth.decodedToken.nameid);
     this.hasPermission = this.permissions.hasPermissionOr(this.permissions.flags.canScan, this.permissions.flags.isOwner);
   }
-
 
   private startScan(newMode: ScanModes) {
     this.scanMode = newMode;
@@ -85,8 +85,15 @@ export class ScanComponent implements OnInit {
         if (this.scannedArticle.id === 0) {
           this.scannedArticle.barcode = barcode;
           this.showBaseData = true;
+          this.articleUserSettings = new class implements ArticleUserSettings {
+            articleId: number;
+            environmentId: number;
+            id: number;
+            keepStockAmount: number;
+            keepStockMode: number;
+          };
         } else {
-          this.lookupArticleUserSettings(this.scannedArticle.id, this.auth.decodedToken.environment_id);
+          this.lookupArticleUserSettings(this.scannedArticle.id, this.permissions.permissionToken.environment_id);
         }
       }, error => {
         this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
@@ -98,7 +105,7 @@ export class ScanComponent implements OnInit {
       .subscribe(articleUsrSettings => {
         this.articleUserSettings = articleUsrSettings;
         if (this.articleUserSettings.id === 0) {
-          this.articleUserSettings.environmentId = this.auth.decodedToken.environment_id;
+          this.articleUserSettings.environmentId = this.permissions.permissionToken.environment_id;
           this.showBaseData = true;
         } else {
           this.showCheckIn = true;

@@ -1,5 +1,7 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
+import {SettingsService} from '../../_services/settings.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-code-scanner',
@@ -8,11 +10,16 @@ import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 })
 export class CodeScannerComponent implements OnInit {
   @Output() barcodeDetected = new EventEmitter<string>();
+  @Output() cancel = new EventEmitter();
   @ViewChild(ZXingScannerComponent) scanner: ZXingScannerComponent;
+  @ViewChild('selectCamDlg') selectCamDlg: TemplateRef<any>;
   private beep;
   private lastCode: string;
+  private modalRef: BsModalRef;
+  private cameras: MediaDeviceInfo[];
+  private selectedCam: string;
 
-  constructor() {
+  constructor(private settings: SettingsService, private modalService: BsModalService) {
     this.beep = new Audio();
     this.beep.src = '../../../assets/Beep.mp3';
     this.beep.load();
@@ -24,7 +31,14 @@ export class CodeScannerComponent implements OnInit {
 
   startScan() {
     this.scanner.updateVideoInputDevices().then(devices => {
-      this.scanner.device = devices[0]; // TODO Device aus settings
+      const cam = devices.find(d => d.deviceId === this.settings.cameraDeviceId);
+      if (cam == null) {
+        this.cameras = devices;
+        this.VerifyCam();
+        this.cancel.emit();
+        return;
+      }
+      this.scanner.device = cam;
     });
 
     this.scanner.askForPermission().then(permission => {
@@ -36,6 +50,10 @@ export class CodeScannerComponent implements OnInit {
     this.scanner.enable = false;
   }
 
+  private VerifyCam() {
+    this.modalRef = this.modalService.show(this.selectCamDlg, {ignoreBackdropClick: true});
+  }
+
   private scanSuccess(newCode: string) {
     if (this.lastCode === newCode) {
       return;
@@ -44,5 +62,11 @@ export class CodeScannerComponent implements OnInit {
     console.log('new code: ' + newCode);
     this.lastCode = newCode;
     this.barcodeDetected.emit(newCode);
+  }
+
+  private selectCamDlg_ok() {
+    const device = this.cameras.find(c => c.deviceId === this.selectedCam);
+    this.settings.saveSelectedCam(device);
+    this.modalRef.hide();
   }
 }

@@ -3,6 +3,7 @@ import {AuthService} from '../_services/auth.service';
 import {BeepEnvironment} from '../_models/beep-environment';
 import {AlertifyService} from '../_services/alertify.service';
 import {UsersService} from '../_services/users.service';
+import {PermissionsService} from '../_services/permissions.service';
 
 @Component({
   selector: 'app-environment-selector',
@@ -16,14 +17,15 @@ export class EnvironmentSelectorComponent implements OnInit {
   private environments: BeepEnvironment[];
   private activeEnvironment: string;
 
-  constructor(private data: UsersService, private auth: AuthService, private alertify: AlertifyService) {
+  constructor(private data: UsersService, private auth: AuthService, private permissions: PermissionsService, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
     this.data.getEnvironments(this.auth.decodedToken.nameid)
       .subscribe(value => {
         this.environments = value;
-        this.activeEnvironment = this.environments.find(e => e.id.toString() === this.auth.decodedToken.environment_id).name;
+        this.activeEnvironment = this.environments.find(e => e.id === this.permissions.permissionToken.environment_id)
+          .name;
       }, error => {
         this.alertify.error('Liste der Umgebungen konnte nicht abgefragt werden: ' + error.message);
       });

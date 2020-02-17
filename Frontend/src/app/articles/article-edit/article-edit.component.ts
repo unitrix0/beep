@@ -17,6 +17,7 @@ defineLocale('de', deLocale);
 })
 export class ArticleEditComponent implements OnInit {
   @Output() save = new EventEmitter();
+  @Output() doneOrCanceled = new EventEmitter();
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
   @Input() editMode: boolean;

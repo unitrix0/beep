@@ -7,6 +7,7 @@ import {PaginatedResult, Pagination} from '../_models/pagination';
 import {AlertifyService} from '../_services/alertify.service';
 import {PageChangedEvent} from 'ngx-bootstrap';
 import {AuthService} from '../_services/auth.service';
+import {PermissionsService} from '../_services/permissions.service';
 
 @Component({
   selector: 'app-articles',
@@ -19,11 +20,11 @@ export class ArticlesComponent implements OnInit {
   pagination: Pagination;
 
   constructor(private data: ArticlesService, private route: ActivatedRoute, private alertify: AlertifyService,
-              private authService: AuthService) {
+              private permissions: PermissionsService) {
   }
 
   ngOnInit() {
-    this.filter.environmentId = this.authService.decodedToken.environment_id;
+    this.filter.environmentId = this.permissions.permissionToken.environment_id;
     this.route.data.subscribe(data => {
       this.articles = data['articles'].content;
       this.pagination = data['articles'].pagination;
@@ -42,7 +43,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   environmentChanged() {
-    this.filter.environmentId = this.authService.decodedToken.environment_id;
+    this.filter.environmentId = this.permissions.permissionToken.environment_id;
     this.setFilter();
   }
 

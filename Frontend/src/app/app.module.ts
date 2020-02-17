@@ -59,9 +59,10 @@ import {Ng5SliderModule} from 'ng5-slider';
 import {ArticleOpenDialogComponent} from './articles/article-open-dialog/article-open-dialog.component';
 import {RequiredSelectDirective} from './_directives/required-select.directive';
 import {CustomFormsModule} from 'ngx-custom-validators';
+import {LocalStorageItemNames} from './_enums/token-names.enum';
 
 export function jwtGetter() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(LocalStorageItemNames.identityToken);
   return token;
 }
 
@@ -114,10 +115,10 @@ registerLocaleData(localeCh, 'de-CH');
     JwtModule.forRoot({
       config: {
         tokenGetter: jwtGetter,
-        whitelistedDomains: ['localhost:5000', 'localhost:5001'],
-        blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:5001/api/auth']
-        // whitelistedDomains: ['drone02:5000', 'drone02:5001'],
-        // blacklistedRoutes: ['drone02:5000/api/auth', 'drone02:5001/api/auth']
+        // whitelistedDomains: ['localhost:5000', 'localhost:5001'],
+        // blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:5001/api/auth']
+        whitelistedDomains: ['drone02:5000', 'drone02:5001'],
+        blacklistedRoutes: ['drone02:5000/api/auth', 'drone02:5001/api/auth']
       }
     }),
     FormsModule,

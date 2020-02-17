@@ -6,19 +6,20 @@ import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {AlertifyService} from '../_services/alertify.service';
 import {ArticlesService} from '../_services/articles.service';
-import {AuthService} from '../_services/auth.service';
 import {ArticlesFilter} from '../_models/articles-filter';
+import {PermissionsService} from '../_services/permissions.service';
 
 @Injectable()
 export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
   pageNumber = 1;
   pageSize = 5;
 
-  constructor(private dataService: ArticlesService, private router: Router, private alertify: AlertifyService, private authService: AuthService) {
+  constructor(private dataService: ArticlesService, private router: Router, private alertify: AlertifyService,
+              private permissions: PermissionsService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PaginatedResult<Article[]>> {
-    const environmentId = this.authService.decodedToken.environment_id;
+    const environmentId = this.permissions.permissionToken.environment_id;
     const filter: ArticlesFilter = new class implements ArticlesFilter {
       environmentId: number = environmentId;
       isOnStock = false;

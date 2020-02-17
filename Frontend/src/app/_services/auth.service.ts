@@ -5,24 +5,22 @@ import {Observable} from 'rxjs';
 import {UserForLogin} from '../_models/user-for-login';
 import {environment} from '../../environments/environment';
 import {UserToken} from '../_models/userToken';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserForRegistration} from '../_models/user-for-registration';
 import {User} from '../_models/user';
-import {PermissionFlags} from '../_enums/permission-flags.enum';
+import {IdentityToken} from '../_models/identity-token';
+import {LocalStorageItemNames} from '../_enums/token-names.enum';
 
 @Injectable()
 export class AuthService {
-  decodedToken: any;
+  @Output() onLogin = new EventEmitter();
+  @Output() onLogout = new EventEmitter();
+  decodedToken: IdentityToken;
   currentUser: UserToken;
-  private jwtHelper = new JwtHelperService();
   private baseUrl = environment.apiUrl + 'auth/';
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
-
-  get permissions(): PermissionFlags {
-    return this.parsePermissions(this.decodedToken.permissions);
+  constructor(private http: HttpClient, private router: Router, private jwtHelper: JwtHelperService) {
   }
 
   login(user: UserForLogin): Observable<void> {
@@ -30,28 +28,25 @@ export class AuthService {
       .pipe(
         map((response: any) => {
           if (response) {
-            // Write the values to localStorage for later usage
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.mappedUser));
-            this.decodedToken = this.jwtHelper.decodeToken(response.token);
-            this.currentUser = response.mappedUser;
+            this.saveTokens(response);
+            this.onLogin.emit();
           }
         })
       );
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(LocalStorageItemNames.identityToken);
     localStorage.removeItem('user');
-
     this.decodedToken = null;
-    this.currentUser = null;
 
+    this.currentUser = null;
+    this.onLogout.emit();
     this.router.navigate(['/']);
   }
 
   loggedIn(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(LocalStorageItemNames.identityToken);
     return !this.jwtHelper.isTokenExpired(token);
   }
 
@@ -74,28 +69,31 @@ export class AuthService {
       .pipe(
         map((response: any) => {
           if (response) {
-            // Write the values to localStorage for later usage
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.mappedUser));
-            this.decodedToken = this.jwtHelper.decodeToken(response.token);
-            this.currentUser = response.mappedUser;
+            this.saveTokens(response);
           }
         })
       );
   }
 
-  private parsePermissions(permissionsString: string): PermissionFlags {
-    let perms: PermissionFlags;
-    const permissionChars = permissionsString.split('').reverse();
+  reloadToken() {
+    const token = localStorage.getItem(LocalStorageItemNames.identityToken);
+    const user: UserToken = JSON.parse(localStorage.getItem('user'));
 
-    for (let i = 0; i < permissionChars.length; i++) {
-      if (permissionChars[i] === '1') {
-        const newFlag: PermissionFlags = PermissionFlags[PermissionFlags[Math.pow(2, i)]];
-        perms |= newFlag;
-      }
+    if (token) {
+      this.decodedToken = this.jwtHelper.decodeToken(token);
     }
 
-    console.log('userPermission parsed: ' + perms);
-    return perms;
+    if (user) {
+      this.currentUser = user;
+    }
+  }
+
+  private saveTokens(response: any) {
+    localStorage.setItem(LocalStorageItemNames.identityToken, response.identityToken);
+    localStorage.setItem(LocalStorageItemNames.permissionsToken, response.permissionsToken);
+    localStorage.setItem(LocalStorageItemNames.settings, JSON.stringify(response.settings));
+    localStorage.setItem('user', JSON.stringify(response.mappedUser));
+    this.decodedToken = this.jwtHelper.decodeToken(response.token);
+    this.currentUser = response.mappedUser;
   }
 }

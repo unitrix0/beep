@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserToken} from './_models/userToken';
 import {AuthService} from './_services/auth.service';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import {PermissionsService} from './_services/permissions.service';
+import {SettingsService} from './_services/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -9,23 +9,13 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Frontend';
-  jwtHelper = new JwtHelperService();
 
-
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private permissions: PermissionsService, private settings: SettingsService) {
   }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
-    const user: UserToken = JSON.parse(localStorage.getItem('user'));
-
-    if (token) {
-      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
-    }
-
-    if (user) {
-      this.authService.currentUser = user;
-    }
+    this.authService.reloadToken();
+    this.permissions.reloadToken();
+    this.settings.reloadSettings();
   }
 }

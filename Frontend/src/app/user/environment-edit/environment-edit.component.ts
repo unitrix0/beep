@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BeepEnvironment} from '../../_models/beep-environment';
-import {Permission} from '../../_models/permission';
+import {MemberPermission} from '../../_models/memberPermission';
 import {BsModalService} from 'ngx-bootstrap';
 import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
@@ -16,9 +16,9 @@ import {PermissionsService} from '../../_services/permissions.service';
 export class EnvironmentEditComponent implements OnInit {
   @Input() environments: BeepEnvironment[];
   @Input() userId: number;
-  members: Permission[];
+  members: MemberPermission[];
   currentEnvironment: BeepEnvironment;
-  currentMember: Permission;
+  currentMember: MemberPermission;
 
   constructor(private data: UsersService, private alertify: AlertifyService, private modalSvc: BsModalService,
               private permissions: PermissionsService) {

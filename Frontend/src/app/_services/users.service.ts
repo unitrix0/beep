@@ -3,17 +3,19 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
-import {Permission} from '../_models/permission';
+import {MemberPermission} from '../_models/memberPermission';
 import {UserInvitations} from '../_models/user-invitations';
 import {NewInvitation} from '../_models/new-invitation';
 import {BeepEnvironment} from '../_models/beep-environment';
+import {Camera} from '../_models/camera';
+import {UserSettings} from '../_models/user-settings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  baseUrl = environment.apiUrl + 'users/';
   invitationsCountUpdated = new EventEmitter<number>();
+  private baseUrl = environment.apiUrl + 'users/';
 
   constructor(private http: HttpClient) {
   }
@@ -22,7 +24,7 @@ export class UsersService {
     return this.http.get<User>(this.baseUrl + userId);
   }
 
-  setPermission(environmentId: number, newPermissions: Permission): Observable<object> {
+  setPermission(environmentId: number, newPermissions: MemberPermission): Observable<object> {
     return this.http.put(this.baseUrl + 'SetPermission/', newPermissions);
   }
 
@@ -91,15 +93,23 @@ export class UsersService {
     return this.http.get<BeepEnvironment[]>(this.baseUrl + 'GetEnvironments/' + userId);
   }
 
-  getEnvironmentPermissions(environmentId: number, userId: number): Observable<Permission[]> {
+  getEnvironmentPermissions(environmentId: number, userId: number): Observable<MemberPermission[]> {
     const params = new HttpParams()
       .append('environmentId', environmentId.toString());
 
-    return this.http.get<Permission[]>(this.baseUrl + 'GetEnvironmentPermissions/' + userId, {params: params});
+    return this.http.get<MemberPermission[]>(this.baseUrl + 'GetEnvironmentPermissions/' + userId, {params: params});
   }
 
   updateEnvironmentName(environmentId: number, newName: string): Observable<object> {
     const p = new HttpParams().append('NewName', newName);
     return this.http.put(this.baseUrl + 'UpdateEnvironmentName/' + environmentId, null, {params: p});
+  }
+
+  addCamForUser(userId: number, cam: MediaDeviceInfo): Observable<Camera> {
+    return this.http.post<Camera>(this.baseUrl + 'AddCamForUser/' + userId, cam);
+  }
+
+  getSettings(userId: number): Observable<UserSettings> {
+    return this.http.get<UserSettings>(this.baseUrl + 'GetSettings/' + userId);
   }
 }

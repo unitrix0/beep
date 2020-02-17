@@ -38,6 +38,7 @@ export class RegistrationComponent implements OnInit {
       this.alertify.error('Registrierung fehlgeschlagen: ' + error.message); // TODO Error Handling
     }, () => {
       const user: UserForLogin = new class implements UserForLogin {
+        cameras: MediaDeviceInfo[];
         password: string;
         username: string;
       };
