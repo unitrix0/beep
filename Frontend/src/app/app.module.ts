@@ -60,6 +60,7 @@ import {ArticleOpenDialogComponent} from './articles/article-open-dialog/article
 import {RequiredSelectDirective} from './_directives/required-select.directive';
 import {CustomFormsModule} from 'ngx-custom-validators';
 import {LocalStorageItemNames} from './_enums/token-names.enum';
+import { ActivityLogComponent } from './scan/activity-log/activity-log.component';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -108,6 +109,7 @@ registerLocaleData(localeCh, 'de-CH');
     ArticleOpenComponent,
     ArticleOpenDialogComponent,
     RequiredSelectDirective,
+    ActivityLogComponent,
   ],
   imports: [
     HttpClientModule,

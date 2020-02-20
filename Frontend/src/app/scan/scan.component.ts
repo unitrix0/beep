@@ -10,7 +10,7 @@ import {ScanModes} from '../_enums/scan-modes.enum';
 import {Article} from '../_models/article';
 import {ScanCardComponent} from './scan-card/scan-card.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {SettingsService} from '../_services/settings.service';
+import {ActivityLogComponent} from './activity-log/activity-log.component';
 
 @Component({
   selector: 'app-scan',
@@ -23,6 +23,7 @@ export class ScanComponent implements OnInit {
   @ViewChild('scanCheckOut') scanCheckOut: ScanCardComponent;
   @ViewChild('scanOpen') scanOpen: ScanCardComponent;
   @ViewChild('notFoundDlg') notFoundDialog: TemplateRef<any>;
+  @ViewChild(ActivityLogComponent) activityLog: ActivityLogComponent;
   scanMode = ScanModes.none;
   private scannedArticle: Article;
   private articleUserSettings: ArticleUserSettings;
@@ -40,7 +41,12 @@ export class ScanComponent implements OnInit {
 
   ngOnInit() {
     this.usrService.updateInvitationsCount(this.auth.decodedToken.nameid);
+    this.activityLog.refresh(this.permissions.token.environment_id);
     this.hasPermission = this.permissions.hasPermissionOr(this.permissions.flags.canScan, this.permissions.flags.isOwner);
+  }
+
+  environmentChanged() {
+    this.activityLog.refresh(this.permissions.token.environment_id);
   }
 
   private startScan(newMode: ScanModes) {
@@ -66,6 +72,10 @@ export class ScanComponent implements OnInit {
     this.scannedArticle = null;
     this.articleUserSettings = null;
     this.scanMode = this.scanModes.none;
+    this.showCheckIn = false;
+    this.showCheckOut = false;
+    this.showBaseData = false;
+    this.activityLog.refresh(this.permissions.token.environment_id);
   }
 
   private showNotFoundDialog() {
@@ -93,7 +103,7 @@ export class ScanComponent implements OnInit {
             keepStockMode: number;
           };
         } else {
-          this.lookupArticleUserSettings(this.scannedArticle.id, this.permissions.permissionToken.environment_id);
+          this.lookupArticleUserSettings(this.scannedArticle.id, this.permissions.token.environment_id);
         }
       }, error => {
         this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
@@ -102,13 +112,15 @@ export class ScanComponent implements OnInit {
 
   private lookupArticleUserSettings(articleId: number, environmentId: number) {
     this.articles.getArticleUserSettings(articleId, environmentId)
-      .subscribe(articleUsrSettings => {
-        this.articleUserSettings = articleUsrSettings;
+      .subscribe(response => {
+        this.articleUserSettings = response;
         if (this.articleUserSettings.id === 0) {
-          this.articleUserSettings.environmentId = this.permissions.permissionToken.environment_id;
+          this.articleUserSettings.environmentId = this.permissions.token.environment_id;
+          this.articleUserSettings.articleId = articleId;
           this.showBaseData = true;
         } else {
-          this.showCheckIn = true;
+          this.showCheckIn = this.scanMode === ScanModes.checkin;
+          this.showCheckOut = this.scanMode === ScanModes.open || this.scanMode === ScanModes.checkout;
         }
       }, error => {
         this.alertify.error('Datenabfrage fehlgeschlagen: ' + error.message);
@@ -117,33 +129,31 @@ export class ScanComponent implements OnInit {
 
   private save() {
     if (this.scannedArticle.id === 0) {
-      this.saveArticle();
+      this.saveArticleAndUserSettings();
       return;
     }
     this.saveArticleUserSettings();
   }
 
-  private saveArticle() {
+  private saveArticleAndUserSettings() {
     this.articles.createArticle(this.scannedArticle)
       .subscribe(createdArticle => {
-        if (this.saveArticleUserSettings()) {
-          this.scannedArticle = createdArticle;
-          this.alertify.success('Artikel gespeichert');
-        }
+        this.scannedArticle = createdArticle;
+        this.saveArticleUserSettings();
       }, error => {
         this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
       });
   }
 
-  private saveArticleUserSettings(): boolean {
-    this.articles.createArticleUserSettings(this.scannedArticle.id, this.articleUserSettings)
-      .subscribe(value => {
-        this.articleUserSettings = value;
-        return true;
+  private saveArticleUserSettings() {
+    this.articles.createArticleUserSettings(this.articleUserSettings)
+      .subscribe(response => {
+        this.articleUserSettings = response;
+        this.showBaseData = false;
+        this.showCheckIn = true;
+        this.alertify.success('Artikel gespeichert');
       }, error => {
         this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
-        return false;
       });
-    return false;
   }
 }

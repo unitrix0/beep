@@ -14,6 +14,7 @@ import {StockEntry} from '../_models/stock.entry';
 import {DateSuggestions} from '../_models/date.suggestions';
 import {Store} from '../_models/store';
 import {PagedStockList} from '../_models/paged-stock-list';
+import {ActivityLogEntry} from '../_models/activity-log-entry';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class ArticlesService {
     return this.http.post<Article>(this.baseUrl + 'CreateArticle', article);
   }
 
-  createArticleUserSettings(articleId: number, aus: ArticleUserSettings): Observable<ArticleUserSettings> {
+  createArticleUserSettings(aus: ArticleUserSettings): Observable<ArticleUserSettings> {
     return this.http.post<ArticleUserSettings>(this.baseUrl + 'CreateArticleUserSettings', aus);
   }
 
@@ -127,6 +128,10 @@ export class ArticlesService {
       .append('environmentId', environmentId.toString());
 
     return this.http.get<ArticleUserSettings>(this.baseUrl + 'GetArticleUserSettings/', {params: p});
+  }
+
+  getActivityLog(environmentId: number): Observable<ActivityLogEntry[]> {
+    return this.http.get<ActivityLogEntry[]>(this.baseUrl + 'GetActivityLog/' + environmentId);
   }
 
   private getBaseData() {

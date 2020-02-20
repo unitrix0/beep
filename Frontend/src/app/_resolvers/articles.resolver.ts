@@ -19,7 +19,7 @@ export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PaginatedResult<Article[]>> {
-    const environmentId = this.permissions.permissionToken.environment_id;
+    const environmentId = this.permissions.token.environment_id;
     const filter: ArticlesFilter = new class implements ArticlesFilter {
       environmentId: number = environmentId;
       isOnStock = false;

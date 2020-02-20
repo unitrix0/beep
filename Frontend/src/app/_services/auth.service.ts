@@ -61,20 +61,6 @@ export class AuthService {
     return this.http.get<boolean>(this.baseUrl + 'UserExists/' + this.decodedToken.nameid, {params: params});
   }
 
-  updatePermissionClaims(newEnvironmentId: number): Observable<void> {
-    const params = new HttpParams()
-      .append('environmentId', newEnvironmentId.toString());
-
-    return this.http.get(this.baseUrl + 'UpdatePermissionClaims/' + this.decodedToken.nameid, {params: params})
-      .pipe(
-        map((response: any) => {
-          if (response) {
-            this.saveTokens(response);
-          }
-        })
-      );
-  }
-
   reloadToken() {
     const token = localStorage.getItem(LocalStorageItemNames.identityToken);
     const user: UserToken = JSON.parse(localStorage.getItem('user'));

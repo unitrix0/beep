@@ -17,14 +17,14 @@ export class EnvironmentSelectorComponent implements OnInit {
   private environments: BeepEnvironment[];
   private activeEnvironment: string;
 
-  constructor(private data: UsersService, private auth: AuthService, private permissions: PermissionsService, private alertify: AlertifyService) {
+  constructor(private usersService: UsersService, private permissions: PermissionsService, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
-    this.data.getEnvironments(this.auth.decodedToken.nameid)
+    this.usersService.getEnvironments(this.permissions.token.userId)
       .subscribe(value => {
         this.environments = value;
-        this.activeEnvironment = this.environments.find(e => e.id === this.permissions.permissionToken.environment_id)
+        this.activeEnvironment = this.environments.find(e => e.id === this.permissions.token.environment_id)
           .name;
       }, error => {
         this.alertify.error('Liste der Umgebungen konnte nicht abgefragt werden: ' + error.message);
@@ -32,7 +32,7 @@ export class EnvironmentSelectorComponent implements OnInit {
   }
 
   changeEnvironment(newEnvironmentId: number) {
-    this.auth.updatePermissionClaims(newEnvironmentId)
+    this.permissions.updatePermissionClaims(newEnvironmentId)
       .subscribe(value => {
         this.activeEnvironment = this.environments.find(e => e.id === newEnvironmentId).name;
         this.environmentChanged.emit();

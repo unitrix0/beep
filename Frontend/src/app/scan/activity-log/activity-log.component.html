@@ -1,0 +1,33 @@
+<div class="row" [ngClass]="scanMode == scanModes.none ? 'mt-5' : 'mt-3'">
+  <div class="col-md-12">
+    <h4 class="text-light">Letzte Aktivitäten</h4>
+    <h5 class="text-light" *ngIf="!logEntries || logEntries.length == 0">Keine</h5>
+
+    <table class="table table-striped table-dark mt-3 table-sm" *ngIf="logEntries && logEntries.length > 0">
+      <thead>
+      <tr>
+        <th class="text-center">Aktion</th>
+        <th class="text-center">Benutzer</th>
+        <th class="text-center">Bild</th>
+        <th>Artikel</th>
+        <th>Datum</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let entry of logEntries">
+        <td class="text-center" style="width: 8%;">
+          <i class="fas fa-angle-double-down fa-2x" *ngIf="entry.action == scanModes.checkin"></i>
+          <i class="fas fa-trash-alt fa-2x" *ngIf="entry.action == scanModes.checkout"></i>
+          <i class="fas fa-box-open fa-2x" *ngIf="entry.action == scanModes.open"></i>
+        </td>
+        <td class="text-center" style="width: 10%;">{{entry.username}}</td>
+        <td class="text-center" style="width: 8%;">
+          <img [src]="entry.imgUrl" alt="" class="img-prod-activity">
+        </td>
+        <td>{{entry.description}} ({{entry.amount}})</td>
+        <td style="width: 15%;">{{entry.actionDate| date: 'dd.MM.yyyy H:mm'}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

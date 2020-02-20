@@ -3,7 +3,7 @@
     <div class="col-4 mt-4 text-right">
       <label for="environmentSelector"
              class="d-inline-block mr-1 text-light"><small><strong>Umgebung: </strong></small></label>
-      <app-environment-selector id="environmentSelector"></app-environment-selector>
+      <app-environment-selector id="environmentSelector" (environmentChanged)="environmentChanged()"></app-environment-selector>
     </div>
   </div>
   <div class="row mt-3">
@@ -43,47 +43,7 @@
     </div>
   </div>
 
-  <div class="row" [ngClass]="scanMode == scanModes.none ? 'mt-5' : 'mt-3'">
-    <div class="col-md-12">
-      <h4 class="text-light">Letzte Aktivitäten</h4>
-
-      <table class="table table-striped table-dark mt-3 table-sm">
-        <thead>
-        <tr>
-          <th class="text-center">Bild</th>
-          <th>Artikel</th>
-          <th class="text-center">Aktion</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="text-center" style="width: 15%;"><img
-            src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-            alt=""
-            class="img-prod-activity"></td>
-          <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
-        </tr>
-        <tr>
-          <td class="text-center" style="width: 15%;"><img
-            src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-            alt=""
-            class="img-prod-activity"></td>
-          <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
-        </tr>
-        <tr>
-          <td class="text-center" style="width: 15%;"><img
-            src="https://image.migros.ch/product-zoom/eb6de3ee0cba4b4aeb0ec22bc4599441d85f68b4/mousse-chocolat.jpg"
-            alt=""
-            class="img-prod-activity"></td>
-          <td>Mousse Chocolat</td>
-          <td class="text-center" style="width: 15%;"><i class="fas fa-angle-double-down fa-2x"></i></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <app-activity-log [scanMode]="scanMode"></app-activity-log>
 </div>
 
 <!--modal-->

@@ -5,6 +5,7 @@ import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {DateSuggestions} from '../../_models/date.suggestions';
+import {PermissionsService} from '../../_services/permissions.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class ArticleCheckinComponent implements OnInit {
     usualLifetime: number;
   };
 
-  constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
+  constructor(private articleData: ArticlesService, private alertify: AlertifyService, private permissions: PermissionsService) {
   }
 
   ngOnInit() {
@@ -50,9 +51,8 @@ export class ArticleCheckinComponent implements OnInit {
   }
 
   saveStockEntry() {
-    const today = new Date();
-
-    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - today.today().getTime();
+    const now = new Date();
+    this.stockEntry.usualLifetime = this.stockEntry.expireDate.getTime() - now.today().getTime();
     this.stockEntry.barcode = this.article.barcode;
     this.stockEntry.environmentId = this.articleUserSettings.environmentId;
     this.stockEntry.articleId = this.article.id;

@@ -24,7 +24,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter.environmentId = this.permissions.permissionToken.environment_id;
+    this.filter.environmentId = this.permissions.token.environment_id;
     this.route.data.subscribe(data => {
       this.articles = data['articles'].content;
       this.pagination = data['articles'].pagination;
@@ -43,7 +43,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   environmentChanged() {
-    this.filter.environmentId = this.permissions.permissionToken.environment_id;
+    this.filter.environmentId = this.permissions.token.environment_id;
     this.setFilter();
   }
 

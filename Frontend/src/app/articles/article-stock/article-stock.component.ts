@@ -82,7 +82,6 @@ export class ArticleStockComponent implements OnInit {
   private loadStock(page: number) {
     this.articleData.getArticleStock(this.article.id, this.articleUserSettings.environmentId, page)
       .subscribe(result => {
-        console.log(this.articleUserSettings.environmentId);
         this.stockData = result;
       }, error => {
         this.alertify.error(error.message);
