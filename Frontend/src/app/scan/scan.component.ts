@@ -115,8 +115,6 @@ export class ScanComponent implements OnInit {
       .subscribe(response => {
         this.articleUserSettings = response;
         if (this.articleUserSettings.id === 0) {
-          this.articleUserSettings.environmentId = this.permissions.token.environment_id;
-          this.articleUserSettings.articleId = articleId;
           this.showBaseData = true;
         } else {
           this.showCheckIn = this.scanMode === ScanModes.checkin;
@@ -146,6 +144,8 @@ export class ScanComponent implements OnInit {
   }
 
   private saveArticleUserSettings() {
+    this.articleUserSettings.environmentId = this.permissions.token.environment_id;
+    this.articleUserSettings.articleId = this.scannedArticle.id;
     this.articles.createArticleUserSettings(this.articleUserSettings)
       .subscribe(response => {
         this.articleUserSettings = response;
