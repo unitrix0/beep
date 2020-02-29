@@ -4,7 +4,7 @@
       <h4 class="text-light"> Benutzer </h4>
     </div>
     <div class="row">
-      <form (ngSubmit)="changeDisplayName()">
+      <form (ngSubmit)="changeDisplayName()" #displayName='ngForm'>
         <fieldset>
           <div class="form-group">
             <label for="displayName">Anzeigename ändern</label>
@@ -12,10 +12,11 @@
               <div class="col">
                 <div class="input-group">
                   <input type="text" class="form-control" id="displayName" name="displayName"
-                         [(ngModel)]="user.displayName" #displayName="ngModel"
+                         [(ngModel)]="user.displayName"
                          [class.is-invalid]="displayName.dirty && displayName.invalid" required>
                   <div class="input-group-append ml-3">
-                    <button type="submit" class="btn btn-sm btn-success" *ngIf="displayName.dirty && displayName.valid">
+                    <button type="submit" class="btn btn-sm btn-success"
+                            *ngIf="displayName.dirty && displayName.valid && !displayName.submitted">
                       Ändern
                     </button>
                   </div>
@@ -31,7 +32,7 @@
       <h4 class="text-light"> E-Mail </h4>
     </div>
     <div class="row">
-      <form (ngSubmit)="changeEmail()">
+      <form (ngSubmit)="changeEmail()" #changeMail='ngForm'>
         <fieldset>
           <div class="form-group">
             <label for="email">Adresse ändern</label>
@@ -54,15 +55,24 @@
     </div>
 
     <div class="row mt-3">
-      <h4 class="text-light"> Passwort </h4>
+      <h4 class="text-light"> Passwort ändern </h4>
     </div>
     <div class="row">
-      <form (ngSubmit)="changePassword()">
+      <form (ngSubmit)="changePassword()" #changePw='ngForm'>
+        <div class="row mb-2">
+          <div class="col-auto">
+            <div class="form-group">
+              <label for="currentPassword">Aktuelles Passwort</label>
+              <input type="password" class="form-control" id="currentPassword"
+                     [(ngModel)]="currentPassword" name="currentPassword" required>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-auto">
             <div class="form-group">
-              <label for="password">Neues Passwort setzen</label>
-              <input type="password" class="form-control" ngModel id="password" [(ngModel)]="password" name="password"
+              <label for="password">Neues Passwort</label>
+              <input type="password" class="form-control" id="password" [(ngModel)]="newPassword" name="password"
                      required #pw="ngModel">
             </div>
           </div>
@@ -73,13 +83,15 @@
               <label for="confirmPassword">Bestätigen</label>
               <div class="input-group">
                 <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="confirmPassword"
-                       name="confirmPassword" required #confirmPw="ngModel" [equalTo]="pw">
+                       name="confirmPassword" required #confirmPw="ngModel" minlength="6" [equalTo]="pw">
                 <div class="input-group-append">
                   <button type="submit" class="ml-3 btn btn-sm btn-success" *ngIf="confirmPw.dirty && confirmPw.valid">
                     Ändern
                   </button>
                 </div>
               </div>
+              <div class="small text-danger" *ngIf="confirmPw.hasError('minlength')">Das Passwort ist zu kurz</div>
+              <div class="small text-danger" *ngIf="confirmPw.hasError('equalTo')">Die Passwörter stimmen nicht übrein</div>
             </div>
           </div>
         </div>

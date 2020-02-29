@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, TemplateRef, ViewChild} from '@angular/core';
 import {UserForLogin} from '../_models/user-for-login';
 import {Router} from '@angular/router';
 import {AlertifyService} from '../_services/alertify.service';
@@ -6,6 +6,7 @@ import {UsersService} from '../_services/users.service';
 import {AuthService} from '../_services/auth.service';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {NgForm} from '@angular/forms';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-nav',
@@ -14,20 +15,22 @@ import {NgForm} from '@angular/forms';
 })
 export class NavComponent {
   @ViewChild('loginForm') loginForm: NgForm;
-  user: UserForLogin = new class implements UserForLogin {
+  @ViewChild('notActivatedDlg') notActivatedDlg: TemplateRef<any>;
+  private invitationsCount: any;
+  private modalRef: BsModalRef;
+  private user: UserForLogin = new class implements UserForLogin {
     cameras: MediaDeviceInfo[];
     password: string;
     username: string;
   };
-  invitationsCount: any;
 
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService,
-              private usersService: UsersService) {
+              private usersService: UsersService, private modalService: BsModalService) {
     this.usersService.invitationsCountUpdated.subscribe(count => {
+      this.invitationsCount = count;
       if (count > 0) {
         alertify.success('Sie haben neue Einladungen!');
       }
-      this.invitationsCount = count;
     });
   }
 
@@ -38,10 +41,16 @@ export class NavComponent {
           this.loginForm.resetForm();
           this.alertify.success('Anmeldung erfolgreich');
           this.router.navigate(['scan']);
-        }, error => {
-          this.alertify.error('Anmeldung fehlgeschlagen. Benutzername oder Passwort falsch.');
-          // TODO Error Handling
-          console.log(error);
+        }, response => {
+          console.log(response.error);
+          if (response.error.isLockedOut) {
+            this.alertify.error('Anmeldung fehlgeschlagen: Konto gesperrt');
+          } else if (response.error.isNotAllowed) {
+            this.modalRef = this.modalService.show(this.notActivatedDlg, {ignoreBackdropClick: true});
+          } else {
+            this.alertify.error('Anmeldung fehlgeschlagen: Benutzername oder Passwort falsch');
+          }
+
         });
       }
     });
@@ -53,6 +62,16 @@ export class NavComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  resendConfirmation() {
+    this.authService.resendEmailConfirmation(this.user.username)
+      .subscribe(value => {
+        this.modalRef.hide();
+        this.alertify.success('Nachricht gesendet');
+      }, error => {
+        this.alertify.error('Nachricht konnte nicht gesendet werden: ' + error.mssage);
+      });
   }
 
   private fillInCameras(): Promise<boolean> {

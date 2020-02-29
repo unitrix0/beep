@@ -8,7 +8,6 @@ import {UserInvitations} from '../_models/user-invitations';
 import {NewInvitation} from '../_models/new-invitation';
 import {BeepEnvironment} from '../_models/beep-environment';
 import {Camera} from '../_models/camera';
-import {UserSettings} from '../_models/user-settings';
 
 @Injectable({
   providedIn: 'root'
@@ -109,7 +108,15 @@ export class UsersService {
     return this.http.post<Camera>(this.baseUrl + 'AddCamForUser/' + userId, cam);
   }
 
-  getSettings(userId: number): Observable<UserSettings> {
-    return this.http.get<UserSettings>(this.baseUrl + 'GetSettings/' + userId);
+  changeDisplayName(userId: number, newDisplayName: string): Observable<any> {
+    return this.http.put(this.baseUrl + 'SetDisplayName/' + userId, {displayName: newDisplayName});
+  }
+
+  changeEmailAddress(userId: number, newEmail: string): Observable<any> {
+    return this.http.put(this.baseUrl + 'SetEmailAddress/' + userId, {email: newEmail});
+  }
+
+  changePassword(userId: number, currentPassword: string, newPassword: string) {
+    return this.http.put(this.baseUrl + 'ChangePassword/' + userId, {password: newPassword, currentPassword: currentPassword});
   }
 }

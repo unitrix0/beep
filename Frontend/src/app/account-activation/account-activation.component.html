@@ -1,0 +1,15 @@
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-5 border-light border h-25">
+      <div class="row h-100 justify-content-center align-items-center bg-dark">
+        <div class="container text-center" style="overflow-wrap: break-spaces">
+          <h3 class="text-light mb-4">E-Mail Adresse bestätigen</h3>
+          <i class="spinner-border text-info" role="status" *ngIf="state == ''"></i>
+          <i class="fas fa-check text-success fa-2x" *ngIf="state == 'success'"></i>
+          <i class="fas fa-times text-danger fa-2x" *ngIf="state == 'error'"></i>
+          <span [ngClass]="this.state == 'success' ? 'text-success':'text-danger'">{{comment}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

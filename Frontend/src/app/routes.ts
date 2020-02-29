@@ -9,9 +9,11 @@ import {HomeComponent} from './home/home.component';
 import {InvitationsComponent} from './invitations/invitations.component';
 import {InvitationsResolver} from './_resolvers/invitations.resolver';
 import {ArticlesResolver} from './_resolvers/articles.resolver';
+import {AccountActivationComponent} from './account-activation/account-activation.component';
 
 export const appRoutes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'AccountActivation', component: AccountActivationComponent},
   {
     path: '',
     runGuardsAndResolvers: 'always',

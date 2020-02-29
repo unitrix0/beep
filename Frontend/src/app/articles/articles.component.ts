@@ -6,7 +6,6 @@ import {ArticlesFilter} from '../_models/articles-filter';
 import {PaginatedResult, Pagination} from '../_models/pagination';
 import {AlertifyService} from '../_services/alertify.service';
 import {PageChangedEvent} from 'ngx-bootstrap';
-import {AuthService} from '../_services/auth.service';
 import {PermissionsService} from '../_services/permissions.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class ArticlesComponent implements OnInit {
   }
 
   setFilter() {
-    console.log(this.filter);
     this.LoadData(1);
   }
 
