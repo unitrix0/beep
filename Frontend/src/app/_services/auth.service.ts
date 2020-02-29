@@ -74,6 +74,25 @@ export class AuthService {
     }
   }
 
+  updateDisplayName(displayName: string) {
+    this.currentUser.displayName = displayName;
+    localStorage.setItem('user', JSON.stringify(this.currentUser));
+  }
+
+  resendEmailConfirmation(username: string): Observable<any> {
+    return this.http.get(this.baseUrl + 'ResendEmailConfirmation/' + username);
+  }
+
+  confirmEmail(userId: string, email: string, token: string, isChange: boolean): Observable<any> {
+    const p = new HttpParams()
+      .append('id', userId)
+      .append('email', email)
+      .append('isChange', String(isChange))
+      .append('token', token);
+
+    return this.http.put(this.baseUrl + 'ConfirmEmail', {}, {params: p});
+  }
+
   private saveTokens(response: any) {
     localStorage.setItem(LocalStorageItemNames.identityToken, response.identityToken);
     localStorage.setItem(LocalStorageItemNames.permissionsToken, response.permissionsToken);

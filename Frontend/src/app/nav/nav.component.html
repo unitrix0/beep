@@ -46,14 +46,28 @@
       </ul>
     </div>
 
-    <form *ngIf="!loggedIn()" class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()">
+    <form class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()" *ngIf="!loggedIn()">
       <input type="text" class="form-control form-control-sm mr-2" name="username"
-             placeholder="Username" required
-             [(ngModel)]="user.username">
+             placeholder="Username" required [(ngModel)]="user.username">
       <input type="password" class="form-control form-control-sm mr-2" name="password"
-             placeholder="Password" required
-             [(ngModel)]="user.password">
+             placeholder="Password" required [(ngModel)]="user.password">
       <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>
   </div>
 </nav>
+
+<!-- Modal -->
+<ng-template #notActivatedDlg>
+  <div class="modal-header">
+    <h5 class="modal-title">Beep! - E-Mail</h5>
+    <button class="close float-right" (click)="modalRef.hide()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <p>Anmeldung fehlgeschlagen: Die E-Mail Adresse wurde noch nicht bestätigt.</p>
+    <button class="btn btn-sm btn-primary" (click)="resendConfirmation()"><i class="fas fa-envelope mr-2"></i>Bestätigungsnachricht erneut anfordern</button>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-success float-right" (click)="modalRef.hide()">Ok</button>
+  </div>
+</ng-template>
+
