@@ -1,6 +1,7 @@
 <form #checkInForm="ngForm" id="checkInForm" (ngSubmit)="saveStockEntry()">
   <div class="row">
     <div class="col">
+      <h4 class="text-light">Einbuchen</h4>
       <h5 class="text-light">{{article.name}}</h5>
     </div>
   </div>
@@ -27,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="article.hasLifetime">
           <div class="col-8">
             <div class="form-group">
               <label for="dateGroup">Ablaufdatum</label>
