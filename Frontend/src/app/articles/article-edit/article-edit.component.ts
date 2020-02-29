@@ -23,7 +23,7 @@ export class ArticleEditComponent implements OnInit {
   @Input() editMode: boolean;
   @ViewChild('f') form: NgForm;
   saved = false;
-  private editArticlePermission = PermissionFlags.isOwner || PermissionFlags.editArticleSettings;
+  private editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
 
   constructor(private localeService: BsLocaleService, private articleData: ArticlesService, private  permissions: PermissionsService) {
   }

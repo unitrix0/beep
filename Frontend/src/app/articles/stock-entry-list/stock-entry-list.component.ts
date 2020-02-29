@@ -25,7 +25,7 @@ export class StockEntryListComponent implements OnInit {
   @Output() pageChanged = new EventEmitter<PageChangedEvent>();
   private selectedEntryId: number;
   private columns = StockListColumns;
-  private scanArticlePermission = PermissionFlags.isOwner || PermissionFlags.canScan;
+  private scanArticlePermission = PermissionFlags.isOwner | PermissionFlags.canScan;
 
   constructor(private articleData: ArticlesService, private permissionsService: PermissionsService) {
   }

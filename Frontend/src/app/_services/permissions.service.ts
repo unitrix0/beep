@@ -19,7 +19,7 @@ export class PermissionsService {
    * Verfügbare Permission Flags
    */
   public flags = PermissionFlags;
-  token: PermissionToken;
+  public token: PermissionToken;
   private baseUrl = environment.apiUrl + 'auth/';
 
   constructor(private jwtHelper: JwtHelperService, authService: AuthService, private http: HttpClient) {
@@ -37,7 +37,7 @@ export class PermissionsService {
     let reqFlags: PermissionFlags = 0;
     orFlags.forEach(f => reqFlags |= f);
 
-    console.log(this.token.environment_id + ' user:' + this.token.permissions +
+    console.log('env:' + this.token.environment_id + ' userPerm:' + this.token.permissions +
       ' req:' + reqFlags + ' (' + orFlags.map(f => f).toString() + ') => ' + (this.token.permissions & reqFlags));
     return (this.token.permissions & reqFlags) !== 0;
   }
@@ -48,6 +48,7 @@ export class PermissionsService {
   reloadToken() {
     const token = this.jwtHelper.decodeToken(localStorage.getItem(LocalStorageItemNames.permissionsToken));
     if (token) {
+      console.log(token.permissions);
       this.token = new class implements PermissionToken {
         userId = token.nameid;
         environment_id = parseInt(token.environment_id, 10);
