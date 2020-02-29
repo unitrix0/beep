@@ -35,17 +35,16 @@ export class ArticlesService {
     ];
   }
 
-  getArticles(pageNumber: number, itemsPerPage: number, filter: ArticlesFilter):
+  getArticles(pageNumber: number, pageSize: number, filter: ArticlesFilter):
     Observable<PaginatedResult<Article[]>> {
     const params = new HttpParams()
       .append('pageNumber', pageNumber.toString())
-      .append('itemsPerPage', itemsPerPage.toString())
+      .append('pageSize', pageSize.toString())
       .append('environmentId', filter.environmentId.toString())
       .append('isOpened', String(filter.isOpened))
       .append('keepOnStock', String(filter.keepOnStock))
       .append('isOnStock', String(filter.isOnStock))
       .append('nameOrEan', filter.nameOrEan);
-
 
     return this.http.get<Article[]>(this.baseUrl + 'GetArticles', {observe: 'response', params: params})
       .pipe(

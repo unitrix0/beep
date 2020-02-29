@@ -12,7 +12,7 @@ import {PermissionsService} from '../_services/permissions.service';
 @Injectable()
 export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 8;
 
   constructor(private dataService: ArticlesService, private router: Router, private alertify: AlertifyService,
               private permissions: PermissionsService) {
