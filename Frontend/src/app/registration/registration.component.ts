@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
       this.alertify.success('Willkommen bei Beep!');
       createdAt = response.headers.get('location').replace(environment.apiUrl, '').toLowerCase();
     }, error => {
-      this.alertify.error('Registrierung fehlgeschlagen: ' + error.message); // TODO Error Handling
+      this.alertify.error('Registrierung fehlgeschlagen: ' + error); // TODO Error Handling
     }, () => {
       const user: UserForLogin = new class implements UserForLogin {
         cameras: MediaDeviceInfo[];

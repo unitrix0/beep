@@ -13,7 +13,7 @@
                       *ngIf="pagination.totalPages > 1"></app-pagination>
     </div>
     <div class="col-10">
-      <h5 class="text-body" *ngIf="articles.length == 0">Es wurden noch keine Artikel eingescannt</h5>
+      <h5 class="text-body" *ngIf="articles?.length == 0">Es wurden noch keine Artikel eingescannt</h5>
       <div class="card-deck">
         <app-article-card *ngFor="let article of articles" [article]="article" [environmentId]="filter.environmentId">
         </app-article-card>

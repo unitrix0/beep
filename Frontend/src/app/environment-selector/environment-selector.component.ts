@@ -27,7 +27,7 @@ export class EnvironmentSelectorComponent implements OnInit {
         this.activeEnvironment = this.environments.find(e => e.id === this.permissions.token.environment_id)
           .name;
       }, error => {
-        this.alertify.error('Liste der Umgebungen konnte nicht abgefragt werden: ' + error.message);
+        this.alertify.error('Liste der Umgebungen konnte nicht abgefragt werden: ' + error);
       });
   }
 

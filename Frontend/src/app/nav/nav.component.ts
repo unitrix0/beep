@@ -42,7 +42,7 @@ export class NavComponent {
           this.alertify.success('Anmeldung erfolgreich');
           this.router.navigate(['scan']);
         }, response => {
-          console.log(response.error);
+          console.log(response);
           if (response.error.isLockedOut) {
             this.alertify.error('Anmeldung fehlgeschlagen: Konto gesperrt');
           } else if (response.error.isNotAllowed) {
@@ -80,7 +80,7 @@ export class NavComponent {
       this.user.cameras = devices;
       return true;
     }).catch(reason => {
-      this.alertify.error('Die Liste der verfügbaren Kameras konnte nicht abgefragt werden: ' + reason.message);
+      this.alertify.error('Die Liste der verfügbaren Kameras konnte nicht abgefragt werden: ' + reason);
       return false;
     });
   }

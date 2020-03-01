@@ -106,7 +106,7 @@ export class ScanComponent implements OnInit {
           this.lookupArticleUserSettings(this.scannedArticle.id, this.permissions.token.environment_id);
         }
       }, error => {
-        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error.message);
+        this.alertify.error('Artikel konnte nicht abgefragt werden: ' + error);
       });
   }
 
@@ -121,7 +121,7 @@ export class ScanComponent implements OnInit {
           this.showCheckOut = this.scanMode === ScanModes.open || this.scanMode === ScanModes.checkout;
         }
       }, error => {
-        this.alertify.error('Datenabfrage fehlgeschlagen: ' + error.message);
+        this.alertify.error('Datenabfrage fehlgeschlagen: ' + error);
       });
   }
 
@@ -139,7 +139,7 @@ export class ScanComponent implements OnInit {
         this.scannedArticle = createdArticle;
         this.saveArticleUserSettings();
       }, error => {
-        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
+        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error);
       });
   }
 
@@ -153,7 +153,7 @@ export class ScanComponent implements OnInit {
         this.showCheckIn = true;
         this.alertify.success('Artikel gespeichert');
       }, error => {
-        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error.message);
+        this.alertify.error('Artikel konnte nicht angelegt werden: ' + error);
       });
   }
 }

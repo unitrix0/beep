@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
         this.alertify.success('Änderung gespeichert');
         this.authService.updateDisplayName(this.user.displayName);
       }, error => {
-        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error.message);
+        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error);
       });
   }
 
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
           'Die Adresse wird nacht der bestätigung geändert.');
         this.changeMail.resetForm();
       }, error => {
-        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error.message);
+        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error);
       });
   }
 
@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit {
         this.alertify.success('Änderung gespeichert');
         this.changePw.resetForm();
       }, error => {
-        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error.message);
+        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error);
       });
   }
 }

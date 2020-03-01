@@ -62,7 +62,7 @@ export class ArticleCheckOutComponent implements OnInit {
         this.alertify.success('Geöffnet');
         this.doneOrCanceled.emit();
       }, error => {
-        this.alertify.error('Vorgang fehlgeschlagen: ' + error.message);
+        this.alertify.error('Vorgang fehlgeschlagen: ' + error);
       });
   }
 
@@ -72,7 +72,7 @@ export class ArticleCheckOutComponent implements OnInit {
         this.alertify.success('Artikel Ausgebucht');
         this.doneOrCanceled.emit();
       }, error => {
-        this.alertify.error('Ausbuchen fehlgeschlagen: ' + error.message);
+        this.alertify.error('Ausbuchen fehlgeschlagen: ' + error);
       });
   }
 

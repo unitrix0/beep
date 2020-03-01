@@ -24,7 +24,7 @@ export class ActivityLogComponent implements OnInit {
       .subscribe(entries => {
         this.logEntries = entries;
       }, error => {
-        console.log('Error loading activity log: ' + error.message);
+        console.log('Error loading activity log: ' + error);
       });
   }
 }

@@ -34,7 +34,7 @@ export class EnvironmentEditComponent implements OnInit {
       .subscribe(value => {
         this.members = value;
       }, error => {
-        this.alertify.error('Berechtigungen konnten nicht abgefragt werden: ' + error.message);
+        this.alertify.error('Berechtigungen konnten nicht abgefragt werden: ' + error);
       });
   }
 
@@ -82,7 +82,7 @@ export class EnvironmentEditComponent implements OnInit {
           modalRef.hide();
           this.alertify.success('Einladung verschickt');
         }, error => {
-          this.alertify.error('Die Einladung konnte nicht verschickt werden: ' + error.message);
+          this.alertify.error('Die Einladung konnte nicht verschickt werden: ' + error);
         });
     });
   }
@@ -95,7 +95,7 @@ export class EnvironmentEditComponent implements OnInit {
 
         this.alertify.success('Benutzer entfernt');
       }, error => {
-        this.alertify.error('Der Benutzer konnte nicht entfernt werden: ' + error.message);
+        this.alertify.error('Der Benutzer konnte nicht entfernt werden: ' + error);
       });
   }
 
@@ -109,7 +109,7 @@ export class EnvironmentEditComponent implements OnInit {
         this.currentEnvironment.name = newName;
         this.alertify.success('Name gespeichert');
       }, error => {
-        this.alertify.error('Der Name konnte nicht angepasst werden: ' + error.message);
+        this.alertify.error('Der Name konnte nicht angepasst werden: ' + error);
       });
   }
 }

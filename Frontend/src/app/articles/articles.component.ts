@@ -16,7 +16,7 @@ import {PermissionsService} from '../_services/permissions.service';
 export class ArticlesComponent implements OnInit {
   articles: Article[];
   filter: ArticlesFilter = {environmentId: 0, storeId: 0, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
-  pagination: Pagination;
+  pagination: Pagination = {totalPages: 0, currentPage: 0, totalItems: 0, itemsPerPage: 0};
 
   constructor(private data: ArticlesService, private route: ActivatedRoute, private alertify: AlertifyService,
               private permissions: PermissionsService) {
@@ -25,10 +25,12 @@ export class ArticlesComponent implements OnInit {
   ngOnInit() {
     this.filter.environmentId = this.permissions.token.environment_id;
     this.route.data.subscribe(data => {
-      this.articles = data['articles'].content;
-      this.pagination = data['articles'].pagination;
+      if (data['articles']) {
+        this.articles = data['articles'].content;
+        this.pagination = data['articles'].pagination;
+      }
     }, error => {
-      this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error.message);
+      this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error);
     });
   }
 
@@ -51,7 +53,7 @@ export class ArticlesComponent implements OnInit {
         this.articles = value.content;
         this.pagination = value.pagination;
       }, error => {
-        this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error.message);
+        this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error);
       });
   }
 }
