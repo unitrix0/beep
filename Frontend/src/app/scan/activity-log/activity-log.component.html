@@ -22,7 +22,7 @@
         </td>
         <td class="text-center" style="width: 10%;">{{entry.username}}</td>
         <td class="text-center" style="width: 8%;">
-          <img [src]="entry.imgUrl" alt="" class="img-prod-activity">
+          <img [src]="entry.imgUrl" alt="" class="img-prod-activity" *ngIf="entry.imgUrl">
         </td>
         <td>{{entry.description}} ({{entry.amount}})</td>
         <td style="width: 15%;">{{entry.actionDate| date: 'dd.MM.yyyy H:mm'}}</td>

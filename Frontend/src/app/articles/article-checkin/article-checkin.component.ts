@@ -63,7 +63,7 @@ export class ArticleCheckinComponent implements OnInit {
         this.doneOrCanceled.emit();
       }, error => {
         console.log(error);
-        this.alertify.error('Artikel konnte nicht eingebucht werden: ' + error.message);
+        this.alertify.error('Artikel konnte nicht eingebucht werden: ' + error);
       });
   }
 

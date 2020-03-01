@@ -36,7 +36,7 @@ export class SettingsService {
         localStorage.setItem(LocalStorageItemNames.settings, JSON.stringify(this.settings));
         this.alertify.success('Einstellung gespeichert');
       }, error => {
-        this.alertify.error('Einstellung konnte nicht gespeichert werden: ' + error.message);
+        this.alertify.error('Einstellung konnte nicht gespeichert werden: ' + error);
       });
   }
 }

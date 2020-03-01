@@ -35,7 +35,7 @@ export class InvitationsComponent implements OnInit {
         this.invitationsReceived.splice(idx, 1);
         this.data.updateInvitationsCount(this.authService.decodedToken.nameid);
       }, error => {
-        this.alertify.error('Einladung konnte nicht beantwortet werden: ' + error.message);
+        this.alertify.error('Einladung konnte nicht beantwortet werden: ' + error);
         console.log(error);
       });
   }
@@ -47,7 +47,7 @@ export class InvitationsComponent implements OnInit {
         this.invitationsSent.splice(this.invitationsSent
           .findIndex(i => i.inviteeId === inviteeId && i.environmentId === environmentId), 1);
       }, error => {
-        this.alertify.error('Einladung konnte nicht gelöscht werden: ' + error.message);
+        this.alertify.error('Einladung konnte nicht gelöscht werden: ' + error);
       });
   }
 
@@ -60,7 +60,7 @@ export class InvitationsComponent implements OnInit {
           this.invitationsSent.splice(this.invitationsSent.indexOf(invitation), 1);
         }
       }, error => {
-        this.alertify.error('Einlaungen konnten nicht gelöscht werden: ' + error.message);
+        this.alertify.error('Einlaungen konnten nicht gelöscht werden: ' + error);
       });
   }
 }

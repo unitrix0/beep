@@ -32,7 +32,7 @@ export class ArticleCardComponent implements OnInit {
           this.articleBackup = JSON.stringify(this.article);
           this.edit = true;
         }, error => {
-          this.alertify.error('Artikel details konnten nicht abgefragt werden: ' + error.message);
+          this.alertify.error('Artikel details konnten nicht abgefragt werden: ' + error);
         });
     } else {
       if (this.editForm.modified) {
@@ -52,7 +52,7 @@ export class ArticleCardComponent implements OnInit {
         this.alertify.success('Änderungen gespeichert');
         this.editForm.saved = true;
       }, error => {
-        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error.message);
+        this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error);
         this.editForm.saved = false;
       });
   }

@@ -53,7 +53,7 @@ export class ArticleStockComponent implements OnInit {
           this.applyOpenArticle(args.entry, newRemaining);
           return;
         }, error => {
-          this.alertify.error('Vorgang konnte nicht abgeschlossen werden: ' + error.message);
+          this.alertify.error('Vorgang konnte nicht abgeschlossen werden: ' + error);
         });
     });
 
@@ -74,7 +74,7 @@ export class ArticleStockComponent implements OnInit {
           this.applyCheckOut(entry.id, amount);
           this.article.totalStockAmount -= amount;
         }, error => {
-          this.alertify.error('Artikel konnte nicht ausgebucht werden: ' + error.message);
+          this.alertify.error('Artikel konnte nicht ausgebucht werden: ' + error);
         });
     });
   }
@@ -84,7 +84,7 @@ export class ArticleStockComponent implements OnInit {
       .subscribe(result => {
         this.stockData = result;
       }, error => {
-        this.alertify.error(error.message);
+        this.alertify.error(error);
       });
   }
 

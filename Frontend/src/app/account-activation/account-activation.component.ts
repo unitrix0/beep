@@ -30,7 +30,7 @@ export class AccountActivationComponent implements OnInit {
 
         }, error => {
           this.state = 'error';
-          this.comment = 'Fehler: ' + error.message;
+          this.comment = 'Fehler: ' + error;
         });
     });
   }

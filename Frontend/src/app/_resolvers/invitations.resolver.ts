@@ -16,7 +16,7 @@ export class InvitationsResolver implements Resolve<UserInvitations> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInvitations> {
     return this.dataService.getInvitations(this.auth.decodedToken.nameid).pipe(
       catchError(err => {
-        this.alertify.error('Fehler beim Abfragen der Daten: ' + err.message);
+        this.alertify.error('Fehler beim Abfragen der Daten: ' + err);
         this.router.navigate(['/']);
         return of(null);
       })

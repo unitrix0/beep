@@ -62,6 +62,7 @@ import {CustomFormsModule} from 'ngx-custom-validators';
 import {LocalStorageItemNames} from './_enums/token-names.enum';
 import {ActivityLogComponent} from './scan/activity-log/activity-log.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
+import {ErrorInterceptor, ErrorInterceptorProvider} from './_interceptors/error.interceptor';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -148,7 +149,8 @@ registerLocaleData(localeCh, 'de-CH');
     InvitationsResolver,
     ResetScanService,
     PermissionsService,
-    ArticlesService
+    ArticlesService,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent],
   entryComponents: [
