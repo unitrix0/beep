@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AuthService} from '../_services/auth.service';
 import {BeepEnvironment} from '../_models/beep-environment';
 import {AlertifyService} from '../_services/alertify.service';
 import {UsersService} from '../_services/users.service';
@@ -39,5 +38,9 @@ export class EnvironmentSelectorComponent implements OnInit {
       }, error => {
         this.alertify.error('Die Umgebung konnte nicht gewechselt werden: ' + error.mesage);
       });
+  }
+
+  getActiveEnvironmentName(): string {
+    return this.activeEnvironment;
   }
 }
