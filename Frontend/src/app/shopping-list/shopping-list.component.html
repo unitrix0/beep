@@ -1,3 +1,70 @@
-<p>
-  shopping-list works!
-</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <h3 class="text-light">Einkaufsliste Für: <i>{{environmentSelector.getActiveEnvironmentName()}}</i></h3>
+    </div>
+    <div class="col-4 text-right">
+      <app-environment-selector #environmentSelector
+                                (environmentChanged)="getShoppingList(permissions.token.environment_id)">
+      </app-environment-selector>
+    </div>
+  </div>
+  <div class="row mt-2" *ngFor="let store of list">
+    <div class="col">
+      <h4 class="text-light">{{store.storeName}}</h4>
+      <div class="container">
+        <table class="table table-striped table-dark table-sm">
+          <thead>
+          <tr>
+            <th style="width: 5%" class="text-center"><i class="fas fa-check"></i></th>
+            <th scope="col" class="text-center" style="width: 5%">Anzahl</th>
+            <th scope="col" class="text-center" style="width: 10%">Bild</th>
+            <th scope="col">Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let article of store.articles;let i = index">
+            <td class="text-center align-middle">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="chkDone_{{i}}" [(ngModel)]="article.done"
+                       (click)="articleDone(article.barcode, !article.done)">
+                <label class="custom-control-label" for="chkDone_{{i}}"></label>
+              </div>
+            </td>
+            <td class="text-center align-middle">{{article.needed}}</td>
+            <td class="text-center">
+              <img [src]="article.imageUrl" alt="" class="img-product" style="cursor: pointer"
+                   (click)="showProdPicture(article.imageUrl, showPictureDlg)">
+            </td>
+            <td class="align-middle" (click)="articleDone(article.barcode, !article.done)" style="cursor: pointer"
+                [class.strike-out]="article.done">
+              <div>{{article.articleName}}</div>
+              <small *ngIf="article.opened > 0" class="text-muted">
+                (Noch {{article.opened}} {{article > 1 ? 'geöffnete' : 'geöffneter'}} Artikel
+                vorhanden: {{article.amountRemaining}}{{article.unitAbbreviation}})
+              </small>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--modal-->
+<ng-template #showPictureDlg>
+  <div class="modal-header">
+    <h5 class="modal-titel pull-left">Beep! - Artikel Bild</h5>
+    <button type="button" class="close pull-right" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img [src]="largeImage" alt="" class="img-product-lg">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-success" (click)="modalRef.hide()">Ok</button>
+  </div>
+</ng-template>
