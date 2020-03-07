@@ -70,8 +70,8 @@ export class ArticlesService {
     return this.http.post<ArticleUserSettings>(this.baseUrl + 'CreateArticleUserSettings', aus);
   }
 
-  updateArticle(article: Article): Observable<object> {
-    return this.http.patch(this.baseUrl + 'UpdateArticle', article);
+  updateArticle(article: Article, articleUserSettings: ArticleUserSettings): Observable<object> {
+    return this.http.patch(this.baseUrl + 'UpdateArticle', {article: article, articleUserSettings: articleUserSettings});
   }
 
   saveStockEntry(stockEntry: CheckIn): Observable<Article> {

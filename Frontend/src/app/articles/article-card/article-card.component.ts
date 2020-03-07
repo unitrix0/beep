@@ -47,7 +47,7 @@ export class ArticleCardComponent implements OnInit {
   }
 
   private updateArticle() {
-    this.articleData.updateArticle(this.article)
+    this.articleData.updateArticle(this.article, this.articleUserSettings)
       .subscribe(value => {
         this.alertify.success('Änderungen gespeichert');
         this.editForm.saved = true;
