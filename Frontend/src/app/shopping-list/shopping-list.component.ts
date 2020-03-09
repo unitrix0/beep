@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {ShoppingListService} from '../_services/shopping-list.service';
 import {ShoppingListEntry} from '../_models/shopping-list-entry';
 import {AlertifyService} from '../_services/alertify.service';
@@ -11,11 +11,11 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
   styleUrls: ['./shopping-list.component.css']
 })
 export class ShoppingListComponent implements OnInit {
-  private largeImage: string;
-  private modalRef: BsModalRef;
-  private list: ShoppingListEntry[];
+  largeImage: string;
+  modalRef: BsModalRef;
+  list: ShoppingListEntry[];
 
-  constructor(private listService: ShoppingListService, private  alertify: AlertifyService, private permissions: PermissionsService,
+  constructor(private listService: ShoppingListService, private  alertify: AlertifyService, public permissions: PermissionsService,
               private modalService: BsModalService) {
   }
 

@@ -17,11 +17,11 @@ export class ScanCardComponent implements OnInit {
   @Output() scanTimedOut = new EventEmitter();
 
   doScan = false;
+  scanModes = ScanModes;
   private scanTimeout = 15;
   private timeoutCounter = 0;
   private timeoutProgress: number;
   private timer: Timer;
-  private scanModes = ScanModes;
 
   constructor(private resetService: ResetScanService) {
   }

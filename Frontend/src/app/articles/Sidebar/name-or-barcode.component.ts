@@ -6,18 +6,18 @@ import {CodeScannerComponent} from '../../scan/code-scanner/code-scanner.compone
     selector: 'app-name-or-barcode',
     templateUrl: './name-or-barcode.component.html',
     styles: [`
-::ng-deep video {
-    /*max-height: 70vh;*/
-    max-width:10.3vw ;
-    object-fit: contain;
-}`]
+      ::ng-deep video {
+        /*max-height: 70vh;*/
+        max-width: 10.3vw;
+        object-fit: contain;
+      }`]
   })
 
 export class NameOrBarcodeComponent {
   @Input() nameOrEan: string;
   @Output() nameOrEanChange = new EventEmitter();
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
-  private showScanner: boolean;
+  showScanner: boolean;
 
   constructor(private changeDetector: ChangeDetectorRef) {
   }

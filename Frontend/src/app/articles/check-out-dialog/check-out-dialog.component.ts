@@ -8,10 +8,10 @@ import {BsModalRef} from 'ngx-bootstrap';
 })
 export class CheckOutDialogComponent implements OnInit {
   @Output() okClicked = new EventEmitter<number>();
-  private amount: number;
-  private totalAmount: number;
+  amount: number;
+  totalAmount: number;
 
-  constructor(private modalRef: BsModalRef) {
+  constructor(public modalRef: BsModalRef) {
   }
 
   ngOnInit() {

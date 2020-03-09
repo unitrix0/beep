@@ -10,8 +10,8 @@ import {ArticlesService} from '../../_services/articles.service';
 })
 export class ActivityLogComponent implements OnInit {
   @Input() scanMode: ScanModes;
-  private logEntries: ActivityLogEntry[];
-  private scanModes = ScanModes;
+  logEntries: ActivityLogEntry[];
+  scanModes = ScanModes;
 
   constructor(private articleService: ArticlesService) {
   }

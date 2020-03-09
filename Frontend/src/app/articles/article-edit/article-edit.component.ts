@@ -6,7 +6,6 @@ import {NgForm} from '@angular/forms';
 import {ArticleStore} from '../../_models/article-store';
 import {PermissionsService} from '../../_services/permissions.service';
 import {PermissionFlags} from '../../_enums/permission-flags.enum';
-import {AlertifyService} from '../../_services/alertify.service';
 
 defineLocale('de', deLocale);
 
@@ -23,9 +22,9 @@ export class ArticleEditComponent implements OnInit {
   @Input() editMode: boolean;
   @ViewChild('f') form: NgForm;
   saved = false;
-  private editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
+  editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
 
-  constructor(private localeService: BsLocaleService, private articleData: ArticlesService, private  permissions: PermissionsService) {
+  constructor(private localeService: BsLocaleService, public articleData: ArticlesService, public  permissions: PermissionsService) {
   }
 
   get modified(): boolean {
@@ -36,7 +35,7 @@ export class ArticleEditComponent implements OnInit {
     this.localeService.use('de');
   }
 
-  private saveArticle() {
+  saveArticle() {
     this.save.emit();
   }
 

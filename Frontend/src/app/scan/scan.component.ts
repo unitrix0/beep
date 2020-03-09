@@ -25,10 +25,10 @@ export class ScanComponent implements OnInit {
   @ViewChild('notFoundDlg') notFoundDialog: TemplateRef<any>;
   @ViewChild(ActivityLogComponent) activityLog: ActivityLogComponent;
   scanMode = ScanModes.none;
+  scanModes = ScanModes;
+  hasPermission: boolean;
   private scannedArticle: Article;
   private articleUserSettings: ArticleUserSettings;
-  private hasPermission: boolean;
-  private scanModes = ScanModes;
   private modalRef: BsModalRef;
   private showCheckIn = false;
   private showBaseData = false;
@@ -49,23 +49,13 @@ export class ScanComponent implements OnInit {
     this.activityLog.refresh(this.permissions.token.environment_id);
   }
 
-  private startScan(newMode: ScanModes) {
+  startScan(newMode: ScanModes) {
     this.scanMode = newMode;
     this.changeDetector.detectChanges(); // Damit ViwChild referenz für 'scanner' funktioniert
     this.scanner.startScan();
   }
 
-  private barcodeDetected(barcode: string) {
-    this.scanner.stopScan();
-    this.lookupArticle(barcode);
-    this.resetScanTimeout();
-  }
-
-  private resetScanTimeout() {
-    this.resetScan.reset.emit(this.scanMode);
-  }
-
-  private finishScan() {
+  finishScan() {
     this.scanCheckIn.doScan = false;
     this.scanCheckOut.doScan = false;
     this.scanOpen.doScan = false;
@@ -76,6 +66,16 @@ export class ScanComponent implements OnInit {
     this.showCheckOut = false;
     this.showBaseData = false;
     this.activityLog.refresh(this.permissions.token.environment_id);
+  }
+
+  private barcodeDetected(barcode: string) {
+    this.scanner.stopScan();
+    this.lookupArticle(barcode);
+    this.resetScanTimeout();
+  }
+
+  private resetScanTimeout() {
+    this.resetScan.reset.emit(this.scanMode);
   }
 
   private showNotFoundDialog() {
