@@ -11,7 +11,7 @@ export class ArticleOpenComponent implements OnInit {
   @Output() remainingChange = new EventEmitter();
   private ticks: number[] = [0.25, 0.3, 0.5, 0.6, 0.75];
   private tickLabels: { [val: number]: string } = {0.25: '1/4', 0.3: '1/3', 0.5: '1/2', 0.6: '2/3', 0.75: '3/4'};
-  private options: Options = {
+  options: Options = {
     floor: 0,
     ceil: 1,
     step: 0.05,

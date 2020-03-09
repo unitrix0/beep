@@ -12,9 +12,8 @@ import {PermissionsService} from '../_services/permissions.service';
 export class EnvironmentSelectorComponent implements OnInit {
   @Input() small = true;
   @Output() environmentChanged = new EventEmitter();
-
+  activeEnvironment: string;
   private environments: BeepEnvironment[];
-  private activeEnvironment: string;
 
   constructor(private usersService: UsersService, private permissions: PermissionsService, private alertify: AlertifyService) {
   }

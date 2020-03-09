@@ -14,7 +14,7 @@ export class ArticleCardComponent implements OnInit {
   @Input() environmentId: number;
   @ViewChild(ArticleEditComponent) editForm: ArticleEditComponent;
 
-  private edit = false;
+  edit = false;
   private articleBackup: string;
   private articleUserSettings: ArticleUserSettings;
 

@@ -15,7 +15,7 @@ export class InviteDialogComponent implements OnInit {
 
   recipient: string;
 
-  constructor(private modalRef: BsModalRef) {
+  constructor(public modalRef: BsModalRef) {
   }
 
   ngOnInit() {

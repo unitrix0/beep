@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StockEntry} from '../../_models/stock.entry';
-import {PaginatedResult} from '../../_models/pagination';
 import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
@@ -19,12 +18,12 @@ export class ArticleCheckOutComponent implements OnInit {
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
   @Output() doneOrCanceled = new EventEmitter();
+  selectedEntryId: number;
+  showArticleOpen: boolean;
+  actionButtonLabel: string;
   private actionLabel: string;
-  private actionButtonLabel: string;
   private showCols = [StockListColumns.amount, StockListColumns.expireDate, StockListColumns.fillLevel];
   private stockData: PagedStockList;
-  private selectedEntryId: number;
-  private showArticleOpen: boolean;
   private selectedEntry: StockEntry;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService) {
@@ -40,7 +39,7 @@ export class ArticleCheckOutComponent implements OnInit {
     this.LoadData(args.page);
   }
 
-  private action() {
+  action() {
     if (this.forOpenMode && !this.showArticleOpen) {
       this.selectedEntry = this.stockData.content.find(e => e.id === this.selectedEntryId);
       this.showArticleOpen = true;

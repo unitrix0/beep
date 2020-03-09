@@ -7,7 +7,6 @@ import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
-import {PermissionFlags} from '../../_enums/permission-flags.enum';
 
 
 @Component({
@@ -18,7 +17,7 @@ import {PermissionFlags} from '../../_enums/permission-flags.enum';
 export class ArticleStockComponent implements OnInit {
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
-  private stockData: PaginatedResult<StockEntry[]>;
+  stockData: PaginatedResult<StockEntry[]>;
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modService: BsModalService) {
   }
@@ -27,11 +26,11 @@ export class ArticleStockComponent implements OnInit {
     this.loadStock(1);
   }
 
-  private pageChanged(args: PageChangedEvent) {
+  pageChanged(args: PageChangedEvent) {
     this.loadStock(args.page);
   }
 
-  private openArticle(args: { mouseEvent: MouseEvent; entry: StockEntry }) {
+  openArticle(args: { mouseEvent: MouseEvent; entry: StockEntry }) {
     const modalRef = this.modService.show(ArticleOpenDialogComponent,
       {
         ignoreBackdropClick: true,
@@ -60,7 +59,7 @@ export class ArticleStockComponent implements OnInit {
     args.mouseEvent.preventDefault();
   }
 
-  private checkOut(entry: StockEntry) {
+  checkOut(entry: StockEntry) {
     const modalRef = this.modService.show(CheckOutDialogComponent, {
       ignoreBackdropClick: true,
       initialState: {totalAmount: entry.amountOnStock}

@@ -54,7 +54,7 @@ export class CodeScannerComponent implements OnInit {
     this.modalRef = this.modalService.show(this.selectCamDlg, {ignoreBackdropClick: true});
   }
 
-  private scanSuccess(newCode: string) {
+  scanSuccess(newCode: string) {
     if (this.lastCode === newCode) {
       return;
     }

@@ -15,9 +15,9 @@ export class ProfileComponent implements OnInit {
   @ViewChild('displayName') displayName: NgForm;
   @ViewChild('changeMail') changeMail: NgForm;
   @ViewChild('changePw') changePw: NgForm;
-  private newPassword: string;
-  private confirmPassword: string;
-  private currentPassword: any;
+  newPassword: string;
+  confirmPassword: string;
+  currentPassword: any;
 
   constructor(private userService: UsersService, private alertify: AlertifyService, private authService: AuthService) {
   }

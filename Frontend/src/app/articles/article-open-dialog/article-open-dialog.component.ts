@@ -8,9 +8,10 @@ import {BsModalRef} from 'ngx-bootstrap';
 })
 export class ArticleOpenDialogComponent implements OnInit {
   @Output() okClicked = new EventEmitter<number>();
-  private remaining: number;
+  remaining: number;
 
-  constructor(private modalRef: BsModalRef) { }
+  constructor(public modalRef: BsModalRef) {
+  }
 
   ngOnInit() {
   }

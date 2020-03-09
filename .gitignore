@@ -6,3 +6,4 @@ obj
 *.suo
 .suo
 .vs
+/BeepBackend/BeepBackend/wwwroot
