@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   confirmPassword: string;
   currentPassword: any;
 
-  constructor(private userService: UsersService, private alertify: AlertifyService, private authService: AuthService) {
+  constructor(private userService: UsersService, private alertify: AlertifyService, public authService: AuthService) {
   }
 
   ngOnInit() {
