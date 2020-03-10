@@ -27,7 +27,6 @@ export class AccountActivationComponent implements OnInit {
           this.comment = isChange
             ? 'Bestätigung erfolgreich! Die E-Mail Adresse wurde geändert.'
             : 'Bestätigung erfolgreich! Sie können sich jetzt anmelden.';
-
         }, error => {
           this.state = 'error';
           this.comment = 'Fehler: ' + error;
