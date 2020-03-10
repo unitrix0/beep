@@ -3,22 +3,31 @@
 <form #registerForm="ngForm">
   <div class="form-group">
     <input class="form-control form-control-sm" type="text" name="displayName" [(ngModel)]="model.displayName"
-           placeholder="Anzeigename">
+           placeholder="Anzeigename" required>
   </div>
   <div class="form-group">
     <input class="form-control form-control-sm" type="text" name="username" [(ngModel)]="model.username"
-           placeholder="Benutzername">
+           placeholder="Benutzername" required>
   </div>
   <div class="form-group">
     <input class="form-control form-control-sm" type="text" name="email" [(ngModel)]="model.email"
-           placeholder="E-Mail" email>
+           placeholder="E-Mail" id="email" #email="ngModel" email required>
+    <small class="text-danger" *ngIf="email.invalid && email.errors.email">
+      Bitte geben Sie eine gültige E-Mail Adresse an</small>
   </div>
   <div class="form-group">
-    <input class="form-control form-control-sm" type="password" name="password" [(ngModel)]="model.password"
-           placeholder="Passwort">
+    <input class="form-control form-control-sm" type="password" name="password" placeholder="Passwort" #pw="ngModel"
+           [(ngModel)]="confirmPw" required minlength="6">
+    <small class="text-danger" *ngIf="pw.invalid && pw.errors.minlength"> Das Passwort muss mindestens 6 Zeichen lang
+      sein</small>
+    <input class="form-control form-control-sm mt-2" type="password" name="passwordConfirm" [(ngModel)]="model.password"
+           placeholder="Passwort bestätigen" #pwConfirm="ngModel" required [equalTo]="pw">
+    <small class="text-danger" *ngIf="pwConfirm.invalid && pwConfirm.touched && pwConfirm.errors.equalTo"> Die
+      Passwörter stimmen nicht überein</small>
   </div>
   <div class="form-group-append">
-    <button class="btn btn-outline-warning mr-2" type="button" (click)="cancel()">Cancel</button>
-    <button class="btn btn-success" type="submit" (click)="register()">Register</button>
+    <button class="btn btn-outline-warning mr-4" type="button" (click)="print(pw.errors)">Cancel</button>
+    <button class="btn btn-success" type="submit" (click)="register()" [disabled]="!registerForm.valid">Register
+    </button>
   </div>
 </form>
