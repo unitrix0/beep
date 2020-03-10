@@ -26,7 +26,7 @@
       Passwörter stimmen nicht überein</small>
   </div>
   <div class="form-group-append">
-    <button class="btn btn-outline-warning mr-4" type="button" (click)="print(pw.errors)">Cancel</button>
+    <button class="btn btn-outline-warning mr-4" type="button" (click)="cancel()">Cancel</button>
     <button class="btn btn-success" type="submit" (click)="register()" [disabled]="!registerForm.valid">Register
     </button>
   </div>
