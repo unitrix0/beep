@@ -39,14 +39,22 @@
             <div class="row">
               <div class="col">
                 <div class="input-group">
-                  <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email"
-                         #email="ngModel" [class.is-invalid]="email.dirty && email.invalid" email required>
+                  <input type="email" class="form-control" id="email" name="email" style="max-width: 219px"
+                         [(ngModel)]="user.email" [disabled]="!authService.currentUser.emailConfirmed" #email="ngModel"
+                         [class.is-invalid]="(email.dirty && email.invalid) || !authService.currentUser.emailConfirmed"
+                         email required>
                   <div class="input-group-append ml-3">
                     <button type="submit" class="btn btn-sm btn-success" *ngIf="email.dirty && email.valid">
                       Ändern
                     </button>
+                    <button class="btn btn-sm btn-primary" type="button" (click)="resendConfirmation()"
+                            *ngIf="!authService.currentUser.emailConfirmed">
+                      <i class="fas fa-envelope mr-2"></i>Bestätigungsnachricht erneut anfordern
+                    </button>
                   </div>
+                  <div class="invalid-feedback">Die Email Adresse wurde noch nicht bestätigt</div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -90,8 +98,9 @@
                   </button>
                 </div>
               </div>
-              <div class="small text-danger" *ngIf="confirmPw.hasError('minlength')">Das Passwort ist zu kurz</div>
-              <div class="small text-danger" *ngIf="confirmPw.hasError('equalTo')">Die Passwörter stimmen nicht übrein</div>
+              <div class="invalid-feedback" *ngIf="confirmPw.hasError('minlength')">Das Passwort ist zu kurz</div>
+              <div class="invalid-feedback" *ngIf="confirmPw.hasError('equalTo')">Die Passwörter stimmen nicht übrein
+              </div>
             </div>
           </div>
         </div>

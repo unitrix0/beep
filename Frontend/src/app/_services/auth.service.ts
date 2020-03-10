@@ -90,7 +90,13 @@ export class AuthService {
       .append('isChange', String(isChange))
       .append('token', token);
 
-    return this.http.put(this.baseUrl + 'ConfirmEmail', {}, {params: p});
+    return this.http.put(this.baseUrl + 'ConfirmEmail', {}, {params: p})
+      .pipe(map(response => {
+        if (!response) {
+          this.currentUser.emailConfirmed = true;
+          localStorage.setItem('user', JSON.stringify(this.currentUser));
+        }
+      }));
   }
 
   private saveTokens(response: any) {
