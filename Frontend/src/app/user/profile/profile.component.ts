@@ -55,4 +55,13 @@ export class ProfileComponent implements OnInit {
         this.alertify.error('Änderungen konnten nicht gespeichert werden: ' + error);
       });
   }
+
+  resendConfirmation() {
+    this.authService.resendEmailConfirmation(this.user.username)
+      .subscribe(value => {
+        this.alertify.success('Nachricht gesendet');
+      }, error => {
+        this.alertify.error('Nachricht konnte nicht gesendet werden: ' + error.mssage);
+      });
+  }
 }

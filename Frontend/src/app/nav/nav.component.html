@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#"> <i class="fas fa-barcode"></i> Beep</a>
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-barcode fa-2x mr-1"></i> <strong  style="font-size: 36px">Beep</strong>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             *ngIf="loggedIn()">
@@ -26,7 +28,7 @@
       <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
               aria-controls="dropdown-basic">
         <i class="fas fa-user mr-1"></i> Willkommen {{authService.currentUser.displayName}}<span class="caret"></span>
-        <span class="badge badge-pill badge-success ml-1" *ngIf="invitationsCount > 0">!</span>
+        <span class="badge badge-pill badge-success ml-1" *ngIf="showNotificationBadge()">!</span>
       </button>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
@@ -37,7 +39,12 @@
           </a>
         </li>
         <li role="menuitem">
-          <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">Profil und Umgebungen</a>
+          <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">
+            Profil und Umgebungen
+            <span class="badge badge-pill badge-success ml-2" *ngIf="!authService.currentUser.emailConfirmed">
+              !
+            </span>
+          </a>
         </li>
         <li class="divider dropdown-divider"></li>
         <li role="menuitem">
@@ -55,19 +62,4 @@
     </form>
   </div>
 </nav>
-
-<!-- Modal -->
-<ng-template #notActivatedDlg>
-  <div class="modal-header">
-    <h5 class="modal-title">Beep! - E-Mail</h5>
-    <button class="close float-right" (click)="modalRef.hide()"><i class="fas fa-times"></i></button>
-  </div>
-  <div class="modal-body">
-    <p>Anmeldung fehlgeschlagen: Die E-Mail Adresse wurde noch nicht bestätigt.</p>
-    <button class="btn btn-sm btn-primary" (click)="resendConfirmation()"><i class="fas fa-envelope mr-2"></i>Bestätigungsnachricht erneut anfordern</button>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm btn-success float-right" (click)="modalRef.hide()">Ok</button>
-  </div>
-</ng-template>
 
