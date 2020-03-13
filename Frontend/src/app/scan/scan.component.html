@@ -1,23 +1,23 @@
 <div class="container">
   <div class="row justify-content-end">
-    <div class="col-4 mt-4 text-right">
+    <div class="col mt-4 text-right">
       <label for="environmentSelector"
              class="d-inline-block mr-1 text-light"><small><strong>Umgebung: </strong></small></label>
       <app-environment-selector id="environmentSelector" (environmentChanged)="environmentChanged()"></app-environment-selector>
     </div>
   </div>
   <div class="row mt-3">
-    <div class="col-12 col-sm-4">
+    <div class="col-lg-4 col-sm-12">
       <app-scan-card [mode]="scanModes.checkin" [description]="'Artikel wurde neu gekauft'"
                      [icon]="'fa-angle-double-down'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanCheckIn></app-scan-card>
     </div>
-    <div class="col-12 col-sm-4">
+    <div class="col-lg-4 col-sm-12">
       <app-scan-card [mode]="scanModes.checkout" [description]="'Artikel wurde komplett aufgebraucht'"
-                     [icon]="'fa-trash-alt'" [enabled]="scanMode == scanModes.none && hasPermission"
+                     [icon]="'fa-angle-double-up'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanCheckOut></app-scan-card>
     </div>
-    <div class="col-12 col-sm-4">
+    <div class="col-lg-4 col-sm-12">
       <app-scan-card [mode]="scanModes.open" [description]="'Artikel wurde geöffnet/verbraucht'"
                      [icon]="'fa-box-open'" [enabled]="scanMode == scanModes.none && hasPermission"
                      (scanStarted)="startScan($event)" (scanTimedOut)="finishScan()" #scanOpen></app-scan-card>
