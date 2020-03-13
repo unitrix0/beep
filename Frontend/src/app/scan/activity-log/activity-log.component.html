@@ -7,10 +7,10 @@
       <thead>
       <tr>
         <th class="text-center">Aktion</th>
-        <th class="text-center">Benutzer</th>
+        <th class="text-center show-lg">Benutzer</th>
         <th class="text-center">Bild</th>
         <th>Artikel</th>
-        <th>Datum</th>
+        <th class="show-lg">Datum</th>
       </tr>
       </thead>
       <tbody>
@@ -19,13 +19,14 @@
           <i class="fas fa-angle-double-down fa-2x" *ngIf="entry.action == scanModes.checkin"></i>
           <i class="fas fa-trash-alt fa-2x" *ngIf="entry.action == scanModes.checkout"></i>
           <i class="fas fa-box-open fa-2x" *ngIf="entry.action == scanModes.open"></i>
+          <span class="show-sm">{{entry.username}}</span>
         </td>
-        <td class="text-center" style="width: 10%;">{{entry.username}}</td>
+        <td class="text-center show-lg" style="width: 10%;">{{entry.username}}</td>
         <td class="text-center" style="width: 8%;">
           <img [src]="entry.imgUrl" alt="" class="img-prod-activity" *ngIf="entry.imgUrl">
         </td>
         <td>{{entry.description}} ({{entry.amount}})</td>
-        <td style="width: 15%;">{{entry.actionDate| date: 'dd.MM.yyyy H:mm'}}</td>
+        <td class="show-lg" style="width: 15%;">{{entry.actionDate| date: 'dd.MM.yyyy H:mm'}}</td>
       </tr>
       </tbody>
     </table>

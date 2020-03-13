@@ -22,3 +22,14 @@ label {
 .custom-is-invalid {
   border-bottom: solid 2px red;
 }
+
+@media (max-width: 992px) {
+  .show-lg{
+    display: none;
+  }
+}
+@media (min-width: 992px) {
+  .show-sm{
+    display: none;
+  }
+}

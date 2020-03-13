@@ -1,58 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <i class="fas fa-barcode fa-2x mr-1"></i> <strong  style="font-size: 36px">Beep</strong>
+      <i class="fas fa-barcode fa-2x mr-1"></i> <strong style="font-size: 36px">Beep</strong>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            *ngIf="loggedIn()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarMenu" *ngIf="loggedIn()">
-      <ul class="navbar-nav nav mx-auto">
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" [routerLink]="'/'"><i class="fas fa-receipt mr-1"></i>Scan</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="'/articles/'"><i
-            class="fas fa-box mr-1"></i>Artikel</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="'/shopping-list'"><i class="fas fa-shopping-cart mr-1"></i>Einkaufsliste</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="btn-group" dropdown *ngIf="loggedIn()">
-      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
-              aria-controls="dropdown-basic">
-        <i class="fas fa-user mr-1"></i> Willkommen {{authService.currentUser.displayName}}<span class="caret"></span>
-        <span class="badge badge-pill badge-success ml-1" *ngIf="showNotificationBadge()">!</span>
-      </button>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li role="menuitem">
-          <a class="dropdown-item" [routerLink]="['users/', authService.decodedToken.nameid,'invitations']">
-            Einladungen
-            <span class="badge badge-pill badge-success ml-2" *ngIf="invitationsCount > 0">{{invitationsCount}}</span>
-          </a>
-        </li>
-        <li role="menuitem">
-          <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">
-            Profil und Umgebungen
-            <span class="badge badge-pill badge-success ml-2" *ngIf="!authService.currentUser.emailConfirmed">
-              !
-            </span>
-          </a>
-        </li>
-        <li class="divider dropdown-divider"></li>
-        <li role="menuitem">
-          <a class="dropdown-item" href="#" (click)="logout()" style="cursor: pointer">Abmelden</a>
-        </li>
-      </ul>
-    </div>
-
+    <!--    Login Form-->
     <form class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()" *ngIf="!loggedIn()">
       <input type="text" class="form-control form-control-sm mr-2" name="username"
              placeholder="Username" required [(ngModel)]="user.username">
@@ -60,6 +11,63 @@
              placeholder="Password" required [(ngModel)]="user.password">
       <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>
+
+    <!--    Navigation Menu -->
+    <button class="navbar-toggler" type="button" (click)="showNavMenu = !showNavMenu"
+    *ngIf="loggedIn()">
+      <span class="navbar-toggler-icon"></span>
+      <span class="badge badge-pill badge-success ml-1" *ngIf="showNotificationBadge()">
+            <i class="fas fa-bell"></i></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="showNavMenu" *ngIf="loggedIn()">
+      <ul class="navbar-nav mx-auto" (click)="showNavMenu = false">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" [routerLink]="'/'">
+            <i class="fas fa-receipt mr-1"></i>Scan</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/articles/'">
+            <i class="fas fa-box mr-1"></i>Artikel</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/shopping-list'">
+            <i class="fas fa-shopping-cart mr-1"></i>Einkaufsliste</a>
+        </li>
+      </ul>
+
+      <!--        User Menu-->
+      <div class="btn-group" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
+                aria-controls="dropdown-basic">
+          <i class="fas fa-user mr-1"></i>
+          Willkommen {{authService.currentUser.displayName}}
+          <span class="badge badge-pill badge-success ml-1" *ngIf="showNotificationBadge()">
+            <i class="fas fa-bell"></i></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"
+            (click)="showNavMenu = false">
+          <li role="menuitem">
+            <a class="dropdown-item" [routerLink]="['users/', authService.decodedToken.nameid,'invitations']">
+              Einladungen
+              <span class="badge badge-pill badge-success ml-2" *ngIf="invitationsCount > 0">{{invitationsCount}}</span>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" [routerLink]="['users/',authService.decodedToken.nameid]">
+              Profil und Umgebungen
+              <span class="badge badge-pill badge-success ml-2"
+                    *ngIf="!authService.currentUser.emailConfirmed"><i class="fas fa-bell"></i>
+              </span>
+            </a>
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#" (click)="logout()" style="cursor: pointer">Abmelden</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </nav>
 

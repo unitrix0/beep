@@ -14,6 +14,7 @@ import {NgForm} from '@angular/forms';
 })
 export class NavComponent {
   @ViewChild('loginForm') loginForm: NgForm;
+  showNavMenu: boolean;
   private invitationsCount: any;
   private user: UserForLogin = new class implements UserForLogin {
     cameras: MediaDeviceInfo[];
