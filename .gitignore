@@ -8,4 +8,3 @@ obj
 .vs
 /BeepBackend/BeepBackend/wwwroot
 appsettings.Development.json
-appsettings.json
