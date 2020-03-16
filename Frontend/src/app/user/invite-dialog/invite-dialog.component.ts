@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
-import {getInitialClassNameValue} from '@angular/core/src/render3/styling/class_and_style_bindings';
 import {EmailValidator} from '@angular/forms';
 
 @Component({
@@ -11,7 +10,7 @@ import {EmailValidator} from '@angular/forms';
 })
 export class InviteDialogComponent implements OnInit {
   @Output() SendInvitation = new EventEmitter<SendInvitationEventArgs>();
-  @ViewChild('invitationForm') form;
+  @ViewChild('invitationForm', { static: true }) form;
 
   recipient: string;
 

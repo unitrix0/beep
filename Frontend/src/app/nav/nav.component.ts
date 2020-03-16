@@ -13,7 +13,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
-  @ViewChild('loginForm') loginForm: NgForm;
+  @ViewChild('loginForm', { static: false }) loginForm: NgForm;
   showNavMenu: boolean;
   private invitationsCount: any;
   private user: UserForLogin = new class implements UserForLogin {

@@ -11,8 +11,8 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 export class CodeScannerComponent implements OnInit {
   @Output() barcodeDetected = new EventEmitter<string>();
   @Output() cancel = new EventEmitter();
-  @ViewChild(ZXingScannerComponent) scanner: ZXingScannerComponent;
-  @ViewChild('selectCamDlg') selectCamDlg: TemplateRef<any>;
+  @ViewChild(ZXingScannerComponent, { static: true }) scanner: ZXingScannerComponent;
+  @ViewChild('selectCamDlg', { static: true }) selectCamDlg: TemplateRef<any>;
   private beep;
   private lastCode: string;
   private modalRef: BsModalRef;

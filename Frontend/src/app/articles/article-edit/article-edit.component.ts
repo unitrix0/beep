@@ -20,7 +20,7 @@ export class ArticleEditComponent implements OnInit {
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
   @Input() editMode: boolean;
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', { static: true }) form: NgForm;
   saved = false;
   editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
 

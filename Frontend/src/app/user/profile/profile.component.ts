@@ -12,9 +12,9 @@ import {AuthService} from '../../_services/auth.service';
 })
 export class ProfileComponent implements OnInit {
   @Input() user: User;
-  @ViewChild('displayName') displayName: NgForm;
-  @ViewChild('changeMail') changeMail: NgForm;
-  @ViewChild('changePw') changePw: NgForm;
+  @ViewChild('displayName', { static: true }) displayName: NgForm;
+  @ViewChild('changeMail', { static: true }) changeMail: NgForm;
+  @ViewChild('changePw', { static: true }) changePw: NgForm;
   newPassword: string;
   confirmPassword: string;
   currentPassword: any;

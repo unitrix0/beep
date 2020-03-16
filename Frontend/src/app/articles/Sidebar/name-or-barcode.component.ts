@@ -16,7 +16,7 @@ import {CodeScannerComponent} from '../../scan/code-scanner/code-scanner.compone
 export class NameOrBarcodeComponent {
   @Input() nameOrEan: string;
   @Output() nameOrEanChange = new EventEmitter();
-  @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
+  @ViewChild(CodeScannerComponent, { static: false }) scanner: CodeScannerComponent;
   showScanner: boolean;
 
   constructor(private changeDetector: ChangeDetectorRef) {

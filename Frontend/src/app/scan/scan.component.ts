@@ -18,12 +18,12 @@ import {ActivityLogComponent} from './activity-log/activity-log.component';
   styleUrls: ['./scan.component.css']
 })
 export class ScanComponent implements OnInit {
-  @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
-  @ViewChild('scanCheckIn') scanCheckIn: ScanCardComponent;
-  @ViewChild('scanCheckOut') scanCheckOut: ScanCardComponent;
-  @ViewChild('scanOpen') scanOpen: ScanCardComponent;
-  @ViewChild('notFoundDlg') notFoundDialog: TemplateRef<any>;
-  @ViewChild(ActivityLogComponent) activityLog: ActivityLogComponent;
+  @ViewChild(CodeScannerComponent, { static: false }) scanner: CodeScannerComponent;
+  @ViewChild('scanCheckIn', { static: true }) scanCheckIn: ScanCardComponent;
+  @ViewChild('scanCheckOut', { static: true }) scanCheckOut: ScanCardComponent;
+  @ViewChild('scanOpen', { static: true }) scanOpen: ScanCardComponent;
+  @ViewChild('notFoundDlg', { static: true }) notFoundDialog: TemplateRef<any>;
+  @ViewChild(ActivityLogComponent, { static: true }) activityLog: ActivityLogComponent;
   scanMode = ScanModes.none;
   scanModes = ScanModes;
   hasPermission: boolean;
