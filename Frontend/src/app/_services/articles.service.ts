@@ -15,6 +15,7 @@ import {DateSuggestions} from '../_models/date.suggestions';
 import {Store} from '../_models/store';
 import {PagedStockList} from '../_models/paged-stock-list';
 import {ActivityLogEntry} from '../_models/activity-log-entry';
+import {ArticleUserSettings} from '../_models/articleUserSettings';
 
 @Injectable({
   providedIn: 'root'

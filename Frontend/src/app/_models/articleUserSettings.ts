@@ -1,4 +1,4 @@
-interface ArticleUserSettings {
+export interface ArticleUserSettings {
   id: number;
   environmentId: number;
   articleId: number;

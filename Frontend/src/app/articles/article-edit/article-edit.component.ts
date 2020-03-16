@@ -6,6 +6,7 @@ import {NgForm} from '@angular/forms';
 import {ArticleStore} from '../../_models/article-store';
 import {PermissionsService} from '../../_services/permissions.service';
 import {PermissionFlags} from '../../_enums/permission-flags.enum';
+import {ArticleUserSettings} from '../../_models/articleUserSettings';
 
 defineLocale('de', deLocale);
 

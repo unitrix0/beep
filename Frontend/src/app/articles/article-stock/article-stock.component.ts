@@ -7,6 +7,7 @@ import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
+import {ArticleUserSettings} from '../../_models/articleUserSettings';
 
 
 @Component({

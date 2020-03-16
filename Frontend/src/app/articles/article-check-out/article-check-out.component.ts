@@ -6,6 +6,7 @@ import {AlertifyService} from '../../_services/alertify.service';
 import {StockListColumns} from '../../_enums/stock-list-columns.enum';
 import {PageChangedEvent} from 'ngx-bootstrap';
 import {PagedStockList} from '../../_models/paged-stock-list';
+import {ArticleUserSettings} from '../../_models/articleUserSettings';
 
 @Component({
   selector: 'app-article-check-out',

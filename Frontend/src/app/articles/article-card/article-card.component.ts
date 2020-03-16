@@ -12,7 +12,7 @@ import {ArticlesService} from '../../_services/articles.service';
 export class ArticleCardComponent implements OnInit {
   @Input() article: Article;
   @Input() environmentId: number;
-  @ViewChild(ArticleEditComponent, { static: false }) editForm: ArticleEditComponent;
+  @ViewChild(ArticleEditComponent) editForm: ArticleEditComponent;
 
   edit = false;
   private articleBackup: string;

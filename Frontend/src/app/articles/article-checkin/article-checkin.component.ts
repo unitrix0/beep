@@ -6,6 +6,7 @@ import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {DateSuggestions} from '../../_models/date.suggestions';
 import {PermissionsService} from '../../_services/permissions.service';
+import {ArticleUserSettings} from '../../_models/articleUserSettings';
 
 
 @Component({

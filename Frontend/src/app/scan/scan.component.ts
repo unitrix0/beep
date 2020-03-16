@@ -11,6 +11,7 @@ import {Article} from '../_models/article';
 import {ScanCardComponent} from './scan-card/scan-card.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ActivityLogComponent} from './activity-log/activity-log.component';
+import {ArticleUserSettings} from '../_models/articleUserSettings';
 
 @Component({
   selector: 'app-scan',
@@ -18,7 +19,7 @@ import {ActivityLogComponent} from './activity-log/activity-log.component';
   styleUrls: ['./scan.component.css']
 })
 export class ScanComponent implements OnInit {
-  @ViewChild(CodeScannerComponent, { static: false }) scanner: CodeScannerComponent;
+  @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
   @ViewChild('scanCheckIn', { static: true }) scanCheckIn: ScanCardComponent;
   @ViewChild('scanCheckOut', { static: true }) scanCheckOut: ScanCardComponent;
   @ViewChild('scanOpen', { static: true }) scanOpen: ScanCardComponent;
