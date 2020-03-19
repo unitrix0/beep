@@ -3,6 +3,7 @@ import {Article} from '../../_models/article';
 import {AlertifyService} from '../../_services/alertify.service';
 import {ArticleEditComponent} from '../article-edit/article-edit.component';
 import {ArticlesService} from '../../_services/articles.service';
+import {ArticleUserSettings} from '../../_models/articleUserSettings';
 
 @Component({
   selector: 'app-article-card',
