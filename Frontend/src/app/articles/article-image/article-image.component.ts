@@ -7,6 +7,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
   styleUrls: ['./article-image.component.css']
 })
 export class ArticleImageComponent implements OnInit {
+  @Input() barcode: string;
   @Input() imageUrl: string;
   @Output() imageUrlChange = new EventEmitter();
 

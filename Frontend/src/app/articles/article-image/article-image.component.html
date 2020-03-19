@@ -1,6 +1,9 @@
 <img [src]="imageUrl" alt="" class="card-img" style="width: 157px;" *ngIf="imageUrl && imageUrl != ''">
 <div class="fas fa-photo-video fa-9x fa-fw mt-4" *ngIf="!imageUrl ||imageUrl == ''"></div>
-<button class="btn btn-secondary btn-sm btn-info mt-3" type="button" (click)="openModal(template)">Auswählen</button>
+<div class="mt-1 text-info">{{barcode}}</div>
+<button class="btn btn-block btn-secondary btn-sm btn-info mt-2" type="button" (click)="openModal(template)">Bild
+  ändern
+</button>
 
 <!--modal-->
 <ng-template #template>

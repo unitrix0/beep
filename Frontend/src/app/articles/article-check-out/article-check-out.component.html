@@ -6,8 +6,7 @@
   </div>
   <div class="row">
     <div class="col-3 text-center">
-      <app-article-image [imageUrl]="article.imageUrl"></app-article-image>
-      <div class="text-body mt-2">{{article.barcode}}</div>
+      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"></app-article-image>
     </div>
     <div class="col">
       <div class="text-light mb-1" *ngIf="!showArticleOpen">Wählen Sie den Artikel der {{actionLabel}}</div>

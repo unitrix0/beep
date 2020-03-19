@@ -1,17 +1,16 @@
 <form id="articleForm" #f="ngForm">
   <div class="row">
     <div class="col-3 text-center">
-      <app-article-image [(imageUrl)]="article.imageUrl"
+      <app-article-image [(imageUrl)]="article.imageUrl" [barcode]="article.barcode"
                          (imageUrlChange)="f.control.markAsTouched()"></app-article-image>
-      <div class="text-body mt-2">{{article.barcode}}</div>
     </div>
 
     <div class="col">
-      <tabset #tabs>
+      <tabset>
         <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" #articleTab id="articleTab"
              (selectTab)="setSelectedTab($event)">
           <ng-template tabHeading>
-            <span [ngClass]="activeTabId === articleTab.id ? '' : 'text-light'" #heading>Artikel</span>
+            <span [ngClass]="activeTabId === articleTab.id ? '' : 'text-light'">Artikel</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">

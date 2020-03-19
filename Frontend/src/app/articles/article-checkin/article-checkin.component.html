@@ -7,8 +7,9 @@
   </div>
   <div class="row">
     <div class="col-3 text-center">
-      <img src="{{article.imageUrl}}" alt="" class="card-img" *ngIf="article.imageUrl != null ||article.imageUrl != ''">
-      <i class="fas fa-photo-video fa-9x" *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
+      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"></app-article-image>
+<!--      <img src="{{article.imageUrl}}" alt="" class="card-img" *ngIf="article.imageUrl != null ||article.imageUrl != ''">-->
+<!--      <i class="fas fa-photo-video fa-9x" *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>-->
     </div>
     <div class="col border-bottom border-light">
       <div class="container">
