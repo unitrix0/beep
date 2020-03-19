@@ -4,5 +4,6 @@
   (checkOutClicked)="checkOut($event)"
   (openArticleClicked)="openArticle($event)"
   (pageChanged)="pageChanged($event)"
-  [rowSelect]="false">
+  [rowSelect]="false"
+  [selectedColumns]="article.hasLifetime ? withDateColumn:noDateColumn">
 </app-stock-entry-list>

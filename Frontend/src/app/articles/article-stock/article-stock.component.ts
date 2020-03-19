@@ -8,6 +8,7 @@ import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
 import {ArticleUserSettings} from '../../_models/articleUserSettings';
+import {StockListColumns} from '../../_enums/stock-list-columns.enum';
 
 
 @Component({
@@ -19,6 +20,8 @@ export class ArticleStockComponent implements OnInit {
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
   stockData: PaginatedResult<StockEntry[]>;
+  withDateColumn = [StockListColumns.all];
+  noDateColumn = [StockListColumns.amount, StockListColumns.fillLevel, StockListColumns.isOpened, StockListColumns.checkOut];
 
   constructor(private articleData: ArticlesService, private alertify: AlertifyService, private modService: BsModalService) {
   }
