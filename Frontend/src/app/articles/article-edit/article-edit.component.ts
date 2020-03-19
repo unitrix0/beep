@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {BsLocaleService, defineLocale, deLocale} from 'ngx-bootstrap';
+import {BsLocaleService, defineLocale, deLocale, TabDirective, TabsetComponent} from 'ngx-bootstrap';
 import {ArticlesService} from '../../_services/articles.service';
 import {Article} from '../../_models/article';
 import {NgForm} from '@angular/forms';
@@ -21,15 +21,16 @@ export class ArticleEditComponent implements OnInit {
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
   @Input() editMode: boolean;
-  @ViewChild('f', { static: true }) form: NgForm;
+  @ViewChild('f', {static: true}) form: NgForm;
   saved = false;
   editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
+  activeTabId = 'articleTab';
 
   constructor(private localeService: BsLocaleService, public articleData: ArticlesService, public  permissions: PermissionsService) {
   }
 
   get modified(): boolean {
-    return this.form.touched && !this.saved;
+    return this.form.dirty && !this.saved;
   }
 
   ngOnInit() {
@@ -40,11 +41,20 @@ export class ArticleEditComponent implements OnInit {
     this.save.emit();
   }
 
+  setSelectedTab(tab: TabDirective) {
+    this.activeTabId = tab.id;
+  }
+
+  storeSelected(): boolean {
+    return this.article.stores.length > 0;
+  }
+
   private articleHasStore(storeId: number): boolean {
     return this.article.stores.find(s => s.storeId === storeId) != null;
   }
 
   private addRemoveStore(articleId: number, storeId: number) {
+    this.form.form.markAsDirty();
     if (this.permissions.hasPermissionOr(this.editArticlePermission)) {
       const idx = this.article.stores.findIndex(s => s.storeId === storeId);
       if (idx > -1 && this.article.stores.length > 1) {
