@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-2">
       <app-environment-filter (changed)="environmentChanged()"></app-environment-filter>
-      <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan"></app-name-or-barcode>
-      <app-article-filter (setFilter)="setFilter()"
+      <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan" (nameOrEanChange)="setFilter()"></app-name-or-barcode>
+      <app-article-filter (setFilter)="setFilter()" (clearFilter)="clearFilter()"
                           [(isOnStock)]="filter.isOnStock"
                           [(keepOnStock)]="filter.keepOnStock"
                           [(isOpened)]="filter.isOpened"
@@ -13,7 +13,12 @@
                       *ngIf="pagination.totalPages > 1"></app-pagination>
     </div>
     <div class="col-10">
-      <h5 class="text-body" *ngIf="articles?.length == 0">Es wurden noch keine Artikel eingescannt</h5>
+      <h5 class="text-info" *ngIf="articles?.length == 0 && !filterSet">
+        Es wurden noch keine Artikel eingescannt
+      </h5>
+      <h5 class="text-info" *ngIf="articles?.length == 0 && filterSet">
+        Es wurden keine Artikel gefunden
+      </h5>
       <div class="card-deck">
         <app-article-card *ngFor="let article of articles" [article]="article" [environmentId]="filter.environmentId">
         </app-article-card>

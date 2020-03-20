@@ -18,6 +18,7 @@ export class ArticleFilterComponent {
   @Output() isOpenedChange = new EventEmitter();
 
   @Output() setFilter = new EventEmitter();
+  @Output() clearFilter = new EventEmitter();
 
   constructor() {
   }
