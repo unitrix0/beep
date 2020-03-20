@@ -112,4 +112,13 @@ export class ArticleCheckinComponent implements OnInit {
   useSuggestedDate() {
     this.stockEntry.expireDate = new Date(this.expireDateSuggestion.today());
   }
+
+  displayExpireDateSuggestion() {
+    this.expireDateSuggestion.setHours(0, 0, 0, 0);
+
+    const now = new Date(Date.now());
+    now.setHours(0, 0, 0, 0);
+
+    return this.expireDateSuggestion.getTime() !== now.getTime();
+  }
 }
