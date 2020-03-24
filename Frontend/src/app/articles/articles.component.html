@@ -1,6 +1,6 @@
 <div class="container-fluid mt-4">
   <div class="row">
-    <div class="col-2">
+    <div class="col-md-3 col-xl-2">
       <app-environment-filter (changed)="environmentChanged()"></app-environment-filter>
       <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan" (nameOrEanChange)="setFilter()"></app-name-or-barcode>
       <app-article-filter (setFilter)="setFilter()" (clearFilter)="clearFilter()"
@@ -12,7 +12,7 @@
       <app-pagination [pagination]="pagination" (pageChanged)="pageChanged($event)"
                       *ngIf="pagination.totalPages > 1"></app-pagination>
     </div>
-    <div class="col-10">
+    <div class="col">
       <h5 class="text-info" *ngIf="articles?.length == 0 && !filterSet">
         Es wurden noch keine Artikel eingescannt
       </h5>
