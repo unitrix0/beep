@@ -45,7 +45,7 @@ export class CodeScannerComponent implements OnInit {
   }
 
   stopScan() {
-    this.scanner.reset();
+    this.scanner.enable = false;
   }
 
   scanSuccess(newCode: string) {
