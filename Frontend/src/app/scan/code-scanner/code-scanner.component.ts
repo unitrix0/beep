@@ -1,7 +1,9 @@
-import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {SettingsService} from '../../_services/settings.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {AlertifyService} from '../../_services/alertify.service';
+import {SelectCameraDialogComponent} from '../select-camera-dialog/select-camera-dialog.component';
 
 @Component({
   selector: 'app-code-scanner',
@@ -11,15 +13,11 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 export class CodeScannerComponent implements OnInit {
   @Output() barcodeDetected = new EventEmitter<string>();
   @Output() cancel = new EventEmitter();
-  @ViewChild(ZXingScannerComponent, { static: true }) scanner: ZXingScannerComponent;
-  @ViewChild('selectCamDlg', { static: true }) selectCamDlg: TemplateRef<any>;
+  @ViewChild(ZXingScannerComponent, {static: true}) scanner: ZXingScannerComponent;
   private beep;
   private lastCode: string;
-  private modalRef: BsModalRef;
-  private cameras: MediaDeviceInfo[];
-  private selectedCam: string;
 
-  constructor(private settings: SettingsService, private modalService: BsModalService) {
+  constructor(private settings: SettingsService, private modalService: BsModalService, private alertify: AlertifyService) {
     this.beep = new Audio();
     this.beep.src = '../../../assets/Beep.mp3';
     this.beep.load();
@@ -30,28 +28,24 @@ export class CodeScannerComponent implements OnInit {
   }
 
   startScan() {
-    this.scanner.updateVideoInputDevices().then(devices => {
-      const cam = devices.find(d => d.deviceId === this.settings.cameraDeviceId);
-      if (cam == null) {
-        this.cameras = devices;
-        this.VerifyCam();
-        this.cancel.emit();
-        return;
-      }
-      this.scanner.device = cam;
-    });
-
-    this.scanner.askForPermission().then(permission => {
-      console.log('Permissions response: ' + permission);
-    });
+    if (this.settings.cameraDeviceId !== '') {
+      this.scanner.askForPermission().then(permitted => {
+        if (permitted) {
+          this.scanner.updateVideoInputDevices().then(devices => {
+            const dev = devices.find(d => d.deviceId === this.settings.cameraDeviceId);
+            this.openCamStream(dev);
+          }).catch(reason => {
+            this.alertify.error('Es konnten keine Kameras gefunden werden ' + reason);
+          });
+        }
+      });
+    } else {
+      this.selectCamera();
+    }
   }
 
   stopScan() {
-    this.scanner.enable = false;
-  }
-
-  private VerifyCam() {
-    this.modalRef = this.modalService.show(this.selectCamDlg, {ignoreBackdropClick: true});
+    this.scanner.reset();
   }
 
   scanSuccess(newCode: string) {
@@ -64,9 +58,50 @@ export class CodeScannerComponent implements OnInit {
     this.barcodeDetected.emit(newCode);
   }
 
-  private selectCamDlg_ok() {
-    const device = this.cameras.find(c => c.deviceId === this.selectedCam);
-    this.settings.saveSelectedCam(device);
-    this.modalRef.hide();
+  showSelectCamDlg(devices: MediaDeviceInfo[]) {
+    const modalRef = this.modalService.show(SelectCameraDialogComponent, {
+      ignoreBackdropClick: true,
+      initialState: {
+        cameras: devices,
+        selectedCamera: this.settings.cameraDeviceId
+      }
+    });
+
+    modalRef.content.okClicked.subscribe((selectedCam: MediaDeviceInfo) => this.selectCamDlg_ok(selectedCam, modalRef));
+  }
+
+  private selectCamDlg_ok(cam: MediaDeviceInfo, modalRef: BsModalRef) {
+    this.settings.saveSelectedCam(cam)
+      .subscribe(value => {
+        this.alertify.success('Einstellung gespeichert');
+        modalRef.hide();
+      }, error => {
+        this.alertify.error('Einstellung konnte nicht gespeichert werden: ' + error.message);
+      });
+
+  }
+
+  private openCamStream(dev: MediaDeviceInfo) {
+    this.scanner.device = dev;
+    this.scanner.askForPermission().then(result => {
+      if (result) {
+        this.scanner.enable = true;
+      } else {
+        this.alertify.error('Kein Zugriff auf die Kamera');
+      }
+    });
+  }
+
+  private selectCamera() {
+    this.scanner.askForPermission().then(result => {
+      if (result) {
+        this.scanner.updateVideoInputDevices().then(devices => {
+          this.cancel.emit();
+          this.showSelectCamDlg(devices);
+        });
+      }
+    }).catch(reason => {
+      this.alertify.error('Es konnte nicht auf die Kamera zugegriffen werden: ' + reason.message);
+    });
   }
 }

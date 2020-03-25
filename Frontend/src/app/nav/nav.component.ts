@@ -6,6 +6,7 @@ import {UsersService} from '../_services/users.service';
 import {AuthService} from '../_services/auth.service';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {NgForm} from '@angular/forms';
+import {newArray} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-nav',
@@ -17,7 +18,7 @@ export class NavComponent {
   showNavMenu: boolean;
   private invitationsCount: any;
   private user: UserForLogin = new class implements UserForLogin {
-    cameras: MediaDeviceInfo[];
+    cameras: MediaDeviceInfo[] = [];
     password: string;
     username: string;
   };
@@ -34,22 +35,22 @@ export class NavComponent {
 
   login() {
     this.fillInCameras().then(success => {
-      if (success) {
-        this.authService.login(this.user).subscribe(() => {
-          this.loginForm.resetForm();
-          this.alertify.success('Anmeldung erfolgreich');
-          this.router.navigate(['scan']);
-        }, response => {
-          if (response.error.isLockedOut) {
-            this.alertify.error('Anmeldung fehlgeschlagen: Konto gesperrt');
-          } else if (response.error.isNotAllowed) {
-            this.alertify.error('Anmeldung nicht erlaubt. Wenden Sie sich an den Support');
-          } else {
-            this.alertify.error('Anmeldung fehlgeschlagen: Benutzername oder Passwort falsch');
-          }
 
-        });
-      }
+      this.authService.login(this.user).subscribe(() => {
+        this.loginForm.resetForm();
+        this.alertify.success('Anmeldung erfolgreich');
+        this.router.navigate(['scan']);
+      }, response => {
+        if (response.error.isLockedOut) {
+          this.alertify.error('Anmeldung fehlgeschlagen: Konto gesperrt');
+        } else if (response.error.isNotAllowed) {
+          this.alertify.error('Anmeldung nicht erlaubt. Wenden Sie sich an den Support');
+        } else {
+          this.alertify.error('Anmeldung fehlgeschlagen: Benutzername oder Passwort falsch');
+        }
+
+      });
+
     });
   }
 
@@ -67,11 +68,18 @@ export class NavComponent {
 
   private fillInCameras(): Promise<boolean> {
     const scanner: ZXingScannerComponent = new ZXingScannerComponent();
-    return scanner.updateVideoInputDevices().then(devices => {
-      this.user.cameras = devices;
-      return true;
+    return scanner.askForPermission().then(permitted => {
+      if (permitted) {
+        return scanner.updateVideoInputDevices().then(devices => {
+          this.user.cameras = devices;
+          return true;
+        }).catch(reason => {
+          this.alertify.error('Die Liste der verfügbaren Kameras konnte nicht abgefragt werden: ' + reason);
+          return false;
+        });
+      }
     }).catch(reason => {
-      this.alertify.error('Die Liste der verfügbaren Kameras konnte nicht abgefragt werden: ' + reason);
+      this.alertify.error('Die Kameras konnten nicht abgefragt werden: ' + reason);
       return false;
     });
   }

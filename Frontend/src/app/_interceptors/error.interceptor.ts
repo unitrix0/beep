@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {AlertifyService} from '../_services/alertify.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError(response => {
-        console.log(response);
         if (response instanceof HttpErrorResponse) {
           if (response.status === 401) {
             if (response.error && response.error.status) {

@@ -63,6 +63,8 @@ import {LocalStorageItemNames} from './_enums/token-names.enum';
 import {ActivityLogComponent} from './scan/activity-log/activity-log.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import {ErrorInterceptor, ErrorInterceptorProvider} from './_interceptors/error.interceptor';
+import { UserSettingsComponent } from './user/user-settings/user-settings.component';
+import { SelectCameraDialogComponent } from './scan/select-camera-dialog/select-camera-dialog.component';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -113,6 +115,8 @@ registerLocaleData(localeCh, 'de-CH');
     RequiredSelectDirective,
     ActivityLogComponent,
     AccountActivationComponent,
+    UserSettingsComponent,
+    SelectCameraDialogComponent,
   ],
   imports: [
     HttpClientModule,

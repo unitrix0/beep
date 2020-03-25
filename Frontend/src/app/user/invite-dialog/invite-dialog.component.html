@@ -8,8 +8,8 @@
       <label for="recipient">Bitte geben Sie die E-Mail oder den Benutzernamen des
         Benutzers an der eingeladen werden soll:</label>
       <input type="email" class="form-control form-control-sm" id="recipient"
-             name="recipient" [(ngModel)]="recipient" #recipientInp="ngModel" [ngModelOptions]="{updateOn: 'blur'}" data-isemail="false"
-             appValidateInvitationRecipient required>
+             name="recipient" [(ngModel)]="recipient" #recipientInp="ngModel" [ngModelOptions]="{updateOn: 'blur'}"
+             data-isemail="false" appValidateInvitationRecipient required>
       <div class="alert alert-danger"
            *ngIf="recipientInp.invalid &&
             (recipientInp.dirty || recipientInp.touched)">

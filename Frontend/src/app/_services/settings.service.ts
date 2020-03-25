@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AuthService} from './auth.service';
 import {UsersService} from './users.service';
-import {AlertifyService} from './alertify.service';
 import {UserSettings} from '../_models/user-settings';
 import {LocalStorageItemNames} from '../_enums/token-names.enum';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,17 @@ import {LocalStorageItemNames} from '../_enums/token-names.enum';
 export class SettingsService {
   private settings: UserSettings;
 
-  constructor(private jwtHelper: JwtHelperService, private authService: AuthService, private userSvc: UsersService,
-              private alertify: AlertifyService) {
+  constructor(private jwtHelper: JwtHelperService, private authService: AuthService, private userSvc: UsersService) {
     authService.onLogin.subscribe(() => this.reloadSettings());
     authService.onLogout.subscribe(() => localStorage.removeItem(LocalStorageItemNames.settings));
   }
 
   get cameraDeviceId(): string {
     return this.settings.cameraDeviceId;
+  }
+
+  get cameraLabel(): string {
+    return this.settings.cameraLabel;
   }
 
   reloadSettings() {
@@ -29,15 +33,13 @@ export class SettingsService {
     }
   }
 
-  saveSelectedCam(device: MediaDeviceInfo) {
-    this.userSvc.addCamForUser(this.authService.decodedToken.nameid, device)
-      .subscribe((cam) => {
+  saveSelectedCam(device: MediaDeviceInfo): Observable<void> {
+    return this.userSvc.addCamForUser(this.authService.decodedToken.nameid, device, this.settings.cameraDeviceId)
+      .pipe(map(cam => {
         this.settings.cameraDeviceId = cam.deviceId;
+        this.settings.cameraLabel = cam.label;
         localStorage.setItem(LocalStorageItemNames.settings, JSON.stringify(this.settings));
-        this.alertify.success('Einstellung gespeichert');
-      }, error => {
-        this.alertify.error('Einstellung konnte nicht gespeichert werden: ' + error);
-      });
+      }));
   }
 }
 

@@ -104,8 +104,8 @@ export class UsersService {
     return this.http.put(this.baseUrl + 'UpdateEnvironmentName/' + environmentId, null, {params: p});
   }
 
-  addCamForUser(userId: number, cam: MediaDeviceInfo): Observable<Camera> {
-    return this.http.post<Camera>(this.baseUrl + 'AddCamForUser/' + userId, cam);
+  addCamForUser(userId: number, cam: MediaDeviceInfo, oldDeviceId: string): Observable<Camera> {
+    return this.http.post<Camera>(this.baseUrl + 'AddCamForUser/' + userId, {'camera': cam, 'oldCamDeviceId': oldDeviceId});
   }
 
   changeDisplayName(userId: number, newDisplayName: string): Observable<any> {

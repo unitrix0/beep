@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <div class="col">
+    <div class="row">
+      <h4 class="text-light">Kamera</h4>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" id="cameraLabel" name="cameraLabel" readonly
+                 [ngModel]="settingsService.cameraLabel">
+          <div class="input-group-append ml-3">
+            <button type="button" class="btn btn-sm btn-success" (click)="changeCamera()"> Ändern</button>
+          </div>
+          <small class="text-info">Diese Kamera wird auf diesem Gerät für das einlesen der Barcodes verwendet:</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
