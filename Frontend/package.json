@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl --ssl-cert=\"C:\\Users\\mr.HIVE\\Documents\\Certs\\localhost-user-cert.crt\" --ssl-key=\"C:\\Users\\mr.HIVE\\Documents\\Certs\\localhost-user-key-decrypted.key\" --host=drone02.hive.loc",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

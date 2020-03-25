@@ -124,10 +124,10 @@ registerLocaleData(localeCh, 'de-CH');
     JwtModule.forRoot({
       config: {
         tokenGetter: jwtGetter,
-        whitelistedDomains: ['localhost:5000'],
-        blacklistedRoutes: ['localhost:5000/api/auth']
-        // whitelistedDomains: ['drone02:5000', 'drone02:5001'],
-        // blacklistedRoutes: ['drone02:5000/api/auth', 'drone02:5001/api/auth']
+        // whitelistedDomains: ['localhost:5001'],
+        // blacklistedRoutes: ['localhost:5001/api/auth']
+        whitelistedDomains: ['drone02.hive.loc:5000', 'drone02.hive.loc:5001'],
+        blacklistedRoutes: ['drone02.hive.loc:5000/api/auth', 'drone02.hive.loc:5001/api/auth']
       }
     }),
     FormsModule,
