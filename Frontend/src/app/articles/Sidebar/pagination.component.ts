@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Pagination} from '../../_models/pagination';
-import {PageChangedEvent} from 'ngx-bootstrap';
+import {PageChangedEvent} from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-pagination',

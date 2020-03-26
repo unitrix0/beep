@@ -1,0 +1,32 @@
+<carousel [isAnimated]="true" [showIndicators]="false">
+  <slide>
+    <div class="text-center ">
+      <h2>Einkaufszettel vergessen?</h2>
+      <div class="lead">Mit Beep-It hast du ihren Einkaufszettel immer dabei...</div>
+      <p>...und Du musst ihn nicht mal selber schreiben.</p>
+    </div>
+  </slide>
+  <slide>
+    <div class="text-center ">
+      <h2>Wieviel Milch haben wir eigentlich noch zu Hause?</h2>
+      <div class="lead">Den Kühlschrank immer in der Tasche...
+      </div>
+      <p>...und den Tiefkühler im Keller und die Ferienwohnung und...</p>
+    </div>
+  </slide>
+  <slide>
+    <div class="text-center ">
+      <h2>Keine Zeit zum einkaufen?</h2>
+      <div class="lead">Kein Problem! Schick jemand anderen...</div>
+      <p>Wenn Du möchtest können andere auf Deinen Einkaufszettel zugreifen</p>
+    </div>
+  </slide>
+  <slide>
+    <div class="text-center ">
+      <h2>Wir sollten einen Notvorrat anlegen</h2>
+      <div class="lead">...und aktuell halten</div>
+      <p>Kein Problem!</p>
+    </div>
+  </slide>
+</carousel>
+<button class="btn btn-info" (click)="tellMeMore.emit()">Mehr erfahren</button>

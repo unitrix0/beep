@@ -1,10 +1,16 @@
-<div class="card bg-dark text-center" [ngClass]="[doScan? 'border-info': '', enabled ? '':'disabled']"
+<div class="card text-center"
+     [ngClass]="doScan ? 'bg-info': 'border-info'"
+     [class.disabled]="!enabled"
      (click)="startScan()">
-  <div class="fas fa-lg mt-3 mb-2" style="font-size: 6vw" [ngClass]="icon"></div>
-  <h5 class="card-title text-center text-light mt-2">{{scanModes[mode]}}</h5>
-  <div class="card-text text-light">{{description}}</div>
-  <div class="progress bg-dark" *ngIf="doScan">
-    <div class="progress-bar bg-success" style="height: 2px" role="progressbar" [style.width]="timeoutProgress+'%'"></div>
+
+  <div class="card-body">
+    <div class="fas fa-lg mt-3 mb-2" style="font-size: 6vw" [ngClass]="icon"></div>
+    <h5 class="card-title text-center mt-2 show-lg">{{scanModes[mode]}}</h5>
+    <div class="card-text show-lg">{{description}}</div>
+    <div class="progress" *ngIf="doScan">
+      <div class="progress-bar bg-success" style="height: 2px" role="progressbar"
+           [style.width]="timeoutProgress+'%'"></div>
+    </div>
   </div>
   <div class="mb-3" *ngIf="!doScan"></div>
 </div>

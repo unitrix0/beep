@@ -24,10 +24,10 @@
     </div>
   </div>
   <div class="row mt-4" *ngIf="scanMode != scanModes.none">
-    <div class="col-4">
-      <app-code-scanner (barcodeDetected)="barcodeDetected($event)" (cancel)="finishScan()"></app-code-scanner>
+    <div class="col">
+      <app-code-scanner (barcodeDetected)="barcodeDetected($event)" (cancel)="finishScan()" *ngIf="showScanner"></app-code-scanner>
     </div>
-    <div class="col-8">
+    <div class="col-sm-12 col-md-8">
       <app-article-edit [article]="scannedArticle" [articleUserSettings]="articleUserSettings" [editMode]="false"
                         *ngIf="showBaseData" (save)="save()" (doneOrCanceled)="finishScan()">
       </app-article-edit>

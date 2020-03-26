@@ -1,15 +1,17 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h5 class="text-light">{{article.name}}</h5>
+      <h5>{{article.name}}</h5>
     </div>
   </div>
   <div class="row">
-    <div class="col-3 text-center">
-      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"></app-article-image>
+    <div class="col-xs-2 col-md-3 text-center">
+      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"
+                         [showBarcode]="false" [showChangeImageBtn]="false">
+      </app-article-image>
     </div>
     <div class="col">
-      <div class="text-light mb-1" *ngIf="!showArticleOpen">Wählen Sie den Artikel der {{actionLabel}}</div>
+      <div class="mb-1" *ngIf="!showArticleOpen">Wählen Sie den Artikel der {{actionLabel}}</div>
       <app-stock-entry-list [stockData]="this.stockData" (entrySelected)="selectedEntryId = $event"
                             [selectedColumns]="showCols" [article]="article"
                             (pageChanged)="pageChanged($event)" *ngIf="!showArticleOpen"></app-stock-entry-list>
@@ -17,7 +19,7 @@
     </div>
   </div>
   <div class="row mt-2">
-    <div class="col-3"></div>
+    <div class="col-xs-2 col-md-3"></div>
     <div class="col">
       <button class="btn btn-sm btn-danger" type="button" (click)="doneOrCanceled.emit()">Verwerfen</button>
       <button class="btn btn-sm btn-success float-right" [disabled]="!selectedEntryId || selectedEntryId == 0"

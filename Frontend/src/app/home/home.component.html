@@ -1,15 +1,92 @@
-<div class="container mt-5 text-center">
-  <div *ngIf="!showRegForm">
-    <i class="fas fa-barcode fa-10x"></i>
-    <h1 class="text-light">Beep</h1>
-    <button class="btn btn-success" (click)="showRegistration()">Register</button>
-  </div>
-
-  <div class="container" *ngIf="showRegForm">
-    <div class="row justify-content-center">
-      <div class="col-4">
+<header class="masthead" [ngClass]="showRegForm
+? 'padding-registration padding-registration-lg padding-registration-md padding-registration-sm padding-registration-xs'
+: 'padding-default padding-default-lg padding-default-md padding-default-sm padding-default-xs'" #top>
+  <div class="container-fluid">
+    <div class="row my-auto">
+      <div class="col py-5 text-center" [ngClass]="showRegForm ? 'background-reg':'background-default'">
+        <app-carousel (tellMeMore)="scrollToDescription()" *ngIf="!showRegForm"></app-carousel>
         <app-registration (cancelRegistration)="hideRegistrationForm()" *ngIf="showRegForm"></app-registration>
       </div>
     </div>
   </div>
-</div>
+</header>
+
+
+<!-- Services -->
+<section class="page-section" id="services" #description>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Beep-It</h2>
+        <h3 class="section-subheading">
+          <i>Was ist beep und wie funktioniert es?</i>
+          <p class="mt-2 text-muted">
+            Mit Beep-It behalten Sie den Überblick über die Artikel in Ihrem Haushalt. Ganz egal ob Lebensmittel,
+            Reinigungsmittel oder sonstige Utensilien. Hat es einen Strichcode? Dann können Sie es mit Beep-It
+            Verwalten.
+          </p>
+        </h3>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-3">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-square-full fa-stack-2x text-info"></i>
+            <i class="fas fa-angle-double-down fa-stack-1x fa-inverse"></i>
+          </span>
+        <h4 class="service-heading">Einbuchen</h4>
+        <p class="text-muted">
+          Scannen Sie die Artikel nach dem Einkaufen ein, und definieren Sie wieviele Sie davon vorrätig haben wollen.
+          Wird dieser Wert unterschritten erscheint der Artikel automatisch auf dem Einkaufszettel.
+        </p>
+      </div>
+      <div class="col-md-3">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-square-full fa-stack-2x text-info"></i>
+            <i class="fas fa-angle-double-up fa-stack-1x fa-inverse"></i>
+          </span>
+        <h4 class="service-heading">Ausbuchen</h4>
+        <p class="text-muted">
+          Ist ein Artikel aufgebraucht oder Abgelaufen und wird entsorgt? Buchen Sie ihn mit dem Barcode aus.
+        </p>
+      </div>
+      <div class="col-md-3">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-square-full fa-stack-2x text-info"></i>
+            <i class="fas fa-box-open fa-stack-1x fa-inverse"></i>
+          </span>
+        <h4 class="service-heading">Öffnen</h4>
+        <p class="text-muted">
+          Sie wissen dass Sie noch Milch im Kühlschrank haben? Gut, aber wieviel? Mit der Öffnen funktion können Sie den
+          Füllstand von Produkten ganz einfach in viertel oder drittel erfassen.
+        </p>
+      </div>
+      <div class="col-md-3">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-square-full fa-stack-2x text-info"></i>
+            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+          </span>
+        <h4 class="service-heading">Einkaufszettel</h4>
+        <p class="text-muted">
+          Am schluss erhalten Sie einen bereits geschriebenen Einkaufszettel mit allem was Sie noch brauchen.
+          Nach Laden sortiert.
+        </p>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-6 mx-auto text-center">
+        <button class="btn btn-success btn-block" (click)="showRegistrationForm()">Jetzt ausprobieren</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col py-2 text-center">
+        <span class="copyright">&copy; Beep-It 2020</span>
+      </div>
+    </div>
+  </div>
+</footer>

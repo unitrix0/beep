@@ -1,0 +1,8 @@
+.navbar-transparent {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99vw;
+  z-index: 99999;
+}

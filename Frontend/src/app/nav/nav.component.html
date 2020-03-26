@@ -1,20 +1,27 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+<nav class="navbar navbar-expand-lg"
+     [ngClass]="loggedIn() ? 'navbar-light bg-light':'navbar-transparent'">
   <div class="container">
     <a class="navbar-brand" href="#">
       <i class="fas fa-barcode fa-2x mr-1"></i> <strong style="font-size: 36px">Beep</strong>
     </a>
     <!--    Login Form-->
     <form class="form-inline mx-auto" #loginForm="ngForm" (ngSubmit)="login()" *ngIf="!loggedIn()">
-      <input type="text" class="form-control form-control-sm mr-2" name="username"
-             placeholder="Username" required [(ngModel)]="user.username">
-      <input type="password" class="form-control form-control-sm mr-2" name="password"
-             placeholder="Password" required [(ngModel)]="user.password">
-      <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
+      <div class="input-group">
+        <div class="input-group-append">
+          <input type="text" class="form-control form-control-sm mr-2" name="username"
+                 placeholder="Benutzername" required [(ngModel)]="user.username">
+        </div>
+        <div class="input-group-append">
+          <input type="password" class="form-control form-control-sm mr-2" name="password"
+                 placeholder="Passwort" required [(ngModel)]="user.password">
+        </div>
+        <button class="btn btn-sm btn-success" type="submit" [disabled]="!loginForm.valid">Anmelden</button>
+      </div>
     </form>
 
     <!--    Navigation Menu -->
     <button class="navbar-toggler" type="button" (click)="showNavMenu = !showNavMenu"
-    *ngIf="loggedIn()">
+            *ngIf="loggedIn()">
       <span class="navbar-toggler-icon"></span>
       <span class="badge badge-pill badge-success ml-1" *ngIf="showNotificationBadge()">
             <i class="fas fa-bell"></i></span>
@@ -37,7 +44,7 @@
 
       <!--        User Menu-->
       <div class="btn-group" dropdown>
-        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle bg-dark"
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-default btn-sm dropdown-toggle"
                 aria-controls="dropdown-basic">
           <i class="fas fa-user mr-1"></i>
           Willkommen {{authService.currentUser.displayName}}

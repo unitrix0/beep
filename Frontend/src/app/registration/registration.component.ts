@@ -16,7 +16,6 @@ export class RegistrationComponent implements OnInit {
   @Output() cancelRegistration = new EventEmitter();
   model: UserForRegistration = {displayName: '', email: '', password: '', username: ''};
   confirmPw: string;
-  private headers: string[];
 
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {
   }

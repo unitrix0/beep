@@ -1,12 +1,12 @@
-<div class="card bg-dark mb-3">
-  <h5 class="card-header bg-info text-light">Suchen</h5>
+<div class="card bg-info text-white mb-3">
+  <h5 class="card-header">Suchen</h5>
   <div class="card-body">
     <form action="">
       <div class="form-group">
         <label for="searchText">Name oder EAN</label>
         <input type="text" class="form-control" id="searchText" name="searchText" [(ngModel)]="nameOrEan" (change)="nameOrEanChange.emit(nameOrEan)">
       </div>
-      <button class="btn btn-sm btn-info float-right" (click)="startScan()" [class.mb-3]="showScanner">Scan Barcode</button>
+      <button type="button" class="btn btn-sm btn-primary float-right" (click)="startScan()" [class.mb-3]="showScanner">Scan Barcode</button>
     </form>
    <app-code-scanner *ngIf="showScanner" (barcodeDetected)="codeDetected($event)"></app-code-scanner>
   </div>

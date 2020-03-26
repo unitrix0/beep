@@ -6,11 +6,11 @@
     </div>
 
     <div class="col">
-      <tabset>
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" #articleTab id="articleTab"
+      <tabset class="border-dark">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="articleTab"
              (selectTab)="setSelectedTab($event)">
           <ng-template tabHeading>
-            <span [ngClass]="activeTabId === articleTab.id ? '' : 'text-light'">Artikel</span>
+            <span>Artikel</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">
@@ -72,10 +72,9 @@
           </div>
         </tab>
 
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="settingsTab" #settingsTab
-             (selectTab)="setSelectedTab($event)">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="settingsTab" (selectTab)="setSelectedTab($event)">
           <ng-template tabHeading>
-            <span [ngClass]="activeTabId === settingsTab.id ? '' : 'text-light'">Einstellungen</span>
+            <span>Einstellungen</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">
@@ -111,19 +110,17 @@
             </div>
           </div>
         </tab>
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storageTab" #storageTab
-             (selectTab)="setSelectedTab($event)" *ngIf="editMode">
-          <ng-template tabHeading>
-            <span [ngClass]="activeTabId === storageTab.id ? '' : 'text-light'">Lager</span>
-          </ng-template>
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storageTab" (selectTab)="setSelectedTab($event)"
+             *ngIf="editMode">
+          <ng-template tabHeading><span>Lager</span></ng-template>
           <div class="container mt-3">
             <app-article-stock [article]="article" [articleUserSettings]="articleUserSettings"></app-article-stock>
           </div>
         </tab>
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storesTab" #storesTab
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storesTab"
              (selectTab)="setSelectedTab($event)">
           <ng-template tabHeading>
-            <span [ngClass]="activeTabId === storesTab.id ? '' : 'text-light'">Läden</span>
+            <span>Läden</span>
           </ng-template>
           <div class="container mt-3">
             <div class="row">

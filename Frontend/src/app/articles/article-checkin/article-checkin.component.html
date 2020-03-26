@@ -1,90 +1,94 @@
 <form #checkInForm="ngForm" id="checkInForm" (ngSubmit)="saveStockEntry()">
   <div class="row">
     <div class="col">
-      <h4 class="text-light">Einbuchen</h4>
-      <h5 class="text-light">{{article.name}}</h5>
+      <h4>Einbuchen</h4>
+      <h5>{{article.name}}</h5>
     </div>
   </div>
   <div class="row">
-    <div class="col-3 text-center">
-      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"></app-article-image>
+    <div class="col-xs-2 col-md-3 text-center">
+      <app-article-image [imageUrl]="article.imageUrl" [barcode]="article.barcode"
+                         [showBarcode]="false" [showChangeImageBtn]="false">
+      </app-article-image>
     </div>
     <div class="col border-bottom border-light">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label for="stockAmount">Anzahl</label>
-              <div class="input-group w-25">
-                <input type="number" class="form-control form-control-sm" id="stockAmount" name="stockAmount"
-                       #stockAmount="ngModel" [ngClass]="{'custom-is-invalid' : stockAmount.invalid}"
-                       [(ngModel)]="stockEntry.amountOnStock" required appMinimumValue="1">
-                <div class="input-group-append">
-                  <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>
-                  <button class="btn btn-sm btn-info fas fa-plus" type="button" (click)="adjustAmount('+')"></button>
-                </div>
+      <div class="form-group">
+        <label for="stockAmount">Anzahl</label>
+        <div class="input-group w-25">
+          <input type="number" class="form-control form-control-sm" id="stockAmount" name="stockAmount"
+                 #stockAmount="ngModel" [ngClass]="{'custom-is-invalid' : stockAmount.invalid}"
+                 [(ngModel)]="stockEntry.amountOnStock" required appMinimumValue="1">
+          <div class="input-group-append">
+            <button class="btn btn-sm btn-info fas fa-minus" type="button" (click)="adjustAmount('-')"></button>
+            <button class="btn btn-sm btn-info fas fa-plus" type="button" (click)="adjustAmount('+')"></button>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="article.hasLifetime">
+        <div class="col-12 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+          <div class="form-group">
+            <label for="dateGroup">Ablaufdatum</label>
+            <div class="input-group input-group-sm" id="dateGroup">
+              <input type="number" class="form-control no-round-corners" name="expireDateDay" #expireDay="ngModel"
+                     [ngModel]="stockEntry.expireDate | date:'dd'"
+                     [ngClass]="{'custom-is-invalid' : expireDay.invalid}" required appMinimumValue="1"
+                     appMaximumValue="31">
+              <div class="input-group-append">
+                <span class="input-group-text circle"></span>
+              </div>
+              <input type="number" class="form-control" name="expireDateMonth" #expireMonth="ngModel"
+                     [ngModel]="stockEntry.expireDate | date:'MM'"
+                     [ngClass]="{'custom-is-invalid' : expireMonth.invalid}" required appMinimumValue="1"
+                     appMaximumValue="12">
+              <div class="input-group-append">
+                <span class="input-group-text circle"></span>
+              </div>
+              <input type="number" class="form-control no-round-corners" name="expireDateYear" #expireYear="ngModel"
+                     [ngModel]="stockEntry.expireDate | date:'yyyy'"
+                     [ngClass]="{'custom-is-invalid' : expireYear.invalid}" required appMinimumValue="1900">
+            </div>
+            <div class="btn-toolbar mt-1" role="toolbar">
+              <div
+                class="btn-group button-group-spacer-xs button-group-spacer-sm
+                  button-group-spacer-md button-group-spacer-lg button-group-spacer-xl"
+                role="group">
+                <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                        (click)="decreaseExpireDate('d')"></button>
+                <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                        (click)="increaseExpireDate('d')"></button>
+              </div>
+              <div
+                class="btn-group button-group-spacer-xs button-group-spacer-sm
+                  button-group-spacer-md button-group-spacer-lg button-group-spacer-xl"
+                role="group">
+                <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                        (click)="decreaseExpireDate('m')"></button>
+                <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                        (click)="increaseExpireDate('m')"></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button class="btn btn-sm btn-info fas fa-minus" type="button"
+                        (click)="decreaseExpireDate('y')"></button>
+                <button class="btn btn-sm btn-info fas fa-plus" type="button"
+                        (click)="increaseExpireDate('y')"></button>
               </div>
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="article.hasLifetime">
-          <div class="col-10 col-xl-8">
-            <div class="form-group">
-              <label for="dateGroup">Ablaufdatum</label>
-              <div class="input-group input-group-sm" id="dateGroup">
-                <input type="number" class="form-control no-round-corners" name="expireDateDay" #expireDay="ngModel"
-                       [ngModel]="stockEntry.expireDate | date:'dd'"
-                       [ngClass]="{'custom-is-invalid' : expireDay.invalid}" required appMinimumValue="1" appMaximumValue="31">
-                <div class="input-group-append">
-                  <span class="input-group-text circle"></span>
-                </div>
-                <input type="number" class="form-control" name="expireDateMonth" #expireMonth="ngModel"
-                       [ngModel]="stockEntry.expireDate | date:'MM'"
-                       [ngClass]="{'custom-is-invalid' : expireMonth.invalid}" required appMinimumValue="1" appMaximumValue="12">
-                <div class="input-group-append">
-                  <span class="input-group-text circle"></span>
-                </div>
-                <input type="number" class="form-control no-round-corners" name="expireDateYear" #expireYear="ngModel"
-                       [ngModel]="stockEntry.expireDate | date:'yyyy'"
-                       [ngClass]="{'custom-is-invalid' : expireYear.invalid}" required appMinimumValue="1900">
-              </div>
-              <div class="btn-toolbar ml-1 mt-1" role="toolbar">
-                <div class="btn-group button-group-spacer" role="group">
-                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
-                          (click)="decreaseExpireDate('d')"></button>
-                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
-                          (click)="increaseExpireDate('d')"></button>
-                </div>
-                <div class="btn-group button-group-spacer" role="group">
-                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
-                          (click)="decreaseExpireDate('m')"></button>
-                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
-                          (click)="increaseExpireDate('m')"></button>
-                </div>
-                <div class="btn-group" role="group">
-                  <button class="btn btn-sm btn-info fas fa-minus" type="button"
-                          (click)="decreaseExpireDate('y')"></button>
-                  <button class="btn btn-sm btn-info fas fa-plus" type="button"
-                          (click)="increaseExpireDate('y')"></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group" *ngIf="displayExpireDateSuggestion()">
-              <label for="previousDate">Vorschlag</label>
-              <button class="btn btn-block btn-info"
-                      (click)="useSuggestedDate();" type="button"
-                      name="expireDateSuggestion"
-                      id="previousDate">{{expireDateSuggestion | date:'dd.MM.yyyy'}}</button>
-            </div>
+        <div class="col">
+          <div class="form-group" *ngIf="displayExpireDateSuggestion()">
+            <label for="previousDate">Vorschlag</label>
+            <button class="btn btn-block btn-info"
+                    (click)="useSuggestedDate();" type="button"
+                    name="expireDateSuggestion"
+                    id="previousDate">{{expireDateSuggestion | date:'dd.MM.yyyy'}}</button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="row mt-2">
-    <div class="col-3"></div>
+    <div class="col-xs-2 col-md-3"></div>
     <div class="col">
       <button class="btn btn-sm btn-danger" type="button" (click)="doneOrCanceled.emit()">Verwerfen</button>
       <button class="btn btn-sm btn-success float-right" form="checkInForm"

@@ -13,8 +13,34 @@
   font-size: 10px;
 }
 
-.button-group-spacer {
-  margin-right: 2.45rem;
+@media (min-width: 1200px) {
+  .button-group-spacer-xl {
+    margin-right: 2.6rem;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .button-group-spacer-lg {
+    margin-right: 2.95rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .button-group-spacer-md {
+    margin-right: 1.65rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .button-group-spacer-sm {
+    margin-right: 2.25rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .button-group-spacer-xs {
+    margin-right: 2.125rem;
+  }
 }
 
 .no-round-corners {

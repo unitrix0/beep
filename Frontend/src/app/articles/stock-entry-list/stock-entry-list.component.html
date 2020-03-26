@@ -1,6 +1,6 @@
 <div class="row" *ngIf="stockData">
   <div class="col">
-    <table class="table table-sm table-dark table-hover table-striped">
+    <table class="table table-sm table-light table-hover table-striped">
       <thead>
       <tr>
         <th scope="col" *ngIf="showColumn(columns.amount)">Anz.</th>
@@ -11,7 +11,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="text-light" *ngFor="let entry of stockData.content" (click)="selectEntry(entry.id)"
+      <tr>
+        <td [colSpan]="getColspan()" *ngIf="stockData.content.length === 0">Dieser Artikel ist nicht vorrätig</td>
+      </tr>
+      <tr *ngFor="let entry of stockData.content" (click)="selectEntry(entry.id)"
           [class.table-success]="entry.id === selectedEntryId">
         <td *ngIf="showColumn(columns.amount)">{{entry.amountOnStock}}</td>
         <td *ngIf="showColumn(columns.expireDate)">{{entry.expireDate | date: 'dd.MM.yyyy'}}</td>

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+
 
 @Component({
   selector: 'app-article-image',
@@ -9,6 +10,8 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 export class ArticleImageComponent implements OnInit {
   @Input() barcode: string;
   @Input() imageUrl: string;
+  @Input() showBarcode = true;
+  @Input() showChangeImageBtn = true;
   @Output() imageUrlChange = new EventEmitter();
 
   private modalRef: BsModalRef;

@@ -1,20 +1,25 @@
-<div class="card bg-dark mb-4" [ngClass]="edit? 'edit-mode':''">
+<div class="card border-primary mb-4" [ngClass]="edit? 'edit-mode':''">
   <div class="card-header">
-    <h5 class="text-light d-inline" *ngIf="edit">{{article.name}}</h5>
+    <h5 class="d-inline" *ngIf="edit">{{article.name}}</h5>
     <i class="fas fa-sliders-h float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="!edit"></i>
     <i class="fas fa-times float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="edit"></i>
   </div>
 
-  <div class="text-center">
-    <i class="fas fa-photo-video fa-9x text-center mt-4"
-       *ngIf="!edit && (article.imageUrl == null ||article.imageUrl == '')"></i>
-    <img [src]="article.imageUrl" alt="" class="card-img" *ngIf="!edit && article.imageUrl != null">
-  </div>
-
   <div class="card-body">
-    <h5 class="card-text text-light text-center" *ngIf="!edit">{{article.name}}</h5>
+    <div class="container" *ngIf="!edit">
+      <div class="col">
+        <i class="fas fa-photo-video fa-7x mt-4"
+           *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
+        <img [src]="article.imageUrl" alt="" class="card-img mx-auto d-block "
+             *ngIf="article.imageUrl != null">
+      </div>
+    </div>
     <app-article-edit [article]="article" [articleUserSettings]="articleUserSettings" editMode="true"
                       *ngIf="edit" (save)="updateArticle();">
     </app-article-edit>
+  </div>
+
+  <div class="card-footer" *ngIf="!edit">
+    <h5 class="card-text text-center">{{article.name}}</h5>
   </div>
 </div>

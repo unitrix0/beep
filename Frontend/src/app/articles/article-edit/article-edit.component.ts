@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {BsLocaleService, defineLocale, deLocale, TabDirective, TabsetComponent} from 'ngx-bootstrap';
 import {ArticlesService} from '../../_services/articles.service';
 import {Article} from '../../_models/article';
 import {NgForm} from '@angular/forms';
@@ -7,6 +6,9 @@ import {ArticleStore} from '../../_models/article-store';
 import {PermissionsService} from '../../_services/permissions.service';
 import {PermissionFlags} from '../../_enums/permission-flags.enum';
 import {ArticleUserSettings} from '../../_models/articleUserSettings';
+import {defineLocale, deLocale} from 'ngx-bootstrap/chronos';
+import {BsLocaleService} from 'ngx-bootstrap/datepicker';
+import {TabDirective} from 'ngx-bootstrap/tabs';
 
 defineLocale('de', deLocale);
 

@@ -3,11 +3,10 @@ import {StockEntry} from '../../_models/stock.entry';
 import {Article} from '../../_models/article';
 import {ArticlesService} from '../../_services/articles.service';
 import {StockListColumns} from '../../_enums/stock-list-columns.enum';
-import {PaginatedResult} from '../../_models/pagination';
-import {PageChangedEvent} from 'ngx-bootstrap';
 import {PermissionsService} from '../../_services/permissions.service';
 import {PermissionFlags} from '../../_enums/permission-flags.enum';
 import {PagedStockList} from '../../_models/paged-stock-list';
+import {PageChangedEvent} from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-stock-entry-list',
@@ -51,6 +50,15 @@ export class StockEntryListComponent implements OnInit {
     if (this.permissionsService.hasPermissionOr(this.scanArticlePermission)) {
       this.checkOutClicked.emit(entry);
     }
+  }
+
+  getColspan(): number {
+    if (!this.selectedColumns ||
+      (this.selectedColumns.length === 1 && this.selectedColumns[0] === StockListColumns.all)) {
+      return 5;
+    }
+    // 2 Columns are always shown
+    return this.selectedColumns.length + 2;
   }
 
   private showColumn(column: StockListColumns): boolean {

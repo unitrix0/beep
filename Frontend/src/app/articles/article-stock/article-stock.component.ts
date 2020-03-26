@@ -3,12 +3,13 @@ import {StockEntry} from '../../_models/stock.entry';
 import {ArticlesService} from '../../_services/articles.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {PaginatedResult} from '../../_models/pagination';
-import {BsModalService, PageChangedEvent} from 'ngx-bootstrap';
 import {Article} from '../../_models/article';
 import {CheckOutDialogComponent} from '../check-out-dialog/check-out-dialog.component';
 import {ArticleOpenDialogComponent} from '../article-open-dialog/article-open-dialog.component';
 import {ArticleUserSettings} from '../../_models/articleUserSettings';
 import {StockListColumns} from '../../_enums/stock-list-columns.enum';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {PageChangedEvent} from 'ngx-bootstrap/pagination';
 
 
 @Component({

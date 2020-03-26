@@ -1,0 +1,123 @@
+@media (min-width: 768px) {
+  header.masthead {
+    text-align: center;
+    background-image: url("../../assets/137492990-huge.jpg");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+  }
+}
+
+@media (min-width: 1200px) {
+  .padding-default {
+    padding-top: 355px;
+    padding-bottom: 335px
+  }
+
+  .padding-registration {
+    padding-top: 262px;
+    padding-bottom: 250px
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .padding-default-lg{
+    padding-top: 272px;
+    padding-bottom: 260px;
+  }
+  .padding-registration-lg {
+    padding-top: 182px;
+    padding-bottom: 170px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .padding-default-md {
+    padding-top: 362px;
+    padding-bottom: 350px
+  }
+
+  .padding-registration-md {
+    padding-top: 300px;
+    padding-bottom: 312px
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .padding-default-sm {
+    padding-top: 120px;
+  }
+
+  .padding-registration-sm{
+    padding-top: 150px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .padding-default-xs {
+    padding-top: 170px;
+  }
+
+  .padding-registration-xs {
+    padding-top: 170px;
+  }
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 150px 0
+  }
+}
+
+.page-section {
+  padding: 100px 0
+}
+
+.page-section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px
+}
+
+.page-section h3.section-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 75px;
+  text-transform: none;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 150px 0
+  }
+}
+
+::-moz-selection {
+  text-shadow: none
+}
+
+::selection {
+  text-shadow: none
+}
+
+img::selection {
+  background: 0 0
+}
+
+img::-moz-selection {
+  background: 0 0
+}
+
+.service-heading {
+  margin: 15px 0;
+  text-transform: none
+}
+
+.background-default {
+  background-color: rgba(255, 255, 255, 0.6)
+}
+
+.background-reg {
+  background-color: rgba(0, 0, 0, 0.6)
+}

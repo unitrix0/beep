@@ -5,8 +5,9 @@ import {ArticlesService} from '../_services/articles.service';
 import {ArticlesFilter} from '../_models/articles-filter';
 import {PaginatedResult, Pagination} from '../_models/pagination';
 import {AlertifyService} from '../_services/alertify.service';
-import {PageChangedEvent} from 'ngx-bootstrap';
+
 import {PermissionsService} from '../_services/permissions.service';
+import {PageChangedEvent} from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-articles',
@@ -49,16 +50,6 @@ export class ArticlesComponent implements OnInit {
     this.setFilter();
   }
 
-  private LoadData(page: number) {
-    this.data.getArticles(page, this.pagination.itemsPerPage, this.filter)
-      .subscribe((value: PaginatedResult<Article[]>) => {
-        this.articles = value.content;
-        this.pagination = value.pagination;
-      }, error => {
-        this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error);
-      });
-  }
-
   clearFilter() {
     this.filter.isOnStock = false;
     this.filter.keepOnStock = false;
@@ -67,5 +58,15 @@ export class ArticlesComponent implements OnInit {
     this.filter.nameOrEan = '';
 
     this.setFilter();
+  }
+
+  private LoadData(page: number) {
+    this.data.getArticles(page, this.pagination.itemsPerPage, this.filter)
+      .subscribe((value: PaginatedResult<Article[]>) => {
+        this.articles = value.content;
+        this.pagination = value.pagination;
+      }, error => {
+        this.alertify.error('Artikel konnten nicht abgefragt werden: ' + error);
+      });
   }
 }

@@ -3,7 +3,7 @@ import {ShoppingListService} from '../_services/shopping-list.service';
 import {ShoppingListEntry} from '../_models/shopping-list-entry';
 import {AlertifyService} from '../_services/alertify.service';
 import {PermissionsService} from '../_services/permissions.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-shopping-list',

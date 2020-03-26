@@ -1,9 +1,9 @@
 <div class="row" [ngClass]="scanMode == scanModes.none ? 'mt-5' : 'mt-3'">
   <div class="col-md-12">
-    <h4 class="text-light">Letzte Aktivitäten</h4>
-    <h5 class="text-light" *ngIf="!logEntries || logEntries.length == 0">Keine</h5>
+    <h4 class="text-body">Letzte Aktivitäten</h4>
+    <h5 class="text-body" *ngIf="!logEntries || logEntries.length == 0">Keine</h5>
 
-    <table class="table table-striped table-dark mt-3 table-sm" *ngIf="logEntries && logEntries.length > 0">
+    <table class="table table-striped table-light mt-3 table-sm" *ngIf="logEntries && logEntries.length > 0">
       <thead>
       <tr>
         <th class="text-center">Aktion</th>
@@ -13,7 +13,7 @@
         <th class="show-lg">Datum</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody class="border-bottom">
       <tr *ngFor="let entry of logEntries">
         <td class="text-center" style="width: 8%;">
           <i class="fas fa-angle-double-down fa-2x" *ngIf="entry.action == scanModes.checkin"></i>

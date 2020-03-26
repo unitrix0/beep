@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {SettingsService} from '../../_services/settings.service';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
-import {BsModalService} from 'ngx-bootstrap';
-import {SelectCameraDialogComponent} from '../../scan/select-camera-dialog/select-camera-dialog.component';
 import {AlertifyService} from '../../_services/alertify.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {SelectCameraDialogComponent} from '../../scan/select-camera-dialog/select-camera-dialog.component';
 
 @Component({
   selector: 'app-user-settings',

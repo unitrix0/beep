@@ -1,8 +1,8 @@
 <div class="container mt-4">
   <div class="row">
     <!--    Linke Seite -->
-    <div class="col-md-4 border-right border-light">
-      <h4 class="text-light mt-3">Environments</h4>
+    <div class="col-md-4 border-right border-primary">
+      <h4 class="mt-3">Environments</h4>
       <div class="list-group">
         <ul>
           <li class="list-group-item list-group-item-cursor" (click)="selectEnvironment(i)"
@@ -24,11 +24,11 @@
     <!--    Rechte Seite -->
     <div class="col-md-8">
       <div class="col-md-12 h-100">
-        <h4 class="text-light ml-2 mt-3 mr-2" *ngIf="!currentEnvironment">Kein Environment gewählt</h4>
+        <h4 class="ml-2 mt-3 mr-2" *ngIf="!currentEnvironment">Kein Environment gewählt</h4>
 
         <div class="row" *ngIf="currentEnvironment">
           <div class="col-md-12">
-            <h5 class="text-light mt-3">Name</h5>
+            <h5 class="mt-3">Name</h5>
             <div class="input-group mb-4">
               <input type="text" class="form-control styled-input" style="height: 48px"
                      #envNameEdit #input="ngModel" [readOnly]="currentEnvironment.ownerId != userId"
@@ -46,7 +46,7 @@
 
         <div class="row" *ngIf="currentEnvironment">
           <div class="col-md-4">
-            <h5 class="text-light">Mitglieder</h5>
+            <h5>Mitglieder</h5>
             <div class="list-group mb-3">
               <a class="list-group-item list-group-item-action list-group-item-cursor"
                  *ngFor="let member of members; let i = index"
@@ -66,8 +66,8 @@
           </div>
 
           <div class="col-md-8">
-            <h5 class="text-light">Berechtigungen</h5>
-            <div class="text-light" *ngIf="!currentMember">Wählen Sie einen Benutzer um die Berechtigungen anzupassen
+            <h5>Berechtigungen</h5>
+            <div *ngIf="!currentMember">Wählen Sie einen Benutzer um die Berechtigungen anzupassen
             </div>
             <div class="list-group mb-2" *ngIf="currentMember">
               <div class="custom-control custom-checkbox mt-1 mb-1">

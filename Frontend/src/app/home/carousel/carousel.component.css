@@ -1,0 +1,12 @@
+div slide {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+:host ::ng-deep .carousel-control-prev {
+  display: none;
+}
+
+:host ::ng-deep .carousel-control-next {
+  display: none;
+}

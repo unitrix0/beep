@@ -1,20 +1,20 @@
 <div class="container mt-5">
-  <tabset #tabs>
-    <tab>
+  <tabset>
+    <tab class="border-bottom border-primary default-height">
       <ng-template tabHeading>
-        <span [ngClass]="tabs.tabs[0].active?'':'text-light'">Profil</span>
+        <span>Profil</span>
       </ng-template>
       <app-profile [user]="user"></app-profile>
     </tab>
-    <tab>
+    <tab class="border-bottom border-primary default-height">
       <ng-template tabHeading>
-        <span [ngClass]="tabs.tabs[1].active?'':'text-light'">Einstellungen</span>
+        <span>Einstellungen</span>
       </ng-template>
       <app-user-settings></app-user-settings>
     </tab>
-    <tab>
+    <tab class="border-bottom border-primary default-height">
       <ng-template tabHeading>
-        <span [ngClass]="tabs.tabs[2].active?'':'text-light'">Umgebungen</span>
+        <span>Umgebungen</span>
       </ng-template>
       <app-environment-edit [environments]="user.environments" [userId]="user.id"></app-environment-edit>
     </tab>

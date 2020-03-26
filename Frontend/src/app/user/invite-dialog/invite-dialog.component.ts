@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
 import {EmailValidator} from '@angular/forms';
+import {BsModalRef} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-invite-dialog',

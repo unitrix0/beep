@@ -5,7 +5,6 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {BsDropdownModule, ModalModule, PaginationModule, ProgressbarModule, TabsModule} from 'ngx-bootstrap';
 
 import {AuthService} from './_services/auth.service';
 import {AppComponent} from './app.component';
@@ -61,10 +60,17 @@ import {RequiredSelectDirective} from './_directives/required-select.directive';
 import {CustomFormsModule} from 'ngx-custom-validators';
 import {LocalStorageItemNames} from './_enums/token-names.enum';
 import {ActivityLogComponent} from './scan/activity-log/activity-log.component';
-import { AccountActivationComponent } from './account-activation/account-activation.component';
-import {ErrorInterceptor, ErrorInterceptorProvider} from './_interceptors/error.interceptor';
-import { UserSettingsComponent } from './user/user-settings/user-settings.component';
-import { SelectCameraDialogComponent } from './scan/select-camera-dialog/select-camera-dialog.component';
+import {AccountActivationComponent} from './account-activation/account-activation.component';
+import {ErrorInterceptorProvider} from './_interceptors/error.interceptor';
+import {UserSettingsComponent} from './user/user-settings/user-settings.component';
+import {SelectCameraDialogComponent} from './scan/select-camera-dialog/select-camera-dialog.component';
+import {CarouselComponent} from './home/carousel/carousel.component';
+import {CarouselModule} from 'ngx-bootstrap/carousel';
+import {ModalModule} from 'ngx-bootstrap/modal';
+import {PaginationModule} from 'ngx-bootstrap/pagination';
+import {TabsModule} from 'ngx-bootstrap/tabs';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -117,6 +123,7 @@ registerLocaleData(localeCh, 'de-CH');
     AccountActivationComponent,
     UserSettingsComponent,
     SelectCameraDialogComponent,
+    CarouselComponent,
   ],
   imports: [
     HttpClientModule,
@@ -131,18 +138,20 @@ registerLocaleData(localeCh, 'de-CH');
       }
     }),
     FormsModule,
-    BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
+    PaginationModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    CarouselModule.forRoot(),
     ZXingScannerModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    PaginationModule.forRoot(),
-    ProgressbarModule.forRoot(),
     Ng5SliderModule,
-    CustomFormsModule
+    CustomFormsModule,
+    CarouselModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'de-CH'},

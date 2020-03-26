@@ -1,18 +1,23 @@
-.card-img {
-  display: inline-block;
-  max-height: 200px;
+.card {
+  min-width: 13rem;
+  max-width: 13rem;
+  min-height: 19rem;
+  max-height: 22rem;
+  /*min-height: 10rem;*/
+}
+
+img {
   width: auto;
   height: auto;
+  max-height: 130px;
+  max-width: 100px;
 }
 
-.card {
-  min-width: 250px;
-}
+/*.card-footer{*/
+/*  max-width: 220px;*/
+/*}*/
 
 .edit-mode {
-  min-width: 700px;
-}
-
-.fas {
-  color: rgba(255, 255, 255, 0.5);
+  min-height: 27rem;
+  min-width: 50rem;
 }

@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ZXingScannerComponent} from '@zxing/ngx-scanner';
 import {SettingsService} from '../../_services/settings.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {AlertifyService} from '../../_services/alertify.service';
 import {SelectCameraDialogComponent} from '../select-camera-dialog/select-camera-dialog.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-code-scanner',

@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BeepEnvironment} from '../../_models/beep-environment';
 import {MemberPermission} from '../../_models/memberPermission';
-import {BsModalService} from 'ngx-bootstrap';
 import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 import {SendInvitationEventArgs} from '../../_models/send-invitation-event.args';
 import {UsersService} from '../../_services/users.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {PermissionsService} from '../../_services/permissions.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-environment-edit',

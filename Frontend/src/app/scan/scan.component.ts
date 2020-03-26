@@ -9,7 +9,7 @@ import {ArticlesService} from '../_services/articles.service';
 import {ScanModes} from '../_enums/scan-modes.enum';
 import {Article} from '../_models/article';
 import {ScanCardComponent} from './scan-card/scan-card.component';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ActivityLogComponent} from './activity-log/activity-log.component';
 import {ArticleUserSettings} from '../_models/articleUserSettings';
 
@@ -20,14 +20,15 @@ import {ArticleUserSettings} from '../_models/articleUserSettings';
 })
 export class ScanComponent implements OnInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
-  @ViewChild('scanCheckIn', { static: true }) scanCheckIn: ScanCardComponent;
-  @ViewChild('scanCheckOut', { static: true }) scanCheckOut: ScanCardComponent;
-  @ViewChild('scanOpen', { static: true }) scanOpen: ScanCardComponent;
-  @ViewChild('notFoundDlg', { static: true }) notFoundDialog: TemplateRef<any>;
-  @ViewChild(ActivityLogComponent, { static: true }) activityLog: ActivityLogComponent;
+  @ViewChild('scanCheckIn', {static: true}) scanCheckIn: ScanCardComponent;
+  @ViewChild('scanCheckOut', {static: true}) scanCheckOut: ScanCardComponent;
+  @ViewChild('scanOpen', {static: true}) scanOpen: ScanCardComponent;
+  @ViewChild('notFoundDlg', {static: true}) notFoundDialog: TemplateRef<any>;
+  @ViewChild(ActivityLogComponent, {static: true}) activityLog: ActivityLogComponent;
   scanMode = ScanModes.none;
   scanModes = ScanModes;
   hasPermission: boolean;
+  showScanner: boolean;
   private scannedArticle: Article;
   private articleUserSettings: ArticleUserSettings;
   private modalRef: BsModalRef;
@@ -51,6 +52,7 @@ export class ScanComponent implements OnInit {
   }
 
   startScan(newMode: ScanModes) {
+    this.showScanner = true;
     this.scanMode = newMode;
     this.changeDetector.detectChanges(); // Damit ViwChild referenz für 'scanner' funktioniert
     this.scanner.startScan();
@@ -71,6 +73,7 @@ export class ScanComponent implements OnInit {
 
   private barcodeDetected(barcode: string) {
     this.scanner.stopScan();
+    this.showScanner = false;
     this.lookupArticle(barcode);
     this.resetScanTimeout();
   }

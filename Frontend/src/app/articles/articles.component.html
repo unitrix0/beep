@@ -1,6 +1,8 @@
 <div class="container-fluid mt-4">
   <div class="row">
     <div class="col-md-3 col-xl-2">
+      <app-pagination [pagination]="pagination" (pageChanged)="pageChanged($event)"
+                      *ngIf="pagination.totalPages > 1"></app-pagination>
       <app-environment-filter (changed)="environmentChanged()"></app-environment-filter>
       <app-name-or-barcode [(nameOrEan)]="filter.nameOrEan" (nameOrEanChange)="setFilter()"></app-name-or-barcode>
       <app-article-filter (setFilter)="setFilter()" (clearFilter)="clearFilter()"
@@ -9,8 +11,6 @@
                           [(isOpened)]="filter.isOpened"
                           [(storeId)]="filter.storeId">
       </app-article-filter>
-      <app-pagination [pagination]="pagination" (pageChanged)="pageChanged($event)"
-                      *ngIf="pagination.totalPages > 1"></app-pagination>
     </div>
     <div class="col">
       <h5 class="text-info" *ngIf="articles?.length == 0 && !filterSet">
