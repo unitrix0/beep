@@ -34,7 +34,7 @@
           <small class="text-danger" *ngIf="pwConfirm.invalid && pwConfirm.touched && pwConfirm.errors.equalTo"> Die
             Passwörter stimmen nicht überein</small>
         </div>
-        <div class="form-group-append">
+        <div class="form-group-append mt-4">
           <button class="btn btn-warning float-left" type="button" (click)="cancel()">Zurück</button>
           <button class="btn btn-success float-right" type="submit" (click)="register()" [disabled]="!registerForm.valid">
             Registrieren
