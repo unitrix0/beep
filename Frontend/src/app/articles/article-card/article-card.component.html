@@ -1,12 +1,15 @@
-<div class="card border-primary mb-4" [ngClass]="edit? 'edit-mode':''">
+<div class="card border-primary mb-4" [ngClass]="editMode? 'edit-mode':''">
   <div class="card-header">
-    <h5 class="d-inline" *ngIf="edit">{{article.name}}</h5>
-    <i class="fas fa-sliders-h float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="!edit"></i>
-    <i class="fas fa-times float-right" (click)="editArticleSettings()" style="cursor: pointer" *ngIf="edit"></i>
+    <h5 class="d-inline" *ngIf="editMode">{{article.name}}</h5>
+    <i class="fas fa-sliders-h float-right hide-lg-d" (click)="switchEditMode()" style="cursor: pointer"
+       *ngIf="!editMode"></i>
+    <i class="fas fa-sliders-h float-right hide-xl-u" (click)="showEditDialog(editDlg)" style="cursor: pointer"
+       *ngIf="!editMode"></i>
+    <i class="fas fa-times float-right" (click)="switchEditMode()" style="cursor: pointer" *ngIf="editMode"></i>
   </div>
 
   <div class="card-body">
-    <div class="container" *ngIf="!edit">
+    <div class="container" *ngIf="!editMode">
       <div class="col">
         <i class="fas fa-photo-video fa-7x mt-4"
            *ngIf="article.imageUrl == null ||article.imageUrl == ''"></i>
@@ -15,11 +18,28 @@
       </div>
     </div>
     <app-article-edit [article]="article" [articleUserSettings]="articleUserSettings" editMode="true"
-                      *ngIf="edit" (save)="updateArticle();">
+                      *ngIf="editMode" (save)="updateArticle($event);">
     </app-article-edit>
   </div>
 
-  <div class="card-footer" *ngIf="!edit">
+  <div class="card-footer" *ngIf="!editMode">
     <h5 class="card-text text-center">{{article.name}}</h5>
   </div>
 </div>
+
+
+<!-- Edit Article Modal -->
+<ng-template #editDlg>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Beep! - Artikel Bearbeiten</h5>
+    <button class="close pull-right" (click)="editDlg_close(editComponent)"><span class="fas fa-times"></span></button>
+  </div>
+  <div class="modal-body">
+    <app-article-edit [article]="article" [articleUserSettings]="articleUserSettings" editMode="true" dialogMode="true"
+                      #editComponent>
+    </app-article-edit>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-success" (click)="updateArticle(editComponent)">Speichern</button>
+  </div>
+</ng-template>

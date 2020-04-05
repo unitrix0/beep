@@ -19,21 +19,30 @@ select.form-control-sm {
   border-radius: 0;
 }
 
-/*label {*/
-/*  color: white;*/
-/*}*/
-
 .custom-is-invalid {
   border-bottom: solid 2px red;
 }
 
-@media (max-width: 992px) {
-  .show-lg{
+@media (max-width: 1199.98px) {
+  .hide-lg-d {
     display: none;
   }
 }
+
+@media (max-width: 991.98px) {
+  .hide-md-d {
+    display: none;
+  }
+}
+
 @media (min-width: 992px) {
-  .show-sm{
+  .hide-lg-u {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hide-xl-u {
     display: none;
   }
 }

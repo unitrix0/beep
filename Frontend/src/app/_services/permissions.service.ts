@@ -37,8 +37,8 @@ export class PermissionsService {
     let reqFlags: PermissionFlags = 0;
     orFlags.forEach(f => reqFlags |= f);
 
-    console.log('env:' + this.token.environment_id + ' userPerm:' + this.token.permissions +
-      ' req:' + reqFlags + ' (' + orFlags.map(f => f).toString() + ') => ' + (this.token.permissions & reqFlags));
+    // console.log('env:' + this.token.environment_id + ' userPerm:' + this.token.permissions +
+    //   ' req:' + reqFlags + ' (' + orFlags.map(f => f).toString() + ') => ' + (this.token.permissions & reqFlags));
     return (this.token.permissions & reqFlags) !== 0;
   }
 

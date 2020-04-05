@@ -6,9 +6,9 @@
     </div>
 
     <div class="col">
-      <tabset class="border-dark">
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="articleTab"
-             (selectTab)="setSelectedTab($event)">
+      <tabset>
+        <tab id="articleTab" [ngClass]="editMode ? 'edit-size' : 'check-in-size'"
+             [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading>
             <span>Artikel</span>
           </ng-template>
@@ -72,7 +72,8 @@
           </div>
         </tab>
 
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="settingsTab" (selectTab)="setSelectedTab($event)">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="settingsTab"
+             [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading>
             <span>Einstellungen</span>
           </ng-template>
@@ -110,15 +111,15 @@
             </div>
           </div>
         </tab>
-        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storageTab" (selectTab)="setSelectedTab($event)"
-             *ngIf="editMode">
+        <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storageTab" *ngIf="editMode"
+             [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading><span>Lager</span></ng-template>
           <div class="container mt-3">
             <app-article-stock [article]="article" [articleUserSettings]="articleUserSettings"></app-article-stock>
           </div>
         </tab>
         <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storesTab"
-             (selectTab)="setSelectedTab($event)">
+             [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading>
             <span>Läden</span>
           </ng-template>
@@ -149,7 +150,7 @@
     <div class="col">
       <button class="btn btn-sm btn-danger" *ngIf="!editMode" (click)="doneOrCanceled.emit()">Verwerfen</button>
       <button class="btn btn-sm btn-success float-right" form="articleForm" (click)="saveArticle()"
-              [disabled]="!f.valid || !storeSelected()">Speichern
+              [disabled]="!f.valid || !storeSelected()" *ngIf="!dialogMode">Speichern
       </button>
     </div>
   </div>

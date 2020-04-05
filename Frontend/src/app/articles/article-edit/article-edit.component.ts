@@ -8,7 +8,6 @@ import {PermissionFlags} from '../../_enums/permission-flags.enum';
 import {ArticleUserSettings} from '../../_models/articleUserSettings';
 import {defineLocale, deLocale} from 'ngx-bootstrap/chronos';
 import {BsLocaleService} from 'ngx-bootstrap/datepicker';
-import {TabDirective} from 'ngx-bootstrap/tabs';
 
 defineLocale('de', deLocale);
 
@@ -18,15 +17,18 @@ defineLocale('de', deLocale);
   styleUrls: ['./article-edit.component.css']
 })
 export class ArticleEditComponent implements OnInit {
-  @Output() save = new EventEmitter();
+  @Output() save = new EventEmitter<ArticleEditComponent>();
   @Output() doneOrCanceled = new EventEmitter();
   @Input() article: Article;
   @Input() articleUserSettings: ArticleUserSettings;
+  /** Passt die Darstellung für den Dialog Modus an */
+  @Input() dialogMode: boolean;
+  /** Passt die darstellung für check-in oder bearbeitung an */
   @Input() editMode: boolean;
+
   @ViewChild('f', {static: true}) form: NgForm;
   saved = false;
   editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
-  activeTabId = 'articleTab';
 
   constructor(private localeService: BsLocaleService, public articleData: ArticlesService, public  permissions: PermissionsService) {
   }
@@ -40,11 +42,7 @@ export class ArticleEditComponent implements OnInit {
   }
 
   saveArticle() {
-    this.save.emit();
-  }
-
-  setSelectedTab(tab: TabDirective) {
-    this.activeTabId = tab.id;
+    this.save.emit(this);
   }
 
   storeSelected(): boolean {
