@@ -15,12 +15,21 @@ select.form-control-sm {
   border: 1px solid lightslategrey;
 }
 
-.card {
+.card, .alert {
   border-radius: 0;
 }
 
 .custom-is-invalid {
   border-bottom: solid 2px red;
+}
+
+.custom-dropdown{
+  width: 100%;
+}
+
+.custom-dropdown > button{
+  text-align: right;
+  float: left !important;
 }
 
 @media (max-width: 1199.98px) {
@@ -45,4 +54,12 @@ select.form-control-sm {
   .hide-xl-u {
     display: none;
   }
+}
+
+.btn-outline-secondary:disabled{
+  color: unset;
+}
+
+.dropdown-item{
+  cursor: pointer;
 }

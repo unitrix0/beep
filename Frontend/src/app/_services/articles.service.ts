@@ -7,7 +7,6 @@ import {environment} from '../../environments/environment';
 import {ArticlesFilter} from '../_models/articles-filter';
 import {map} from 'rxjs/operators';
 import {Unit} from '../_models/unit';
-import {StockMode} from '../_models/stock-mode';
 import {ArticleGroup} from '../_models/article-group';
 import {CheckIn} from '../_models/check-in';
 import {StockEntry} from '../_models/stock.entry';
@@ -16,6 +15,9 @@ import {Store} from '../_models/store';
 import {PagedStockList} from '../_models/paged-stock-list';
 import {ActivityLogEntry} from '../_models/activity-log-entry';
 import {ArticleUserSettings} from '../_models/articleUserSettings';
+import {PermissionsService} from './permissions.service';
+import {AuthService} from './auth.service';
+import {LocalStorageItemNames} from '../_enums/local-storage-item-names.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -23,17 +25,17 @@ import {ArticleUserSettings} from '../_models/articleUserSettings';
 
 export class ArticlesService {
   units: Unit[];
-  keepStockModes: StockMode[];
   articleGroups: ArticleGroup[];
   stores: Store[];
   private baseUrl = environment.apiUrl + 'articles/';
 
-  constructor(private http: HttpClient) {
-    this.getBaseData();
-    this.keepStockModes = [
-      {id: 1, label: 'Artikel an Lager halten'},
-      {id: 2, label: 'Artikelgruppe an Lager halten'}
-    ];
+  constructor(private http: HttpClient, private permissions: PermissionsService, authService: AuthService) {
+    authService.onLogin.subscribe(() => {
+      this.getBaseData();
+    });
+    permissions.permissionsChanged.subscribe(() => {
+      this.getBaseData();
+    });
   }
 
   getArticles(pageNumber: number, pageSize: number, filter: ArticlesFilter):
@@ -72,7 +74,7 @@ export class ArticlesService {
   }
 
   updateArticle(article: Article, articleUserSettings: ArticleUserSettings): Observable<object> {
-    return this.http.patch(this.baseUrl + 'UpdateArticle', {article: article, articleUserSettings: articleUserSettings});
+    return this.http.put(this.baseUrl + 'UpdateArticle', {article: article, articleUserSettings: articleUserSettings});
   }
 
   saveStockEntry(stockEntry: CheckIn): Observable<Article> {
@@ -134,11 +136,45 @@ export class ArticlesService {
     return this.http.get<ActivityLogEntry[]>(this.baseUrl + 'GetActivityLog/' + environmentId);
   }
 
-  private getBaseData() {
-    this.http.get(this.baseUrl + 'GetBaseData').subscribe((response: { units, articleGroups, stores }) => {
-      this.units = response.units;
-      this.articleGroups = response.articleGroups;
-      this.stores = response.stores;
-    });
+  addArticleGroup(environmentId: number, groupName: string): Observable<ArticleGroup> {
+    return this.http.post<ArticleGroup>(this.baseUrl + 'AddArticleGroup/' + environmentId, {environmentId: environmentId, name: groupName})
+      .pipe(map(newGroup => {
+        this.articleGroups.push(newGroup);
+        localStorage.setItem(LocalStorageItemNames.articleGroups, JSON.stringify(this.articleGroups));
+        return newGroup;
+      }));
   }
+
+  articleGroupHasMembers(groupId: number, environmentId: number) {
+    return this.http.get<boolean>(this.baseUrl + 'ArticleGroupHasMembers/' + environmentId + '/' + groupId);
+  }
+
+  deleteArticleGroup(groupId: number, environmentId: number) {
+    return this.http.delete(this.baseUrl + 'DeleteArticleGroup/' + environmentId + '/' + groupId)
+      .pipe(map(() => {
+        const deletedGroupIdx = this.articleGroups.findIndex(g => g.id === groupId);
+        this.articleGroups.splice(deletedGroupIdx, 1);
+        localStorage.setItem(LocalStorageItemNames.articleGroups, JSON.stringify(this.articleGroups));
+      }));
+  }
+
+  reloadBaseData() {
+    this.units = JSON.parse(localStorage.getItem(LocalStorageItemNames.units));
+    this.articleGroups = JSON.parse(localStorage.getItem(LocalStorageItemNames.articleGroups));
+    this.stores = JSON.parse(localStorage.getItem(LocalStorageItemNames.stores));
+  }
+
+  getBaseData() {
+    this.http.get(this.baseUrl + 'GetBaseData/' + this.permissions.token.environment_id)
+      .subscribe((response: { units, articleGroups, stores }) => {
+        this.units = response.units;
+        this.articleGroups = response.articleGroups;
+        this.stores = response.stores;
+        localStorage.setItem(LocalStorageItemNames.units, JSON.stringify(this.units));
+        localStorage.setItem(LocalStorageItemNames.articleGroups, JSON.stringify(this.articleGroups));
+        localStorage.setItem(LocalStorageItemNames.stores, JSON.stringify(this.stores));
+      });
+  }
+
+
 }

@@ -58,7 +58,7 @@ import {Ng5SliderModule} from 'ng5-slider';
 import {ArticleOpenDialogComponent} from './articles/article-open-dialog/article-open-dialog.component';
 import {RequiredSelectDirective} from './_directives/required-select.directive';
 import {CustomFormsModule} from 'ngx-custom-validators';
-import {LocalStorageItemNames} from './_enums/token-names.enum';
+import {LocalStorageItemNames} from './_enums/local-storage-item-names.enum';
 import {ActivityLogComponent} from './scan/activity-log/activity-log.component';
 import {AccountActivationComponent} from './account-activation/account-activation.component';
 import {ErrorInterceptorProvider} from './_interceptors/error.interceptor';
@@ -71,6 +71,7 @@ import {PaginationModule} from 'ngx-bootstrap/pagination';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
+import { HoverClassDirective } from './_directives/hover-class.directive';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -124,6 +125,7 @@ registerLocaleData(localeCh, 'de-CH');
     UserSettingsComponent,
     SelectCameraDialogComponent,
     CarouselComponent,
+    HoverClassDirective,
   ],
   imports: [
     HttpClientModule,

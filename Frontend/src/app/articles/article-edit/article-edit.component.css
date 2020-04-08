@@ -43,3 +43,25 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+@media (min-width: 1200px) {
+  .fa-trash-alt,
+  .fa-trash-hidden {
+    display: none;
+  }
+
+  .fa-trash-show {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .fa-trash-alt,
+  .fa-trash-hidden {
+    color: grey;
+  }
+
+  .fa-trash-show {
+    color: black;
+  }
+}

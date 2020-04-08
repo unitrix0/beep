@@ -19,7 +19,7 @@
           <i class="fas fa-angle-double-down fa-2x" *ngIf="entry.action == scanModes.checkin"></i>
           <i class="fas fa-trash-alt fa-2x" *ngIf="entry.action == scanModes.checkout"></i>
           <i class="fas fa-box-open fa-2x" *ngIf="entry.action == scanModes.open"></i>
-          <span class="hide-lg-u">{{entry.username}}</span>
+          <div class="hide-lg-u">{{entry.username}}</div>
         </td>
         <td class="text-center hide-md-d" style="width: 10%;">{{entry.username}}</td>
         <td class="text-center" style="width: 8%;">

@@ -3,7 +3,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {AuthService} from './auth.service';
 import {UsersService} from './users.service';
 import {UserSettings} from '../_models/user-settings';
-import {LocalStorageItemNames} from '../_enums/token-names.enum';
+import {LocalStorageItemNames} from '../_enums/local-storage-item-names.enum';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 

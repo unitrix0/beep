@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {PermissionFlags} from '../_enums/permission-flags.enum';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {PermissionToken} from '../_models/permission-token';
 import {AuthService} from './auth.service';
-import {LocalStorageItemNames} from '../_enums/token-names.enum';
+import {LocalStorageItemNames} from '../_enums/local-storage-item-names.enum';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class PermissionsService {
    */
   public flags = PermissionFlags;
   public token: PermissionToken;
+  @Output() permissionsChanged = new EventEmitter<void>();
   private baseUrl = environment.apiUrl + 'auth/';
 
   constructor(private jwtHelper: JwtHelperService, authService: AuthService, private http: HttpClient) {
@@ -72,6 +73,7 @@ export class PermissionsService {
           if (response) {
             localStorage.setItem(LocalStorageItemNames.permissionsToken, response.permissionsToken);
             this.reloadToken();
+            this.permissionsChanged.emit();
           }
         })
       );

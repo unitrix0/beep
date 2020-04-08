@@ -12,6 +12,7 @@ import {ScanCardComponent} from './scan-card/scan-card.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ActivityLogComponent} from './activity-log/activity-log.component';
 import {ArticleUserSettings} from '../_models/articleUserSettings';
+import {ArticleGroup} from '../_models/article-group';
 
 @Component({
   selector: 'app-scan',
@@ -100,11 +101,16 @@ export class ScanComponent implements OnInit {
           this.scannedArticle.barcode = barcode;
           this.showBaseData = true;
           this.articleUserSettings = new class implements ArticleUserSettings {
+            articleGroupId: number;
+            articleGroup: ArticleGroup = new class implements ArticleGroup {
+              id: number;
+              keepStockAmount: number;
+              name: string;
+            };
             articleId: number;
             environmentId: number;
             id: number;
             keepStockAmount: number;
-            keepStockMode: number;
           };
         } else {
           this.lookupArticleUserSettings(this.scannedArticle.id, this.permissions.token.environment_id);

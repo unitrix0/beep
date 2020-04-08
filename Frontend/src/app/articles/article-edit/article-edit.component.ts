@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {ArticlesService} from '../../_services/articles.service';
 import {Article} from '../../_models/article';
 import {NgForm} from '@angular/forms';
@@ -8,6 +8,10 @@ import {PermissionFlags} from '../../_enums/permission-flags.enum';
 import {ArticleUserSettings} from '../../_models/articleUserSettings';
 import {defineLocale, deLocale} from 'ngx-bootstrap/chronos';
 import {BsLocaleService} from 'ngx-bootstrap/datepicker';
+import {BsDropdownDirective} from 'ngx-bootstrap/dropdown';
+import {AlertifyService} from '../../_services/alertify.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {ArticleGroup} from '../../_models/article-group';
 
 defineLocale('de', deLocale);
 
@@ -29,8 +33,13 @@ export class ArticleEditComponent implements OnInit {
   @ViewChild('f', {static: true}) form: NgForm;
   saved = false;
   editArticlePermission = PermissionFlags.isOwner | PermissionFlags.editArticleSettings;
+  currentArticleGrpName: string;
+  newArticleGroupName: string;
+  delGroupRef: BsModalRef;
+  private artGrpToDelete: ArticleGroup;
 
-  constructor(private localeService: BsLocaleService, public articleData: ArticlesService, public  permissions: PermissionsService) {
+  constructor(private localeService: BsLocaleService, public articleData: ArticlesService, public  permissions: PermissionsService,
+              private alertify: AlertifyService, private modalService: BsModalService) {
   }
 
   get modified(): boolean {
@@ -38,6 +47,7 @@ export class ArticleEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setArticleGroup(this.articleUserSettings.articleGroup.id, null);
     this.localeService.use('de');
   }
 
@@ -47,6 +57,51 @@ export class ArticleEditComponent implements OnInit {
 
   storeSelected(): boolean {
     return this.article.stores.length > 0;
+  }
+
+  setArticleGroup(grpId: number, groupSelector: BsDropdownDirective) {
+    if (groupSelector) {
+      groupSelector.hide();
+    }
+    const group = this.articleData.articleGroups.find(g => g.id === grpId);
+    this.currentArticleGrpName = group.name;
+    this.articleUserSettings.articleGroupId = grpId;
+    this.articleUserSettings.articleGroup = group;
+  }
+
+  addArticleGroup(groupSelector: BsDropdownDirective) {
+    this.articleData.addArticleGroup(this.permissions.token.environment_id, this.newArticleGroupName)
+      .subscribe(newGroup => {
+        this.setArticleGroup(newGroup.id, null);
+        groupSelector.hide();
+      }, error => {
+        this.alertify.error('Neue Gruppe konnte nicht angelegt werden: ' + error);
+      });
+  }
+
+  checkForArticleGroupMembers(grp: ArticleGroup, delGrpDlg: TemplateRef<any>) {
+    this.artGrpToDelete = grp;
+    this.articleData.articleGroupHasMembers(grp.id, this.permissions.token.environment_id)
+      .subscribe(hasMembers => {
+        if (hasMembers) {
+          this.delGroupRef = this.modalService.show(delGrpDlg);
+        } else {
+          this.deleteArticleGroup();
+        }
+      });
+  }
+
+  deleteArticleGroup() {
+    this.articleData.deleteArticleGroup(this.artGrpToDelete.id, this.permissions.token.environment_id)
+      .subscribe(() => {
+        if (this.delGroupRef) {
+          this.setArticleGroup(1, null);
+          this.delGroupRef.hide();
+        }
+        this.alertify.success('Gelöscht');
+      }, error => {
+        this.alertify.error('Gruppe konnte nicht gelöscht werden: ' + error);
+      });
   }
 
   private articleHasStore(storeId: number): boolean {

@@ -22,23 +22,33 @@
                          name="articleName" id="articleName" #name="ngModel" required
                          [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
                 </div>
+              </div>
+              <div class="col-6">
                 <div class="form-group">
-                  <label for="articleGroup">Artikelgruppe</label>
-                  <select class="custom-select custom-select-sm" id="articleGroup"
-                          [(ngModel)]="article.groupId"
-                          [ngClass]="{'is-invalid': articleGroup.touched && articleGroup.invalid}"
-                          name="groupId" #articleGroup="ngModel" appRequiredSelect="0"
-                          [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
-                    <option style="text-overflow: ellipsis; overflow: hidden"
-                            *ngFor="let g of articleData.articleGroups" [ngValue]="g.id">{{g.name}}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <div class="custom-control custom-checkbox">
+                  <label for="hasExpireDate">Hat Ablaufdatum</label>
+                  <div class="custom-control custom-checkbox mt-1">
                     <input type="checkbox" class="custom-control-input" id="hasExpireDate" name="hasLifetime"
                            [(ngModel)]="article.hasLifetime"
                            [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
-                    <label class="custom-control-label" for="hasExpireDate">Hat Ablaufdatum </label>
+                    <label class="custom-control-label" for="hasExpireDate">Ja</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="contentAmount">Inhaltsmenge</label>
+                  <div class="input-group input-group-sm w-75">
+                    <input type="number" class="form-control form-control-sm text-right no-round-corners"
+                           name="contentAmount" #contentAmount="ngModel"
+                           [ngClass]="{'custom-is-invalid': contentAmount.touched && contentAmount.invalid}"
+                           [(ngModel)]="article.contentAmount" id="contentAmount" required appMinimumValue="1"
+                           [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
+                    <div class="input-group-append">
+                      <span class="input-group-text">{{articleData.units[unitSelector.value - 1]?.abbreviation}}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -53,25 +63,12 @@
                     </option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label for="contentAmount">Inhaltsmenge</label>
-                  <div class="input-group input-group-sm w-75">
-                    <input type="number" class="form-control form-control-sm text-right no-round-corners"
-                           name="contentAmount" #contentAmount="ngModel"
-                           [ngClass]="{'custom-is-invalid': contentAmount.touched && contentAmount.invalid}"
-                           [(ngModel)]="article.contentAmount" id="contentAmount" required appMinimumValue="1"
-                           [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
-                    <div class="input-group-append">
-                      <span
-                        class="input-group-text">{{articleData.units[unitSelector.value - 1]?.abbreviation}}</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </tab>
 
+        <!--        Register Einstellungen-->
         <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="settingsTab"
              [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading>
@@ -79,10 +76,56 @@
           </ng-template>
           <div class="container mt-3">
             <div class="row">
-              <div class="col-8">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="articleGroup">Artikelgruppe</label>
+                  <div class="btn-group custom-dropdown" id="articleGroup" dropdown #groupSelector="bs-dropdown"
+                       [insideClick]="true" [isDisabled]="!permissions.hasPermissionOr(editArticlePermission)">
+                    <button type="button" dropdownToggle
+                            class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                            aria-controls="dropdown-basic">
+                      <span class="mr-auto float-left">{{currentArticleGrpName}}</span>
+                    </button>
+                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                        aria-labelledby="button-basic">
+                      <li role="menuitem" *ngFor="let grp of articleData.articleGroups">
+                        <div class="container dropdown-item"
+                             appHoverClass="fa-trash-show" [hoverClassTarget]="deleteGrp">
+                          <div class="row">
+                            <div class="col" (click)="setArticleGroup(grp.id, groupSelector)">
+                              <i class="fas fa-check mr-1" *ngIf="grp.id === articleUserSettings.articleGroup.id"></i>
+                              {{grp.name}}
+                            </div>
+                            <div class="col-1">
+                              <i class="fas fa-trash-alt fa-trash-hidden" #deleteGrp
+                                 (click)="checkForArticleGroupMembers(grp, delGrpDlg)"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li role="menuitem" class="divider dropdown-divider"></li>
+                      <li role="menuitem">
+                        <div class="px-2">
+                          <form #newGroupForm="ngForm" (ngSubmit)="addArticleGroup(groupSelector)">
+                            <div class="input-group input-group-sm">
+                              <input type="text" class="form-control" placeholder="Neue Gruppe"
+                                     [(ngModel)]="newArticleGroupName" name="newArticleGroup" #newArticleGroup="ngModel"
+                                     required>
+                              <div class="input-group-append">
+                                <button class="btn btn-sm btn-success" *ngIf="newArticleGroup.valid">
+                                  <i class="fas fa-save"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div class="form-group">
                   <label for="keepStockAmount">Soll Lagerbestand</label>
-                  <div class="input-group input-group-sm w-50">
+                  <div class="input-group input-group-sm w-75" *ngIf="articleUserSettings.articleGroup.id === 1">
                     <input type="text" class="form-control form-control-sm text-right no-round-corners"
                            name="keepStockAmount"
                            [(ngModel)]="articleUserSettings.keepStockAmount" id="keepStockAmount"
@@ -94,30 +137,41 @@
                         class="input-group-text">Stk.</span>
                     </div>
                   </div>
+                  <div class="input-group input-group-sm w-75" *ngIf="articleUserSettings.articleGroup.id > 1">
+                    <input type="text" class="form-control form-control-sm text-right no-round-corners"
+                           name="keepStockAmount"
+                           [(ngModel)]="articleUserSettings.articleGroup.keepStockAmount" id="keepStockAmountGrp"
+                           [ngClass]="{'is-invalid': keepStockAmountGrp.touched && keepStockAmountGrp.invalid}"
+                           #keepStockAmountGrp="ngModel" required appMinimumValue="0"
+                           [readOnly]="!permissions.hasPermissionOr(editArticlePermission)">
+                    <div class="input-group-append">
+                      <span
+                        class="input-group-text">Stk.</span>
+                    </div>
+                  </div>
                 </div>
-
-                <label for="keepStockMode">Lagerbestand Modus</label>
-                <div class="form-group">
-                  <select class="custom-select custom-select-sm" id="keepStockMode"
-                          [(ngModel)]="articleUserSettings.keepStockMode"
-                          [ngClass]="{'is-invalid': keepStockMode.touched && keepStockMode.invalid}"
-                          name="keepStockMode" #keepStockMode="ngModel" appRequiredSelect="0"
-                          [disabled]="!permissions.hasPermissionOr(editArticlePermission)">
-                    <option *ngFor="let mode of articleData.keepStockModes" [ngValue]="mode.id">{{mode.label}}
-                    </option>
-                  </select>
+              </div>
+            </div>
+            <div class="row" *ngIf="articleUserSettings.articleGroup.id > 1">
+              <div class="col">
+                <div class="alert alert-info">
+                  Achtung: Wird der "soll Lagerbestand" geändert wird er auf alle Artikel in der Artikelgruppe angewendet.
                 </div>
               </div>
             </div>
           </div>
         </tab>
+
+        <!--        Register Vorrat -->
         <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storageTab" *ngIf="editMode"
              [class.tab-bottom-line]="!dialogMode">
-          <ng-template tabHeading><span>Lager</span></ng-template>
+          <ng-template tabHeading><span>Vorrat</span></ng-template>
           <div class="container mt-3">
             <app-article-stock [article]="article" [articleUserSettings]="articleUserSettings"></app-article-stock>
           </div>
         </tab>
+
+        <!--        Register Läden-->
         <tab [ngClass]="editMode ? 'edit-size' : 'check-in-size'" id="storesTab"
              [class.tab-bottom-line]="!dialogMode">
           <ng-template tabHeading>
@@ -125,7 +179,7 @@
           </ng-template>
           <div class="container mt-3">
             <div class="row">
-              <div class="col mb-1 text-light">Artikel ist in diesen Läden erhältlich:</div>
+              <div class="col mb-1">Artikel ist in diesen Läden erhältlich:</div>
             </div>
             <div class="row">
               <div class="col-6">
@@ -155,3 +209,21 @@
     </div>
   </div>
 </form>
+
+<!-- Delete Group Dialog-->
+<ng-template #delGrpDlg>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Beep! - Artikelgruppe löschen</h5>
+    <button class="close pull-right" (click)="delGroupRef.hide()"><span class="fas fa-times"></span></button>
+  </div>
+  <div class="modal-body">
+    Dieser Gruppe sind noch Artikel zugewiesen. Wenn Sie die Gruppe löschen werden diese Artikel
+    der Gruppe "keine" zugewiesen.
+  </div>
+  <div class="modal-footer">
+    <div class="mx-auto">
+      <button class="btn btn-sm btn-primary mr-2" (click)="deleteArticleGroup()">OK</button>
+      <button class="btn btn-sm btn-info" (click)="delGroupRef.hide()">Abbrechen</button>
+    </div>
+  </div>
+</ng-template>

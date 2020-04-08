@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 import {UserForRegistration} from '../_models/user-for-registration';
 import {User} from '../_models/user';
 import {IdentityToken} from '../_models/identity-token';
-import {LocalStorageItemNames} from '../_enums/token-names.enum';
+import {LocalStorageItemNames} from '../_enums/local-storage-item-names.enum';
 
 @Injectable()
 export class AuthService {

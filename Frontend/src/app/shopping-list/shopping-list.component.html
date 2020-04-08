@@ -9,7 +9,39 @@
       </app-environment-selector>
     </div>
   </div>
-  <div class="row mt-2" *ngFor="let store of list">
+  <div class="row mt-2" *ngIf="groupEntries && groupEntries.length > 0">
+    <div class="col">
+      <h4>Allgemeine Artikel</h4>
+      <div class="container">
+        <table class="table table-striped table-light table-sm">
+          <thead>
+          <tr>
+            <th style="width: 5%" class="text-center"><i class="fas fa-check"></i></th>
+            <th scope="col" class="text-center" style="width: 5%">Anzahl</th>
+            <th scope="col">Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let group of groupEntries;let i = index">
+            <td class="text-center align-middle">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="chkGrpDone_{{i}}" [(ngModel)]="group.done"
+                       (click)="group.done = !group.done">
+                <label class="custom-control-label" for="chkGrpDone_{{i}}"></label>
+              </div>
+            </td>
+            <td class="text-center align-middle">{{group.needed}}</td>
+            <td class="align-middle" (click)="group.done = !group.done" style="cursor: pointer"
+                [class.strike-out]="group.done">
+              <div>{{group.groupName}}</div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngFor="let store of articleEntries">
     <div class="col">
       <h4>{{store.storeName}}</h4>
       <div class="container">

@@ -1,5 +1,8 @@
 export enum LocalStorageItemNames {
   identityToken = 'identityToken',
   permissionsToken = 'permissionsToken',
-  settings = 'settings'
+  settings = 'settings',
+  units = 'units',
+  articleGroups = 'articleGroups',
+  stores = 'stores'
 }
