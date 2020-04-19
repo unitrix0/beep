@@ -29,7 +29,6 @@ export class EnvironmentEditComponent implements OnInit {
 
   selectEnvironment(environmentIdx: number) {
     this.currentEnvironment = this.environments[environmentIdx];
-    console.log(this.currentEnvironment.ownerId + '!=' + this.userId);
     this.data.getEnvironmentPermissions(this.currentEnvironment.id, this.userId)
       .subscribe(value => {
         this.members = value;
