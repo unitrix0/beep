@@ -47,8 +47,10 @@ export class ArticleEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setArticleGroup(this.articleUserSettings.articleGroup.id, null);
     this.localeService.use('de');
+    if (this.articleUserSettings.id > 0) {
+      this.setArticleGroup(this.articleUserSettings.articleGroup.id, null);
+    }
   }
 
   saveArticle() {
