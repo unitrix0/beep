@@ -72,6 +72,8 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import { HoverClassDirective } from './_directives/hover-class.directive';
+import {PermissionsChangedInterceptorProvider} from './_interceptors/permissions-changed.interceptor';
+import {AddPermissionHeadersInterceptor, PermissionHeadersInterceptorProvider} from './_interceptors/add-permission-headers.interceptor';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -165,7 +167,9 @@ registerLocaleData(localeCh, 'de-CH');
     ResetScanService,
     PermissionsService,
     ArticlesService,
-    ErrorInterceptorProvider
+    ErrorInterceptorProvider,
+    PermissionHeadersInterceptorProvider,
+    PermissionsChangedInterceptorProvider
   ],
   bootstrap: [AppComponent],
   entryComponents: [

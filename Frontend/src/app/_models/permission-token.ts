@@ -1,6 +1,6 @@
 export interface PermissionToken {
   userId: number;
   permissions: number;
-  permission_serial: string;
+  permissions_serial: string;
   environment_id: number;
 }

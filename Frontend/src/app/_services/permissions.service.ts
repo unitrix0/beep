@@ -22,12 +22,17 @@ export class PermissionsService {
   public token: PermissionToken;
   @Output() permissionsChanged = new EventEmitter<void>();
   private baseUrl = environment.apiUrl + 'auth/';
+  private _isUpdating: boolean;
 
   constructor(private jwtHelper: JwtHelperService, authService: AuthService, private http: HttpClient) {
     authService.onLogout.subscribe(() => {
       localStorage.removeItem(LocalStorageItemNames.permissionsToken);
     });
     authService.onLogin.subscribe(() => this.reloadToken());
+  }
+
+  get isUpdating(): boolean {
+    return this._isUpdating;
   }
 
   /**
@@ -49,11 +54,10 @@ export class PermissionsService {
   reloadToken() {
     const token = this.jwtHelper.decodeToken(localStorage.getItem(LocalStorageItemNames.permissionsToken));
     if (token) {
-      console.log(token.permissions);
       this.token = new class implements PermissionToken {
         userId = token.nameid;
         environment_id = parseInt(token.environment_id, 10);
-        permission_serial = token.permission_serial;
+        permissions_serial = token.permissions_serial;
         permissions = parseInt(token.permissions, 2);
       };
     }
@@ -64,12 +68,14 @@ export class PermissionsService {
    * @param newEnvironmentId ID des Environment für das die Berechtigungen benötigt werden
    */
   updatePermissionClaims(newEnvironmentId: number): Observable<void> {
+    this._isUpdating = true;
     const params = new HttpParams()
       .append('environmentId', newEnvironmentId.toString());
 
     return this.http.get(this.baseUrl + 'UpdatePermissionClaims/' + this.token.userId, {params: params})
       .pipe(
         map((response: any) => {
+          this._isUpdating = false;
           if (response) {
             localStorage.setItem(LocalStorageItemNames.permissionsToken, response.permissionsToken);
             this.reloadToken();

@@ -33,9 +33,6 @@ export class ArticlesService {
     authService.onLogin.subscribe(() => {
       this.getBaseData();
     });
-    permissions.permissionsChanged.subscribe(() => {
-      this.getBaseData();
-    });
   }
 
   getArticles(pageNumber: number, pageSize: number, filter: ArticlesFilter):
