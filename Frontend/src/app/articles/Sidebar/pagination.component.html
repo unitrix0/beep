@@ -1,8 +1,8 @@
 
-<div class="card bg-dark mb-3">
+<div class="card bg-info text-white mb-3">
   <h5 class="card-header bg-info text-light">Seiten</h5>
   <div class="card-body">
-    <pagination [totalItems]="pagination.totalItems" maxSize="5" [itemsPerPage]="pagination.itemsPerPage"
+    <pagination [totalItems]="pagination.totalItems" maxSize="4" [itemsPerPage]="pagination.itemsPerPage"
                 [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged.emit($event)"
                 firstText="&laquo;" previousText="&lsaquo;" nextText="&rsaquo;" lastText="&raquo;"></pagination>
   </div>
