@@ -11,17 +11,20 @@ export class AddPermissionHeadersInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (this.permissionsService.isUpdating) {
-      const newReqNoSerial = request.clone({headers: request.headers.set('permissions_serial', 'updating') });
+      const newReqNoSerial = request.clone({headers: request.headers.set('permissions_serial', 'updating')});
       return next.handle(newReqNoSerial);
     }
 
-    const newReq = request.clone({
-      headers: request.headers
-        .set('permissions_serial', this.permissionsService?.token.permissions_serial)
-        .set('environment_id', this.permissionsService?.token.environment_id.toString())
-    });
+    if (this.permissionsService.token) {
+      const newReq = request.clone({
+        headers: request.headers
+          .set('permissions_serial', this.permissionsService?.token.permissions_serial)
+          .set('environment_id', this.permissionsService?.token.environment_id.toString())
+      });
 
-    return next.handle(newReq);
+      return next.handle(newReq);
+    }
+    return  next.handle(request);
   }
 }
 

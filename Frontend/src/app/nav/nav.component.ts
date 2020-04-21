@@ -35,12 +35,12 @@ export class NavComponent {
 
   login() {
     this.fillInCameras().then(success => {
-
       this.authService.login(this.user).subscribe(() => {
         this.loginForm.resetForm();
         this.alertify.success('Anmeldung erfolgreich');
         this.router.navigate(['scan']);
       }, response => {
+        console.log(response);
         if (response.error.isLockedOut) {
           this.alertify.error('Anmeldung fehlgeschlagen: Konto gesperrt');
         } else if (response.error.isNotAllowed) {
@@ -48,7 +48,6 @@ export class NavComponent {
         } else {
           this.alertify.error('Anmeldung fehlgeschlagen: Benutzername oder Passwort falsch');
         }
-
       });
 
     });
