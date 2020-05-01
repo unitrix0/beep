@@ -50,8 +50,8 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  register(newUser: UserForRegistration): Observable<HttpResponse<User>> {
-    return this.http.post<User>(this.baseUrl + 'register', newUser, {observe: 'response'});
+  register(newUser: UserForRegistration): Observable<User> {
+    return this.http.post<User>(this.baseUrl + 'register', newUser);
   }
 
   userExists(username: string): Observable<boolean> {
