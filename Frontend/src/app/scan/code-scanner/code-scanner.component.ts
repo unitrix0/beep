@@ -32,7 +32,18 @@ export class CodeScannerComponent implements OnInit {
       this.scanner.askForPermission().then(permitted => {
         if (permitted) {
           this.scanner.updateVideoInputDevices().then(devices => {
-            const dev = devices.find(d => d.deviceId === this.settings.cameraDeviceId);
+            let dev = devices.find(d => d.deviceId === this.settings.cameraDeviceId);
+            if (!dev) {
+              dev = devices.find(d => d.label === this.settings.cameraLabel);
+              if (!dev) {
+                this.selectCamera();
+                return;
+              } else {
+                this.settings.saveSelectedCam(dev).toPromise().catch(() => {
+                  return;
+                });
+              }
+            }
             this.openCamStream(dev);
           }).catch(reason => {
             this.alertify.error('Es konnten keine Kameras gefunden werden ' + reason);

@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {AlertifyService} from './alertify.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,6 @@ export class PermissionsService {
   public token: PermissionToken;
   @Output() permissionsChanged = new EventEmitter<void>();
   private baseUrl = environment.apiUrl + 'auth/';
-  private _isUpdating: boolean;
 
   constructor(private jwtHelper: JwtHelperService, authService: AuthService, private http: HttpClient) {
     authService.onLogout.subscribe(() => {
@@ -30,6 +30,8 @@ export class PermissionsService {
     });
     authService.onLogin.subscribe(() => this.reloadToken());
   }
+
+  private _isUpdating: boolean;
 
   get isUpdating(): boolean {
     return this._isUpdating;
