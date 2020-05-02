@@ -4,6 +4,7 @@ import {SettingsService} from '../../_services/settings.service';
 import {AlertifyService} from '../../_services/alertify.service';
 import {SelectCameraDialogComponent} from '../select-camera-dialog/select-camera-dialog.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {Tools} from '../../_helpers/tools';
 
 @Component({
   selector: 'app-code-scanner',
@@ -45,6 +46,7 @@ export class CodeScannerComponent implements OnInit {
               }
             }
             this.openCamStream(dev);
+            Tools.ScrollToElement(this.scanner.previewElemRef);
           }).catch(reason => {
             this.alertify.error('Es konnten keine Kameras gefunden werden ' + reason);
           });

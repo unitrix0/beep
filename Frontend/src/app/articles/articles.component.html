@@ -12,7 +12,7 @@
                           [(storeId)]="filter.storeId">
       </app-article-filter>
     </div>
-    <div class="col">
+    <div class="col" #resultArea>
       <h5 class="text-info" *ngIf="articles?.length == 0 && !filterSet">
         Es wurden noch keine Artikel eingescannt
       </h5>

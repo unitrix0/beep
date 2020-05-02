@@ -1,6 +1,6 @@
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {ElementRef, LOCALE_ID, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
@@ -71,9 +71,9 @@ import {PaginationModule} from 'ngx-bootstrap/pagination';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
-import { HoverClassDirective } from './_directives/hover-class.directive';
+import {HoverClassDirective} from './_directives/hover-class.directive';
 import {PermissionsChangedInterceptorProvider} from './_interceptors/permissions-changed.interceptor';
-import {AddPermissionHeadersInterceptor, PermissionHeadersInterceptorProvider} from './_interceptors/add-permission-headers.interceptor';
+import {PermissionHeadersInterceptorProvider} from './_interceptors/add-permission-headers.interceptor';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);

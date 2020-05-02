@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Article} from '../_models/article';
 import {ArticlesService} from '../_services/articles.service';
@@ -8,6 +8,7 @@ import {AlertifyService} from '../_services/alertify.service';
 
 import {PermissionsService} from '../_services/permissions.service';
 import {PageChangedEvent} from 'ngx-bootstrap/pagination';
+import {Tools} from '../_helpers/tools';
 
 @Component({
   selector: 'app-articles',
@@ -15,6 +16,7 @@ import {PageChangedEvent} from 'ngx-bootstrap/pagination';
   styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
+  @ViewChild('resultArea', {static: true}) resultArea: ElementRef;
   articles: Article[];
   filter: ArticlesFilter = {environmentId: 0, storeId: 0, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
   pagination: Pagination = {totalPages: 0, currentPage: 0, totalItems: 0, itemsPerPage: 0};
@@ -23,6 +25,7 @@ export class ArticlesComponent implements OnInit {
   constructor(private data: ArticlesService, private route: ActivatedRoute, private alertify: AlertifyService,
               private permissions: PermissionsService) {
   }
+
 
   ngOnInit() {
     this.filter.environmentId = this.permissions.token.environment_id;
@@ -39,6 +42,7 @@ export class ArticlesComponent implements OnInit {
   setFilter() {
     this.filterSet = true;
     this.LoadData(1);
+    Tools.ScrollToElement(this.resultArea);
   }
 
   pageChanged(eventArgs: PageChangedEvent) {

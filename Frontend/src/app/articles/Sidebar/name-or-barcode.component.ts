@@ -7,7 +7,7 @@ import {CodeScannerComponent} from '../../scan/code-scanner/code-scanner.compone
     templateUrl: './name-or-barcode.component.html',
     styles: [`
       :host ::ng-deep video {
-        max-width: 15vw;
+        max-width: 45vw;
         object-fit: contain;
       }`]
   })
