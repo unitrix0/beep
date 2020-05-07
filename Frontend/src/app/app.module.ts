@@ -74,6 +74,7 @@ import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {HoverClassDirective} from './_directives/hover-class.directive';
 import {PermissionsChangedInterceptorProvider} from './_interceptors/permissions-changed.interceptor';
 import {PermissionHeadersInterceptorProvider} from './_interceptors/add-permission-headers.interceptor';
+import { RoundPipe } from './_helpers/round.pipe';
 
 export function jwtGetter() {
   const token = localStorage.getItem(LocalStorageItemNames.identityToken);
@@ -128,6 +129,7 @@ registerLocaleData(localeCh, 'de-CH');
     SelectCameraDialogComponent,
     CarouselComponent,
     HoverClassDirective,
+    RoundPipe,
   ],
   imports: [
     HttpClientModule,

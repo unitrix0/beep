@@ -6,7 +6,7 @@ import {StockEntry} from '../_models/stock.entry';
   template: `
     <div *ngIf="!entry.isOpened">ungeöffnet</div>
     <progressbar [max]="1" [value]="entry.amountRemaining" [type]="barType" *ngIf="entry.isOpened">
-      <span>{{maxContent * entry.amountOnStock * entry.amountRemaining}} {{unitAbbreviation}}</span>
+      <span>{{(maxContent * entry.amountOnStock * entry.amountRemaining)|round:2}} {{unitAbbreviation}}</span>
     </progressbar>
   `,
   styles: [``]
