@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
+import {AlertifyService} from '../_services/alertify.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('top', {static: true}) pageTop: ElementRef;
   showRegForm = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {
   }
 
   ngOnInit() {
@@ -35,5 +36,18 @@ export class HomeComponent implements OnInit {
     const elem = this.pageTop.nativeElement;
     elem.scrollIntoView({behavior: 'smooth'});
     this.showRegForm = true;
+  }
+
+  createDemoLogin() {
+    this.authService.demoLogin().subscribe(value => {
+      this.alertify.success('Anmeldung erfolgreich!');
+      this.router.navigate(['scan']).catch(reason => {
+        console.log('Navigation failed: ' + reason);
+      });
+    }, error => {
+      console.log(error);
+      this.alertify.error('Wir bitten vielmals um Entschuldigung. Es konnte leider kein Demo User angelegt werden. ' +
+        'Wir kümmern uns so schnell wie möglich darum.');
+    });
   }
 }

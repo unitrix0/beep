@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {Observable} from 'rxjs';
@@ -27,6 +27,18 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'login', user)
       .pipe(
         map((response: any) => {
+          if (response) {
+            this.saveTokens(response);
+            this.onLogin.emit();
+          }
+        })
+      );
+  }
+
+  demoLogin(): Observable<void> {
+    return this.http.post(this.baseUrl + 'DemoLogin', null)
+      .pipe(
+        map(response => {
           if (response) {
             this.saveTokens(response);
             this.onLogin.emit();

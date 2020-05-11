@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserForRegistration} from '../_models/user-for-registration';
 import {AuthService} from '../_services/auth.service';
 import {UserForLogin} from '../_models/user-for-login';
 import {Router} from '@angular/router';
 import {AlertifyService} from '../_services/alertify.service';
+import {BsModalRef} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-registration',
@@ -12,22 +13,20 @@ import {AlertifyService} from '../_services/alertify.service';
 })
 
 export class RegistrationComponent implements OnInit {
-  @Output() cancelRegistration = new EventEmitter();
   model: UserForRegistration = {displayName: '', email: '', password: '', username: ''};
   confirmPw: string;
+  submitting: boolean;
 
-  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {
+  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService, public modalRef: BsModalRef) {
   }
 
   ngOnInit() {
   }
 
-  cancel() {
-    this.cancelRegistration.emit();
-  }
-
   register() {
+    this.submitting = true;
     this.authService.register(this.model).subscribe(createdUser => {
+      this.modalRef.hide();
       this.alertify.success('Willkommen bei Beep!');
 
       const user: UserForLogin = new class implements UserForLogin {
@@ -39,6 +38,7 @@ export class RegistrationComponent implements OnInit {
       user.password = this.model.password;
       user.cameras = [];
 
+      this.authService.logout(); // Logout the Demo User
       this.authService.login(user).subscribe(value => {
         this.alertify.success('Anmeldung erfolgreich!');
         this.router.navigate(['users', createdUser.id]).catch(reason => {
