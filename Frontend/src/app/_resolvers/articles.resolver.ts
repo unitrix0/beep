@@ -22,7 +22,7 @@ export class ArticlesResolver implements Resolve<PaginatedResult<Article[]>> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PaginatedResult<Article[]>> {
     const environmentId = this.permissions.token.environment_id;
     const filter: ArticlesFilter = new class implements ArticlesFilter {
-      environmentId: number = environmentId;
+      environmentId: string = environmentId;
       isOnStock = false;
       isOpened = false;
       keepOnStock = false;

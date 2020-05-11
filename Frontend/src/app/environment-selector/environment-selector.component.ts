@@ -12,8 +12,9 @@ import {PermissionsService} from '../_services/permissions.service';
 export class EnvironmentSelectorComponent implements OnInit {
   @Input() small = true;
   @Output() environmentChanged = new EventEmitter();
-  activeEnvironment: string;
-  private environments: BeepEnvironment[];
+  activeEnvironmentId: string;
+  activeEnvironmentName: string;
+  environments: BeepEnvironment[];
 
   constructor(private usersService: UsersService, private permissions: PermissionsService, private alertify: AlertifyService) {
   }
@@ -22,24 +23,20 @@ export class EnvironmentSelectorComponent implements OnInit {
     this.usersService.getEnvironments(this.permissions.token.userId)
       .subscribe(value => {
         this.environments = value;
-        this.activeEnvironment = this.environments.find(e => e.id === this.permissions.token.environment_id)
-          .name;
+        this.activeEnvironmentId = String(this.permissions.token.environment_id);
+        this.activeEnvironmentName = this.environments.find( e => e.id.toString() === this.activeEnvironmentId).name;
       }, error => {
         this.alertify.error('Liste der Umgebungen konnte nicht abgefragt werden: ' + error);
       });
   }
 
-  changeEnvironment(newEnvironmentId: number) {
-    this.permissions.updatePermissionClaims(newEnvironmentId)
+  changeEnvironment() {
+    this.permissions.updatePermissionClaims(this.activeEnvironmentId)
       .subscribe(value => {
-        this.activeEnvironment = this.environments.find(e => e.id === newEnvironmentId).name;
+        this.activeEnvironmentName = this.environments.find(e => e.id.toString() === this.activeEnvironmentId).name;
         this.environmentChanged.emit();
       }, error => {
         this.alertify.error('Die Umgebung konnte nicht gewechselt werden: ' + error.mesage);
       });
-  }
-
-  getActiveEnvironmentName(): string {
-    return this.activeEnvironment;
   }
 }

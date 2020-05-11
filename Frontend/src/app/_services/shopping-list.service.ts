@@ -14,7 +14,7 @@ export class ShoppingListService {
   constructor(private http: HttpClient) {
   }
 
-  getShoppingList(environmentId: number): Observable<ShoppingList> {
+  getShoppingList(environmentId: string): Observable<ShoppingList> {
     return this.http.get<ShoppingList>(this.baseUrl + 'GetShoppingList/' + environmentId);
   }
 }

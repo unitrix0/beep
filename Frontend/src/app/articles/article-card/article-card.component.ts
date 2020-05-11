@@ -13,12 +13,12 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 })
 export class ArticleCardComponent implements OnInit {
   @Input() article: Article;
-  @Input() environmentId: number;
+  @Input() environmentId: string;
   @ViewChild(ArticleEditComponent) editComponent: ArticleEditComponent;
 
   editMode = false;
   private articleBackup: string;
-  private articleUserSettings: ArticleUserSettings;
+  articleUserSettings: ArticleUserSettings;
   private modalRef: BsModalRef;
 
   constructor(private alertify: AlertifyService, private articleData: ArticlesService, private modalService: BsModalService) {

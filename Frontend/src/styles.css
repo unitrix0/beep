@@ -28,8 +28,19 @@ select.form-control-sm {
 }
 
 .custom-dropdown > button{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-align: right;
+}
+
+.custom-dropdown > button > span{
   float: left !important;
+}
+.custom-select{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 1199.98px) {
@@ -56,10 +67,10 @@ select.form-control-sm {
   }
 }
 
-.btn-outline-secondary:disabled{
+.btn-outline-secondary:disabled {
   color: unset;
 }
 
-.dropdown-item{
+.dropdown-item {
   cursor: pointer;
 }

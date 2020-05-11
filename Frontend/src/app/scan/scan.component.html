@@ -1,9 +1,7 @@
 <div class="container">
   <div class="row justify-content-end">
-    <div class="col mt-4 text-right">
-      <label for="environmentSelector"
-             class="d-inline-block mr-1 text-light"><small><strong>Umgebung: </strong></small></label>
-      <app-environment-selector id="environmentSelector" (environmentChanged)="environmentChanged()"></app-environment-selector>
+    <div class="col-lg-3 col-md-3 col-6 mt-4 text-right">
+      <app-environment-selector (environmentChanged)="environmentChanged()"></app-environment-selector>
     </div>
   </div>
   <div class="row mt-3">

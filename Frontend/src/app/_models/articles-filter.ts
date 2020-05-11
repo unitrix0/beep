@@ -1,5 +1,5 @@
 export interface ArticlesFilter {
-  environmentId: number;
+  environmentId: string;
   storeId: number;
   isOpened: boolean;
   keepOnStock: boolean;

@@ -25,7 +25,7 @@ export class ShoppingListComponent implements OnInit {
     this.getShoppingList(this.permissions.token.environment_id);
   }
 
-  getShoppingList(environmentId: number) {
+  getShoppingList(environmentId: string) {
     this.listService.getShoppingList(environmentId)
       .subscribe(value => {
         this.articleEntries = value.articleEntries;

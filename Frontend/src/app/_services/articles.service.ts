@@ -78,16 +78,16 @@ export class ArticlesService {
     return this.http.post<Article>(this.baseUrl + 'AddStockEntry', stockEntry);
   }
 
-  getArticleDateSuggestions(barcode: string, environmentId: number): Observable<DateSuggestions> {
+  getArticleDateSuggestions(barcode: string, environmentId: string): Observable<DateSuggestions> {
     return this.http.get<DateSuggestions>(this.baseUrl + 'GetArticleDateSuggestions/' + barcode + '/' + environmentId);
   }
 
-  getArticleStock(articleId: number, environmentId: number, pageNumber: number): Observable<PagedStockList> {
+  getArticleStock(articleId: number, environmentId: string, pageNumber: number): Observable<PagedStockList> {
     const params = new HttpParams()
       .append('pageNumber', pageNumber.toString())
       .append('itemsPerPage', '3')
       .append('articleId', articleId.toString())
-      .append('environmentId', environmentId.toString());
+      .append('environmentId', environmentId);
 
     return this.http.get<StockEntry[]>(this.baseUrl + 'GetArticleStock', {observe: 'response', params: params})
       .pipe(
@@ -121,19 +121,19 @@ export class ArticlesService {
     return this.http.put(this.baseUrl + 'OpenArticle/', stockEntry);
   }
 
-  getArticleUserSettings(articleId: number, environmentId: number): Observable<ArticleUserSettings> {
+  getArticleUserSettings(articleId: number, environmentId: string): Observable<ArticleUserSettings> {
     const p = new HttpParams()
       .append('articleId', articleId.toString())
-      .append('environmentId', environmentId.toString());
+      .append('environmentId', environmentId);
 
     return this.http.get<ArticleUserSettings>(this.baseUrl + 'GetArticleUserSettings/', {params: p});
   }
 
-  getActivityLog(environmentId: number): Observable<ActivityLogEntry[]> {
+  getActivityLog(environmentId: string): Observable<ActivityLogEntry[]> {
     return this.http.get<ActivityLogEntry[]>(this.baseUrl + 'GetActivityLog/' + environmentId);
   }
 
-  addArticleGroup(environmentId: number, groupName: string): Observable<ArticleGroup> {
+  addArticleGroup(environmentId: string, groupName: string): Observable<ArticleGroup> {
     return this.http.post<ArticleGroup>(this.baseUrl + 'AddArticleGroup/' + environmentId, {environmentId: environmentId, name: groupName})
       .pipe(map(newGroup => {
         this.articleGroups.push(newGroup);
@@ -142,11 +142,11 @@ export class ArticlesService {
       }));
   }
 
-  articleGroupHasMembers(groupId: number, environmentId: number) {
+  articleGroupHasMembers(groupId: number, environmentId: string) {
     return this.http.get<boolean>(this.baseUrl + 'ArticleGroupHasMembers/' + environmentId + '/' + groupId);
   }
 
-  deleteArticleGroup(groupId: number, environmentId: number) {
+  deleteArticleGroup(groupId: number, environmentId: string) {
     return this.http.delete(this.baseUrl + 'DeleteArticleGroup/' + environmentId + '/' + groupId)
       .pipe(map(() => {
         const deletedGroupIdx = this.articleGroups.findIndex(g => g.id === groupId);

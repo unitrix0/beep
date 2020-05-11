@@ -30,12 +30,12 @@ export class ScanComponent implements OnInit {
   scanModes = ScanModes;
   hasPermission: boolean;
   showScanner: boolean;
-  private scannedArticle: Article;
-  private articleUserSettings: ArticleUserSettings;
-  private modalRef: BsModalRef;
-  private showCheckIn = false;
-  private showBaseData = false;
-  private showCheckOut = false;
+  scannedArticle: Article;
+  articleUserSettings: ArticleUserSettings;
+  modalRef: BsModalRef;
+  showCheckIn = false;
+  showBaseData = false;
+  showCheckOut = false;
 
   constructor(private usrService: UsersService, private articles: ArticlesService, private auth: AuthService,
               private resetScan: ResetScanService, private changeDetector: ChangeDetectorRef, private alertify: AlertifyService,
@@ -72,7 +72,7 @@ export class ScanComponent implements OnInit {
     this.activityLog.refresh(this.permissions.token.environment_id);
   }
 
-  private barcodeDetected(barcode: string) {
+  barcodeDetected(barcode: string) {
     this.scanner.stopScan();
     this.showScanner = false;
     this.lookupArticle(barcode);
@@ -108,7 +108,7 @@ export class ScanComponent implements OnInit {
               name: string;
             };
             articleId: number;
-            environmentId: number;
+            environmentId: string;
             id: number;
             keepStockAmount: number;
           };
@@ -120,7 +120,7 @@ export class ScanComponent implements OnInit {
       });
   }
 
-  private lookupArticleUserSettings(articleId: number, environmentId: number) {
+  private lookupArticleUserSettings(articleId: number, environmentId: string) {
     this.articles.getArticleUserSettings(articleId, environmentId)
       .subscribe(response => {
         this.articleUserSettings = response;
@@ -135,7 +135,7 @@ export class ScanComponent implements OnInit {
       });
   }
 
-  private save() {
+  save() {
     if (this.scannedArticle.id === 0) {
       this.saveArticleAndUserSettings();
       return;

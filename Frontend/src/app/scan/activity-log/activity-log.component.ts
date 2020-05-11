@@ -19,7 +19,7 @@ export class ActivityLogComponent implements OnInit {
   ngOnInit() {
   }
 
-  public refresh(environmentId: number) {
+  public refresh(environmentId: string) {
     this.articleService.getActivityLog(environmentId)
       .subscribe(entries => {
         this.logEntries = entries;

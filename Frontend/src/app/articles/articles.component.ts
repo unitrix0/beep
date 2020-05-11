@@ -18,7 +18,7 @@ import {Tools} from '../_helpers/tools';
 export class ArticlesComponent implements OnInit {
   @ViewChild('resultArea', {static: true}) resultArea: ElementRef;
   articles: Article[];
-  filter: ArticlesFilter = {environmentId: 0, storeId: 0, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
+  filter: ArticlesFilter = {environmentId: '0', storeId: 0, isOpened: false, keepOnStock: false, isOnStock: false, nameOrEan: ''};
   pagination: Pagination = {totalPages: 0, currentPage: 0, totalItems: 0, itemsPerPage: 0};
   filterSet: boolean;
 

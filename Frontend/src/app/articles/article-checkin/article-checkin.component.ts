@@ -24,7 +24,7 @@ export class ArticleCheckinComponent implements OnInit {
     clientTimezoneOffset: number;
     articleId: number;
     barcode: string;
-    environmentId: number;
+    environmentId: string;
     expireDate: Date;
     amountOnStock: number;
     usualLifetime: number;
@@ -40,7 +40,7 @@ export class ArticleCheckinComponent implements OnInit {
           clientTimezoneOffset = new Date().getTimezoneOffset() * -1;
           articleId: number;
           barcode: string;
-          environmentId: number;
+          environmentId: string;
           expireDate = new Date(suggestions.lastExpireDate);
           amountOnStock = 1;
           usualLifetime: number;

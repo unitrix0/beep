@@ -58,7 +58,7 @@ export class PermissionsService {
     if (token) {
       this.token = new class implements PermissionToken {
         userId = token.nameid;
-        environment_id = parseInt(token.environment_id, 10);
+        environment_id = token.environment_id;
         permissions_serial = token.permissions_serial;
         permissions = parseInt(token.permissions, 2);
       };
@@ -66,13 +66,13 @@ export class PermissionsService {
   }
 
   /**
-   * Fragt einen neuen Permissisons Token vom Server ab für das angegebene Environment
+   * Fragt einen neuen Permissions Token vom Server ab für das angegebene Environment
    * @param newEnvironmentId ID des Environment für das die Berechtigungen benötigt werden
    */
-  updatePermissionClaims(newEnvironmentId: number): Observable<void> {
+  updatePermissionClaims(newEnvironmentId: string): Observable<void> {
     this._isUpdating = true;
     const params = new HttpParams()
-      .append('environmentId', newEnvironmentId.toString());
+      .append('environmentId', newEnvironmentId);
 
     return this.http.get(this.baseUrl + 'UpdatePermissionClaims/' + this.token.userId, {params: params})
       .pipe(
