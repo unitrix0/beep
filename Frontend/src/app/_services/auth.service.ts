@@ -53,8 +53,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem(LocalStorageItemNames.identityToken);
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.decodedToken = null;
 
     this.currentUser = null;
@@ -64,7 +63,12 @@ export class AuthService {
 
   loggedIn(): boolean {
     const token = localStorage.getItem(LocalStorageItemNames.identityToken);
-    return !this.jwtHelper.isTokenExpired(token);
+    if (this.jwtHelper.isTokenExpired(token)) {
+      localStorage.clear();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   register(newUser: UserForRegistration): Observable<User> {
