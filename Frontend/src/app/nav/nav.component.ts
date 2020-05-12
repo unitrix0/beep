@@ -19,7 +19,6 @@ export class NavComponent {
   @ViewChild('loginForm') loginForm: NgForm;
   showNavMenu: boolean;
   invitationsCount: any;
-  isDemoUser: boolean;
   user: UserForLogin = new class implements UserForLogin {
     cameras: MediaDeviceInfo[] = [];
     password: string;
@@ -40,7 +39,6 @@ export class NavComponent {
     this.fillInCameras().then(success => {
       this.authService.login(this.user).subscribe(() => {
         this.loginForm.resetForm();
-        this.isDemoUser = this.authService.decodedToken.role.includes(RoleNames.demo);
         this.alertify.success('Anmeldung erfolgreich');
         this.router.navigate(['scan']).catch(reason => {
           console.log('Navigation failed: ' + reason);

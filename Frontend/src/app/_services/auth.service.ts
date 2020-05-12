@@ -11,6 +11,7 @@ import {UserForRegistration} from '../_models/user-for-registration';
 import {User} from '../_models/user';
 import {IdentityToken} from '../_models/identity-token';
 import {LocalStorageItemNames} from '../_enums/local-storage-item-names.enum';
+import {RoleNames} from '../_enums/role-names.enum';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,10 @@ export class AuthService {
   private baseUrl = environment.apiUrl + 'auth/';
 
   constructor(private http: HttpClient, private router: Router, private jwtHelper: JwtHelperService) {
+  }
+
+  get isDemoAccount(): boolean {
+    return this.decodedToken.role.includes(RoleNames.demo);
   }
 
   login(user: UserForLogin): Observable<void> {
