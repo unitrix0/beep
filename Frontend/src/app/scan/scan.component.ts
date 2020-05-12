@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {UsersService} from '../_services/users.service';
 import {ResetScanService} from '../_services/reset-scan.service';
 import {CodeScannerComponent} from './code-scanner/code-scanner.component';
@@ -19,12 +19,13 @@ import {ArticleGroup} from '../_models/article-group';
   templateUrl: './scan.component.html',
   styleUrls: ['./scan.component.css']
 })
-export class ScanComponent implements OnInit {
+export class ScanComponent implements OnInit, AfterViewInit {
   @ViewChild(CodeScannerComponent) scanner: CodeScannerComponent;
   @ViewChild('scanCheckIn', {static: true}) scanCheckIn: ScanCardComponent;
   @ViewChild('scanCheckOut', {static: true}) scanCheckOut: ScanCardComponent;
   @ViewChild('scanOpen', {static: true}) scanOpen: ScanCardComponent;
   @ViewChild('notFoundDlg', {static: true}) notFoundDialog: TemplateRef<any>;
+  @ViewChild('welcomeDemo', {static: true}) welcomeDemoDialog: TemplateRef<any>;
   @ViewChild(ActivityLogComponent, {static: true}) activityLog: ActivityLogComponent;
   scanMode = ScanModes.none;
   scanModes = ScanModes;
@@ -47,6 +48,13 @@ export class ScanComponent implements OnInit {
     this.activityLog.refresh(this.permissions.token.environment_id);
     this.hasPermission = this.permissions.hasPermissionOr(this.permissions.flags.canScan, this.permissions.flags.isOwner);
   }
+
+  ngAfterViewInit(): void {
+    if (this.auth.isDemoAccount) {
+      this.showWelcomeDialog();
+    }
+  }
+
 
   environmentChanged() {
     this.activityLog.refresh(this.permissions.token.environment_id);
@@ -77,6 +85,14 @@ export class ScanComponent implements OnInit {
     this.showScanner = false;
     this.lookupArticle(barcode);
     this.resetScanTimeout();
+  }
+
+  save() {
+    if (this.scannedArticle.id === 0) {
+      this.saveArticleAndUserSettings();
+      return;
+    }
+    this.saveArticleUserSettings();
   }
 
   private resetScanTimeout() {
@@ -135,14 +151,6 @@ export class ScanComponent implements OnInit {
       });
   }
 
-  save() {
-    if (this.scannedArticle.id === 0) {
-      this.saveArticleAndUserSettings();
-      return;
-    }
-    this.saveArticleUserSettings();
-  }
-
   private saveArticleAndUserSettings() {
     this.articles.createArticle(this.scannedArticle)
       .subscribe(createdArticle => {
@@ -165,5 +173,13 @@ export class ScanComponent implements OnInit {
       }, error => {
         this.alertify.error('Artikel konnte nicht angelegt werden: ' + error);
       });
+  }
+
+  private showWelcomeDialog() {
+    const welcomeDialogShown = localStorage.getItem('welcomeDialogShown');
+    if (welcomeDialogShown === null || welcomeDialogShown === '0') {
+      localStorage.setItem('welcomeDialogShown', '1');
+      this.modalRef = this.modalService.show(this.welcomeDemoDialog);
+    }
   }
 }
