@@ -1,11 +1,8 @@
-<header class="masthead" [ngClass]="showRegForm
-? 'padding-registration padding-registration-lg padding-registration-md padding-registration-sm padding-registration-xs'
-: 'padding-default padding-default-lg padding-default-md padding-default-sm padding-default-xs'" #top>
+<header class="masthead padding-default padding-default-lg padding-default-md padding-default-sm padding-default-xs">
   <div class="container-fluid">
     <div class="row my-auto">
-      <div class="col py-5 text-center" [ngClass]="showRegForm ? 'background-reg':'background-default'">
-        <app-carousel (tellMeMore)="scrollToDescription()" *ngIf="!showRegForm"></app-carousel>
-        <app-registration (cancelRegistration)="hideRegistrationForm()" *ngIf="showRegForm"></app-registration>
+      <div class="col py-5 text-center background-default">
+        <app-carousel (tellMeMore)="scrollToDescription()"></app-carousel>
       </div>
     </div>
   </div>
@@ -75,7 +72,7 @@
     </div>
     <div class="row mt-5">
       <div class="col-6 mx-auto text-center">
-        <button class="btn btn-success btn-block" (click)="createDemoLogin()">Jetzt ausprobieren</button>
+        <button class="btn btn-success btn-block" (click)="createDemoLogin(creatingDemoModal)">Jetzt ausprobieren</button>
       </div>
     </div>
   </div>
@@ -90,3 +87,19 @@
     </div>
   </div>
 </footer>
+
+<!-- Modal Dialog -->
+<ng-template #creatingDemoModal>
+  <div class="modal-header">
+    <h5 class="modal-titel pull-left">Beep! - Konto erstellen</h5>
+    <button type="button" class="close pull-right" (click)="modalRef.hide()">
+      <span class="fas fa-times"></span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+   <p class="text-primary">Bitte haben Sie einen Moment Geduld, wir legen für Sie einen Test Account an...</p>
+    <i class="fas fa-spinner fa-pulse" style="font-size: 48px"></i>
+  </div>
+  <div class="modal-footer mb-4">
+  </div>
+</ng-template>
