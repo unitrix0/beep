@@ -14,10 +14,10 @@
     </div>
     <div class="col" #resultArea>
       <h5 class="text-info" *ngIf="articles?.length == 0 && !filterSet">
-        Es wurden noch keine Artikel eingescannt
+        Es wurden noch keine Artikel eingescannt.
       </h5>
       <h5 class="text-info" *ngIf="articles?.length == 0 && filterSet">
-        Es wurden keine Artikel gefunden
+        Es wurden keine Artikel gefunden.
       </h5>
       <div class="card-deck">
         <app-article-card *ngFor="let article of articles" [article]="article" [environmentId]="filter.environmentId">
