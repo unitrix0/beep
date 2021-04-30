@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
   @ViewChild('description', {static: true}) description: ElementRef;
   modalRef: BsModalRef;
 
+  year = new Date().getFullYear();
+
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService,
               private modalService: BsModalService) {
   }
